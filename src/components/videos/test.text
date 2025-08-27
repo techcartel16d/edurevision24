@@ -1,0 +1,280 @@
+import {
+    StyleSheet,
+    Text,
+    View,
+    TouchableOpacity,
+    ActivityIndicator
+} from 'react-native';
+import Video from 'react-native-video';
+import React, { useEffect, useRef, useState } from 'react';
+import { screenHeight, screenWidth } from '../../utils/Constant';
+import { SwiperFlatList } from 'react-native-swiper-flatlist';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useFocusEffect } from '@react-navigation/native';
+import CustomStatusBar from '../global/CustomStatusBar';
+import Slider from '@react-native-community/slider';
+
+const ShortVideoList = () => {
+    const videoRefs = useRef({});
+    const previousIndexRef = useRef(0);
+    const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+    const [isScreenFocused, setIsScreenFocused] = useState(true);
+    const [videoStates, setVideoStates] = useState({});
+    const [isBuffering, setIsBuffering] = useState(false);
+    const [videoError, setVideoError] = useState(null);
+    const [duration, setDuration] = useState(0);
+    const [currentTime, setCurrentTime] = useState(0);
+    const [videoProgress, setVideoProgress] = useState({});
+
+    const videoData = [
+        { id: '1', url: "https://res.cloudinary.com/dyxsdlhu7/video/upload/v1745492012/vid1_lp5fyw.mp4" },
+        { id: '2', url: "https://res.cloudinary.com/dyxsdlhu7/video/upload/v1745492227/vid2_vfe7lz.mp4" },
+        { id: '3', url: "https://res.cloudinary.com/dyxsdlhu7/video/upload/v1745492248/vid3_nivzk1.mp4" },
+        { id: '4', url: "https://res.cloudinary.com/dyxsdlhu7/video/upload/v1745492328/vid4_jlwuuc.mp4" },
+        { id: '5', url: "https://res.cloudinary.com/dyxsdlhu7/video/upload/v1745493976/vid5_l5yv84.mp4" },
+        { id: '7', url: "https://res.cloudinary.com/dyxsdlhu7/video/upload/v1745494226/vid8_qfgvzx.mp4" },
+        { id: '8', url: "https://res.cloudinary.com/dyxsdlhu7/video/upload/v1745494241/vid9_ddseme.mp4" },
+        { id: '9', url: "https://res.cloudinary.com/dyxsdlhu7/video/upload/v1745494262/vid10_zsodvw.mp4" },
+        // { id: '6', url: "https://res.cloudinary.com/dyxsdlhu7/video/upload/v1745494006/vid6_upcoph.mp4" },
+    ];
+
+    useFocusEffect(
+        React.useCallback(() => {
+            setIsScreenFocused(true);
+            return () => {
+                setIsScreenFocused(false);
+            };
+        }, [])
+    );
+
+    const onBuffer = (e) => setIsBuffering(e.isBuffering);
+    const onError = (e) => setVideoError(e.error);
+    const onLoad = (data) => setDuration(data.duration);
+
+    const onProgress = (data) => {
+        setCurrentTime(data.currentTime);
+        setVideoProgress(prev => ({ ...prev, [currentVideoIndex]: data.currentTime }));
+    };
+
+    const handleVideoPress = (index) => {
+        setVideoStates(prev => ({
+            ...prev,
+            [index]: !prev[index],
+        }));
+    };
+
+    // const formatTime = (seconds) => {
+    //     const mins = Math.floor(seconds / 60);
+    //     const secs = Math.floor(seconds % 60);
+    //     return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    // };
+
+
+
+    const renderVideo = ({ item, index }) => {
+        const isVideoPaused = videoStates[index] || false;
+
+        return (
+            <View style={styles.videoContainer}>
+                <CustomStatusBar />
+                <TouchableOpacity
+                    activeOpacity={1}
+                    onPress={() => handleVideoPress(index)}
+                    style={styles.videoWrapper}
+                >
+                    <Video
+                        source={{ uri: item.url }}
+                        ref={ref => videoRefs.current[index] = ref}
+                        paused={!isScreenFocused || isVideoPaused || currentVideoIndex !== index}
+                        onBuffer={onBuffer}
+                        onError={onError}
+                        onLoad={onLoad}
+                        onProgress={onProgress}
+                        style={styles.backgroundVideo}
+                        repeat
+                        resizeMode="cover"
+                    />
+                    {isBuffering && (
+                        <View style={styles.bufferOverlay}>
+                            <ActivityIndicator size="large" color="#fff" />
+                        </View>
+                    )}
+                    {videoError && (
+                        <View style={styles.errorOverlay}>
+                            <Text style={styles.errorText}>
+                                Error loading video. Please try again.
+                            </Text>
+                        </View>
+                    )}
+                    {isVideoPaused && (
+                        <View style={styles.playPauseOverlay}>
+                            <Ionicons
+                                name="play-circle"
+                                size={50}
+                                color="white"
+                            />
+                        </View>
+                    )}
+                </TouchableOpacity>
+                {/* <View style={styles.seekBarContainer}>
+                    <Slider
+                        style={{ width: '90%', height: 40 }}
+                        minimumValue={0}
+                        maximumValue={duration}
+                        value={videoProgress[index] || 0}
+                        minimumTrackTintColor="#FFFFFF"
+                        maximumTrackTintColor="#000000"
+                        thumbTintColor="white"
+                        onSlidingComplete={(value) => {
+                            if (videoRefs.current[index]) {
+                                videoRefs.current[index].seek(value);
+                            }
+                        }}
+                    />
+                    <View style={styles.timeRow}>
+                        <Text style={styles.timeText}>
+                            {formatTime(videoProgress[index] || 0)}
+                        </Text>
+                        <Text style={styles.timeText}>
+                            {formatTime(duration)}
+                        </Text>
+                    </View>
+                </View> */}
+            </View>
+        );
+    };
+
+    return (
+        <View style={styles.videoListContainer}>
+            <SwiperFlatList
+                data={videoData}
+                renderItem={renderVideo}
+                keyExtractor={(item) => item.id}
+                vertical
+                removeClippedSubviews={false}
+                showsVerticalScrollIndicator={false}
+                onChangeIndex={({ index }) => {
+                    const prev = previousIndexRef.current;
+                    if (videoRefs.current[prev]) {
+                        videoRefs.current[prev].pause();
+                    }
+
+                    previousIndexRef.current = index;
+                    setCurrentVideoIndex(index);
+                    setVideoStates(prev => {
+                        const newStates = {};
+                        Object.keys(prev).forEach(key => {
+                            newStates[key] = false;
+                        });
+                        return newStates;
+                    });
+                    setVideoError(null);
+                    setCurrentTime(0);
+                    setDuration(0);
+                    setVideoProgress({});
+                    setIsBuffering(false);
+                }}
+            />
+        </View>
+    );
+};
+
+
+
+
+export default ShortVideoList
+
+
+const styles = StyleSheet.create({
+    videoListContainer: {
+        width: "100%",
+        height: screenHeight * 100,
+        backgroundColor: "#000"
+    },
+    videoContainer: {
+        width: "100%",
+        height: screenHeight * 100,
+    },
+    videoWrapper: {
+        flex: 1,
+        position: 'relative',
+    },
+    backgroundVideo: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: '100%'
+    },
+    playPauseOverlay: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0,0,0,0.3)',
+    },
+    seekBarContainer: {
+        position: 'absolute',
+        bottom: 150,
+        left: 0,
+        right: 0,
+        flexDirection: 'row',
+        alignItems: 'center',
+        // paddingHorizontal: 20,
+        // backgroundColor:''
+    },
+    timeText: {
+        color: 'white',
+        fontSize: 12,
+        width: 40,
+    },
+    seekBar: {
+        flex: 1,
+        height: 4,
+        backgroundColor: "white",
+        marginHorizontal: 10,
+        borderRadius: 2,
+        // position: 'relative',
+        // width:screenWidth * 70,
+        top: 0,
+        left: 0
+    },
+    seekBarProgress: {
+        position: 'absolute',
+        height: '100%',
+        backgroundColor: 'white',
+        borderRadius: 2,
+        overflow: 'hidden'
+    },
+    seekBarThumb: {
+        position: 'absolute',
+        width: 12,
+        height: 12,
+        backgroundColor: 'red',
+        borderRadius: 6,
+        top: -3,
+        marginLeft: -6,
+    },
+    bufferOverlay: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0,0,0,0.3)',
+    },
+    errorOverlay: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        justifyContent: 'center',
+        alignItems: 'center',
+    }
+})

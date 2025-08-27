@@ -1,0 +1,207 @@
+ <LinearGradient
+                        colors={selectedGradient}
+
+                        // colors={['#ED8F03', '#FFB75E', '#ED8F03']} // Deep → Light → Deep
+                        // colors={['#D35400', '#A04000']} // Dark Orange → Burnt Orange
+                        // colors={['#A2D4F2', '#69C6B0']} // Dark Orange → Burnt Orange
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 0 }}
+                        style={{
+                            borderRadius: screenWidth * 3
+                        }}
+                    >
+                        <View style={styles.gameCardBox}>
+                            {/* {!isActive && (
+                                <View style={styles.disabledOverlay}>
+                                    <CustomeText color="#fff">Not Available</CustomeText>
+                                </View>
+                            )} */}
+
+                            <View style={styles.cardHeader}>
+                                <CustomeText style={{ fontWeight: 'bold', }} color='#fff' fontSize={15}>
+                                    ₹{data?.winning_price}
+                                </CustomeText>
+                                {
+                                    !isActive || data?.attend ? (
+                                        <LinearGradient
+                                            colors={['#FF512F', '#DD2476']} // Deep orange to reddish-pink
+                                            start={{ x: 0, y: 0 }}
+                                            end={{ x: 1, y: 1 }}
+                                            style={{
+                                                paddingHorizontal: screenWidth * 3,
+                                                paddingVertical: screenHeight * 0.4,
+                                                borderRadius: screenWidth * 3
+                                            }}
+                                        >
+                                            <View disabled={!isActive}>
+                                                <CustomeText fontSize={9} style={{ fontWeight: 'bold', }} color={'white'}>
+                                                    Submited
+                                                </CustomeText>
+                                            </View>
+
+                                        </LinearGradient>
+
+
+
+                                    ) : (
+                                        <LinearGradient
+                                            colors={['#ED8F03', '#FFB75E', '#ED8F03']} // Deep → Light → Deep Orange
+                                            start={{ x: 0, y: 0 }}
+                                            end={{ x: 1, y: 0 }}
+                                            style={{
+                                                borderRadius: screenWidth * 3,
+                                            }}
+
+                                        >
+
+                                            <TouchableOpacity onPress={handlePlay} style={[styles.cardHeaderBtn, {
+                                                backgroundColor: 'rgba(0,0,0,0.15)',
+                                                borderRadius: screenWidth * 3,
+                                            }]} disabled={!isActive}>
+                                                <CustomeText style={{ fontWeight: 'bold', }} color={'white'}>
+                                                    ₹{data?.entry_fee}
+                                                </CustomeText>
+                                            </TouchableOpacity>
+                                        </LinearGradient>
+                                    )
+                                }
+
+                            </View>
+                            <View style={{ width: "100%", padding: screenWidth * 1, }}>
+                                <CustomeText color='#fff' style={{ fontWeight: 'bold' }}>{data?.title}</CustomeText>
+                            </View>
+
+                            <View style={styles.gameCardFooter}>
+                                {/* <View style={styles.participantsBox}>
+                                    <View style={styles.participantNum}>
+                                        <CustomeText color='#fff'>{leftSpots} Left</CustomeText>
+                                        <CustomeText color='#fff'>{totalSpots} Spots</CustomeText>
+                                    </View>
+                                    <View style={styles.progressOuter}>
+                                        <View style={[styles.progressInner, { width: `${filledPercentage}%` }]}></View>
+                                    </View>
+                                </View> */}
+                                {/* <View style={styles.participantsBox}>
+                                    <View style={styles.participantNum}>
+                                        <CustomeText color='#fff'>{leftSpots} Left</CustomeText>
+                                        <CustomeText color='#fff'>{totalSpots} Spots</CustomeText>
+                                    </View>
+
+
+                                    <LinearGradient
+                                        colors={['#FFD200', '#eee']} 
+                                        start={{ x: 0, y: 0 }}
+                                        end={{ x: 1, y: 0 }}
+                                        style={styles.progressOuter}
+                                    >
+
+                                        <LinearGradient
+                                            colors={['red', '#B22222']} 
+                                            start={{ x: 0, y: 0 }}
+                                            end={{ x: 1, y: 0 }}
+                                            style={[styles.progressInner, { width: `${filledPercentage}%` }]}
+                                        />
+                                    </LinearGradient>
+                                </View> */}
+
+
+
+
+                                <View style={styles.timingBox}>
+                                    <View style={{
+                                        flexDirection: 'row',
+                                        gap: screenWidth * 3
+                                    }}>
+                                        <CustomeText color="#fff" fontSize={10}>
+                                            Start: {formatDateTime(data?.start_date_time)}
+                                        </CustomeText>
+                                        <CustomeText color="#fff" fontSize={10}>
+                                            Expire: {formatDateTime(data?.expire_date_time)}
+                                        </CustomeText>
+                                    </View>
+
+                                    <CustomeText style={{ fontWeight: 'bold' }} color={isActive ? '#32CD32' : now < startTime ? '#32CD32' : '#EAEAEC'} fontSize={10}>
+                                        {countdown}
+                                    </CustomeText>
+                                </View>
+
+                                <View style={[styles.footerBotto, { backgroundColor: "#F3EEEE" }]}>
+                                    <View style={{
+                                        flexDirection: 'row',
+                                        alignItems: 'center',
+                                        justifyContent: 'flex-start',
+                                        gap: screenWidth * 1.2
+                                    }}>
+                                        <Image source={require("../../../assets/image/first_price.png")} style={{
+                                            width: 18,
+                                            height: 18,
+                                            resizeMode: 'cover'
+                                        }} />
+
+                                        <CustomeText variant='h7' style={{ fontWeight: 'bold' }}>{(data.winning_price * data.participant_limit) * 0.8}</CustomeText>
+                                    </View>
+
+                                    <View style={{
+                                        flexDirection: 'row',
+                                        alignItems: 'center',
+                                        justifyContent: 'flex-start',
+                                        gap: screenWidth * 1.2
+                                    }}>
+                                        <Ionicons size={12} name="trophy-outline" />
+                                        <CustomeText variant='h7'>{displayPercentage}</CustomeText>
+                                    </View>
+
+                                    <View style={{
+                                        flexDirection: 'row',
+                                        alignItems: 'center',
+                                        justifyContent: 'flex-start',
+                                        gap: screenWidth * 1.2
+                                    }}>
+                                        <View style={{
+                                            width: 15,
+                                            height: 15,
+                                            borderWidth: 0.5,
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            borderRadius: 3
+                                        }}>
+                                            <CustomeText fontSize={8} style={{ fontWeight: 'bold' }}>M</CustomeText>
+                                        </View>
+                                        <CustomeText variant='h7'>1</CustomeText>
+                                    </View>
+                                    <View style={{
+                                        flex: 1,
+                                        flexDirection: 'row',
+                                        alignItems: 'center',
+                                        justifyContent: 'flex-end',
+                                        gap: screenWidth * 1.2,
+                                        alignSelf: 'center'
+                                    }}>
+                                        <LinearGradient
+                                            // colors={['#0052D4', '#65C7F7', '#0052D4']}
+                                            colors={['#ED8F03', '#FFB75E', '#ED8F03']} // Deep → Light → Deep
+                                            start={{ x: 0, y: 0 }}
+                                            end={{ x: 1, y: 1 }}
+                                            style={{
+                                                borderRadius: screenWidth * 3
+                                            }}
+                                        >
+                                            <TouchableOpacity onPress={() => navigate("MegaQuizeResultScreen", { data })} style={{
+                                                width: screenWidth * 15,
+                                                // height:screenHeight,
+                                                // backgroundColor: colors.yellow,
+                                                paddingVertical: screenHeight * 0.4,
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+
+                                            }}>
+                                                <CustomeText fontSize={9} color='#fff' >Result</CustomeText>
+                                            </TouchableOpacity>
+                                        </LinearGradient>
+
+
+                                    </View>
+                                </View>
+                            </View>
+                        </View>
+                    </LinearGradient>
