@@ -1,4 +1,4 @@
-import Pusher from 'pusher-js/react-native';
+// import Pusher from 'pusher-js/react-native';
 
 let pusher = null;
 let channel = null;
