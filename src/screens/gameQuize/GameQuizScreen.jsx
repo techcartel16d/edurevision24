@@ -215,36 +215,36 @@ const GameQuizScreen = () => {
 
 
 
-  useEffect(() => {
-    // Initialize Pusher and bind to events
-    initPusher();
+  // useEffect(() => {
+  //   // Initialize Pusher and bind to events
+  //   initPusher();
 
-    // Bind to a specific event
-    bindEvent('quiz.join.count.updated', (res) => {
-      getMegaQuizeData()
-      console.log("pusher data print ====>", res)
+  //   // Bind to a specific event
+  //   bindEvent('quiz.join.count.updated', (res) => {
+  //     getMegaQuizeData()
+  //     console.log("pusher data print ====>", res)
 
-      // setMegaQuizData(res.data.not_attended_quizzes);
-      // setAttemptedQuiz(res.data.attended_quizzes)
-      // // setJoinData(res.data)
-      // setBanner(res.data.banner)
-
-
-      // const data = res.data.not_attended_quizzes
-      // const keys = Object.keys(data)
-
-      // console.log("keys", keys)
-      // setFillterKeys(keys)
-      // setFillter(keys[0])
+  //     // setMegaQuizData(res.data.not_attended_quizzes);
+  //     // setAttemptedQuiz(res.data.attended_quizzes)
+  //     // // setJoinData(res.data)
+  //     // setBanner(res.data.banner)
 
 
-    });
+  //     // const data = res.data.not_attended_quizzes
+  //     // const keys = Object.keys(data)
 
-    // Cleanup on component unmount
-    return () => {
-      disconnectPusher();
-    };
-  }, []);
+  //     // console.log("keys", keys)
+  //     // setFillterKeys(keys)
+  //     // setFillter(keys[0])
+
+
+  //   });
+
+  //   // Cleanup on component unmount
+  //   return () => {
+  //     disconnectPusher();
+  //   };
+  // }, []);
 
 
 

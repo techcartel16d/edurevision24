@@ -9,8 +9,9 @@ import { Logo } from '../../constant/SplashIcon'
 import LottieView from 'lottie-react-native';
 import { screenHeight, screenWidth } from '../../utils/Constant'
 import Animated, { useSharedValue, useAnimatedStyle, withTiming, Easing } from 'react-native-reanimated'
-import { useTheme } from '../../theme/ThemeContext'
+
 import { notificationOpenedRef } from '../../utils/AppState'
+import { useTheme } from '../../theme/ThemeContext'
 // MMKV instance
 const storage = new MMKV()
 

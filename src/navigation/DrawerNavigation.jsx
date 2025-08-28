@@ -300,7 +300,7 @@ const CustomDrawerContent = ({ navigation }) => {
 
             <View style={styles.sideNaveContainer}>
                 <View style={styles.sideNav}>
-                    <TouchableOpacity onPress={() => {
+                    {/* <TouchableOpacity onPress={() => {
                         if (isAuth) {
                             navigate("TransactionsScreen")
                         } else {
@@ -318,8 +318,8 @@ const CustomDrawerContent = ({ navigation }) => {
                             <CustomeText color={colors.white}>My Transaction</CustomeText>
                         </View>
                         <AntDesign size={Platform.OS === 'ios' ? RFValue(12) : RFValue(10)} name="right" color={colors.white} />
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => {
+                    </TouchableOpacity> */}
+                    {/* <TouchableOpacity onPress={() => {
                         if (isAuth) {
                             navigate("WalletScreen")
                         } else {
@@ -337,9 +337,9 @@ const CustomDrawerContent = ({ navigation }) => {
                             <CustomeText color={colors.white}>My Wallet</CustomeText>
                         </View>
                         <AntDesign size={Platform.OS === 'ios' ? RFValue(12) : RFValue(10)} name="right" color={colors.white} />
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
 
-                    <TouchableOpacity onPress={() => navigate("AddBankScreen")} style={styles.navlist}>
+                    {/* <TouchableOpacity onPress={() => navigate("AddBankScreen")} style={styles.navlist}>
                         <View style={{
                             flexDirection: 'row',
                             alignItems: 'center',
@@ -350,7 +350,7 @@ const CustomDrawerContent = ({ navigation }) => {
                             <CustomeText color={colors.white}>Add Bank</CustomeText>
                         </View>
                         <AntDesign size={Platform.OS === 'ios' ? RFValue(12) : RFValue(10)} name="right" color={colors.white} />
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                     <TouchableOpacity onPress={() => {
                         if (isAuth) {
                             navigate("SubscriptionActiveScreen")
@@ -371,7 +371,7 @@ const CustomDrawerContent = ({ navigation }) => {
                         </View>
                         <AntDesign size={Platform.OS === 'ios' ? RFValue(14) : RFValue(12)} name="right" color={colors.white} />
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => {
+                    {/* <TouchableOpacity onPress={() => {
                         if (isAuth) {
                             navigate("SubscriptionsScreen")
                         } else {
@@ -390,7 +390,7 @@ const CustomDrawerContent = ({ navigation }) => {
                             <CustomeText color={colors.white}>Subscription</CustomeText>
                         </View>
                         <AntDesign size={Platform.OS === 'ios' ? RFValue(14) : RFValue(12)} name="right" color={colors.white} />
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
 
                     {/* <TouchableOpacity style={styles.navlist}>
                         <View style={{
@@ -404,7 +404,7 @@ const CustomDrawerContent = ({ navigation }) => {
                         </View>
                         <AntDesign size={Platform.OS === 'ios' ? RFValue(14) : RFValue(12)} name="right" color={colors.white} />
                     </TouchableOpacity> */}
-                    <TouchableOpacity onPress={() => {
+                    {/* <TouchableOpacity onPress={() => {
                         if (isAuth) {
                             navigate("ReferEarnScreen")
                         } else {
@@ -423,7 +423,7 @@ const CustomDrawerContent = ({ navigation }) => {
                             <CustomeText color={colors.white}>Referral</CustomeText>
                         </View>
                         <AntDesign size={Platform.OS === 'ios' ? RFValue(14) : RFValue(12)} name="right" color={colors.white} />
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                     <TouchableOpacity style={styles.navlist} onPress={() => navigate("HelpSupportScreen")}>
                         <View style={{
                             flexDirection: 'row',

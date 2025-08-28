@@ -196,22 +196,22 @@ const LoginScreen = () => {
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}>
                 {loading ? (
-                  <ActivityIndicator color="#fff" />
+                  <ActivityIndicator color="red" size={'small'} />
                 ) : (
                   <CustomeText style={styles.btnText}>Login</CustomeText>
                 )}
               </LinearGradient>
             </TouchableOpacity>
             <TouchableOpacity style={{
-              flex:1,
-              alignItems:'center',
-              justifyContent:'center',
-              flexDirection:'row',
-              gap:screenWidth * 1
+              flex: 1,
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexDirection: 'row',
+              gap: screenWidth * 1
             }} onPress={() => navigate('NoAuthStack')} disabled={loading}>
-                <CustomeText style={[{color:'#000', }]}>Guest Login </CustomeText>
-                <Ionicons name='arrow-forward'  />
-            </TouchableOpacity>       
+              <CustomeText style={[{ color: '#000', }]}>Guest Login </CustomeText>
+              <Ionicons name='arrow-forward' />
+            </TouchableOpacity>
 
             <View style={styles.otherLoginOptionBox}>
               <View style={[styles.lineBox, { backgroundColor: colors.borderClr }]} />
