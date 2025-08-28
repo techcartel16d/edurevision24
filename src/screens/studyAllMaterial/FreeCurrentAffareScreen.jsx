@@ -1,4 +1,4 @@
-import { FlatList, Image, SafeAreaView, StyleSheet, Switch, Text, TouchableOpacity, View } from 'react-native'
+import { FlatList, Image, StyleSheet, Switch, Text, TouchableOpacity, View } from 'react-native'
 import React, { useCallback, useEffect, useState } from 'react'
 import CommanHeader from '../../components/global/CommonHeader'
 import { useDispatch } from 'react-redux'
@@ -19,6 +19,7 @@ import { shareAll } from '../../helper/shareHelper'
 import { shareProductWithImage } from '../../utils/shareService'
 import RenderHTML from 'react-native-render-html'
 import { toggleBookmark } from '../../helper/Add_RemoveBookMark'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 const FreeCurrentAffareScreen = () => {
     const dispatch = useDispatch()
@@ -131,12 +132,12 @@ const FreeCurrentAffareScreen = () => {
                 });
             }
         } catch (error) {
-            console.error("Bookmark fetch error", error);
-            Toast.show({
-                text1: "Failed to fetch bookmarks",
-                type: 'error',
-                position: 'bottom'
-            });
+            // console.error("Bookmark fetch error", error);
+            // Toast.show({
+            //     text1: "Failed to fetch bookmarks",
+            //     type: 'error',
+            //     position: 'bottom'
+            // });
         }
     };
 
@@ -210,7 +211,7 @@ const FreeCurrentAffareScreen = () => {
             <View style={{
                 height: screenHeight * 3,
                 position: 'absolute',
-                top: Platform.OS === 'android' ? screenHeight * 2 : screenHeight * 8.4,
+                top: Platform.OS === 'android' ? screenHeight * 7.5 : screenHeight * 8.4,
                 right: screenWidth * 0,
                 flexDirection: 'row',
                 gap: screenWidth * 1,

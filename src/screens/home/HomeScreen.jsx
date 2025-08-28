@@ -1,4 +1,4 @@
-import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View, VirtualizedList, TouchableWithoutFeedback, Keyboard, FlatList, Modal, TextInput, ActivityIndicator, RefreshControl, ImageBackground } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View, VirtualizedList, TouchableWithoutFeedback, Keyboard, FlatList, Modal, TextInput, ActivityIndicator, RefreshControl, ImageBackground } from 'react-native';
 import React, { useCallback, useEffect, useState } from 'react'
 import { navigate, openDrawer } from '../../utils/NavigationUtil'
 import { COLORS, linearGradient1, screenHeight, screenWidth } from '../../utils/Constant'
@@ -24,6 +24,7 @@ import { storage } from '../../helper/Store';
 import { useFocusEffect } from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 import { verifyToken } from '../../utils/checkIsAuth';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 
@@ -59,7 +60,7 @@ const HomeScreen = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('Choose Category')
   const [selectedCategories, setSelectedCategories] = useState([]);
-  
+
   const handleSearch = (query) => {
     setSearchQuery(query);
     setRecentSearches([...recentSearches, query]);
@@ -92,9 +93,6 @@ const HomeScreen = () => {
     }, [])
   )
 
-
-
-
   const getHomeData = async (id) => {
     try {
       setLoading(true)
@@ -105,18 +103,18 @@ const HomeScreen = () => {
 
         setHomeData(res.data)
         // console.log("home data in home screen", res.data)
-        // storage.set('home_category', JSON.stringify(res.data.exam_category))
+        storage.set('home_category', JSON.stringify(res.data.exam_category))
         // console.log("home data in home screen", res.data.exam_category)
         setBannerData(res.data.banner)
         setLoading(false)
         setRefreshing(false)
 
-      }else{
+      } else {
         console.log("RESPONSE NOT FOUND", res)
       }
 
     } catch (error) {
-      console.log("ERROR IN HOME DATA PRINT",error)
+      console.log("ERROR IN HOME DATA PRINT", error)
       setLoading(false)
       setRefreshing(false)
     } finally {

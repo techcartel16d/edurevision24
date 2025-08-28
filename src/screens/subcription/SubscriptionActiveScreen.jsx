@@ -1,4 +1,4 @@
-import { StyleSheet, View, FlatList, SafeAreaView, RefreshControl } from 'react-native';
+import { StyleSheet, View, FlatList, RefreshControl } from 'react-native';
 import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { getUserInfoSlice } from '../../redux/userSlice';
@@ -7,6 +7,7 @@ import CustomeText from '../../components/global/CustomeText';
 import { useTheme } from '../../theme/ThemeContext';
 import { screenHeight, screenWidth } from '../../utils/Constant';
 import CommanHeader from '../../components/global/CommonHeader';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const SubscriptionActiveScreen = () => {
     const dispatch = useDispatch();

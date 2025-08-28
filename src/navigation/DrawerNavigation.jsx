@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { ActivityIndicator, Animated, Easing, Image, SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Animated, Easing, Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { COLORS, screenHeight, screenWidth } from '../utils/Constant';
 import CustomeText from '../components/global/CustomeText';
 import AntDesign from "react-native-vector-icons/AntDesign";
@@ -23,6 +23,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import DeleteConfirmationModal from '../components/global/DeleteConfirmationModal';
 import CommonModal from '../components/global/CommonModal';
 import { verifyToken } from '../utils/checkIsAuth';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Drawer = createDrawerNavigator();
 

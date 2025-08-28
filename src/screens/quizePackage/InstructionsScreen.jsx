@@ -1,4 +1,4 @@
-import { Button, Modal, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Button, Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import CustomStatusBar from '../../components/global/CustomStatusBar'
 import CommanHeader from '../../components/global/CommonHeader'
@@ -11,6 +11,7 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import { MMKV } from 'react-native-mmkv'
 import CustomCheckbox from '../../components/custom/CustomCheckbox'
 import Entypo from "react-native-vector-icons/Entypo"
+import { SafeAreaView } from 'react-native-safe-area-context'
 const InstructionsScreen = ({ route }) => {
     const store = new MMKV()
     const { categoryId, testSeriesId, packgetId, data, total_marks, isFree, testDetails } = route.params

@@ -1,4 +1,4 @@
-import { Modal, RefreshControl, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View, ActivityIndicator, Image, Alert, TextInput } from 'react-native'
+import { Modal, RefreshControl, ScrollView, StyleSheet, Text, TouchableOpacity, View, ActivityIndicator, Image, Alert, TextInput } from 'react-native'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useTheme } from '../../theme/ThemeContext'
@@ -19,6 +19,7 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons"
 import Toast from 'react-native-toast-message'
 import RenderHTML from 'react-native-render-html'
 import CommanHeader from '../../components/global/CommonHeader'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 const PreviouseYearQuestionAttendScreen = ({ route }) => {
     const { previouseData } = route.params

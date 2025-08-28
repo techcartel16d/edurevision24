@@ -60,7 +60,7 @@ function HomeStack() {
                     backgroundColor: '#171E26',
                     borderTopWidth: 1,
                     borderTopColor: 'rgba(0, 0, 0, 0.1)', // Add a subtle border on top
-                    height: Platform.OS === 'ios' ? 70 : screenHeight * 6.5, // Adjust height for iOS and Android
+                    height: Platform.OS === 'ios' ? 70 : screenHeight * 7.5, // Adjust height for iOS and Android
                     paddingBottom: Platform.OS === 'ios' ? 20 : screenHeight, // Adjust paddingBottom for iOS
                     paddingTop: Platform.OS === 'ios' ? 5 : 0,
                     // position: Platform.OS === 'android' ? 'absolute' : 'relative',
@@ -77,8 +77,6 @@ function HomeStack() {
                     marginBottom: Platform.OS === 'ios' ? 1 : 0, // Adjust marginBottom for iOS and Android
                 },
             }}>
-
-
             <Tab.Screen
                 name="Home"
                 component={HomeScreen}
@@ -100,9 +98,9 @@ function HomeStack() {
                     tabBarLabel: 'Current Affairs',
                     tabBarIcon: ({ color, size, focused }) => (
                         <Ionicons
-                            name={focused ? 'cart' : 'cart-outline'}
+                            name={focused ? 'newspaper' : 'newspaper-outline'}
                             color={color}
-                            size={20}
+                            size={18}
                         />
                     ),
                 }}
@@ -115,19 +113,18 @@ function HomeStack() {
                         options={({ route }) => ({
                             tabBarLabel: 'Contest',
                             tabBarIcon: ({ color, size, focused }) => (
-
                                 <Animated.Image
-                                    source={require('../../assets/image/coin.png')}
-                                    // source={require('../../assets/icons/contest.png')}
+                                    // source={require('../../assets/image/coin.png')}
+                                    source={require('../../assets/icons/contest.png')}
                                     style={{
-                                        width: screenWidth * 10,
-                                        height: screenWidth * 10,
+                                        width: screenWidth * 9,
+                                        height: screenWidth * 9,
                                         resizeMode: 'contain',
                                         transform: [{ rotateY: spinY }],
                                         backfaceVisibility: 'hidden',
                                         marginBottom: 18
                                     }}
-                                />
+                                    />
 
                             ),
                         })}
@@ -166,8 +163,8 @@ function HomeStack() {
                             tabBarLabel: "Test",
                             tabBarIcon: ({ color, size, focused }) => (
 
-                                <Feather
-                                    name="user"
+                                <Ionicons
+                                    name={focused ? "book" : "book-outline"}
                                     size={18}
                                     color={color}
                                 />

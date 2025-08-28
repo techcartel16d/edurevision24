@@ -1,4 +1,4 @@
-import { Animated, FlatList, Image, Platform, SafeAreaView, ScrollView, StyleSheet, Switch, Text, TouchableOpacity, View } from 'react-native'
+import { Animated, FlatList, Image, Platform, ScrollView, StyleSheet, Switch, Text, TouchableOpacity, View } from 'react-native'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useTheme } from '../../theme/ThemeContext'
 import CommanHeader from '../../components/global/CommonHeader'
@@ -268,7 +268,7 @@ const CurrentAffairsScreen = () => {
             <View style={{
                 height: screenHeight * 3,
                 position: 'absolute',
-                top: Platform.OS === 'android' ? screenHeight * 3 : screenHeight * 8,
+                top: Platform.OS === 'android' ? screenHeight * 7.5 : screenHeight * 8,
                 right: screenWidth * 2,
                 flexDirection: 'row',
                 // gap: screenWidth * 2,

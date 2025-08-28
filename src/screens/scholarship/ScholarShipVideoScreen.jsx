@@ -1,4 +1,4 @@
-import { FlatList, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native'
+import { FlatList, Image, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native'
 import React, { useCallback, useEffect, useState } from 'react'
 import CommanHeader from '../../components/global/CommonHeader'
 import { useDispatch } from 'react-redux'
@@ -12,6 +12,7 @@ import Ionicons from "react-native-vector-icons/Ionicons"
 import { navigate } from '../../utils/NavigationUtil'
 import { useFocusEffect } from '@react-navigation/native'
 import LinearGradient from 'react-native-linear-gradient'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 
 

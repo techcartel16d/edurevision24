@@ -1,4 +1,4 @@
-import { BackHandler, Modal, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View, Platform, Alert, ActivityIndicator, RefreshControl, Image, TextInput } from 'react-native'
+import { BackHandler, Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View, Platform, Alert, ActivityIndicator, RefreshControl, Image, TextInput } from 'react-native'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import CommanHeader from '../../components/global/CommonHeader'
 import { COLORS, fullWidth, screenHeight, screenWidth } from '../../utils/Constant'
@@ -1701,8 +1701,8 @@ const QuizStartScreen = ({ route }) => {
                                 onPress={() => setIsGridModalVisible(true)}
                                 style={{
                                     position: 'absolute',
-                                    bottom: Platform.OS === 'ios' ? screenHeight * 15 : screenHeight * 8,
-                                    right: Platform.OS === 'ios' ? screenWidth * 4 : screenWidth * 4,
+                                    bottom: Platform.OS === 'ios' ? screenHeight * 15 : screenHeight * 12,
+                                    right: Platform.OS === 'ios' ? screenWidth * 4 : screenWidth * 5,
                                     width: screenWidth * 10,
                                     height: screenWidth * 10,
                                     backgroundColor: colors.lightBlue,

@@ -1,4 +1,4 @@
-import { StyleSheet, TextInput, TouchableOpacity, View, Modal, SafeAreaView } from 'react-native'
+import { StyleSheet, TextInput, TouchableOpacity, View, Modal } from 'react-native'
 import React, { useState } from 'react'
 import { useTheme } from '../../theme/ThemeContext'
 import CustomeText from '../../components/global/CustomeText'
@@ -9,6 +9,7 @@ import { helpAndSupportSlice } from '../../redux/userSlice'
 import Toast from 'react-native-toast-message'
 import CommonModal from '../../components/global/CommonModal'
 import { verifyToken } from '../../utils/checkIsAuth'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 const SecheduleCallScreen = () => {
     const dispatch = useDispatch()

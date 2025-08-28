@@ -1,4 +1,4 @@
-import { ActivityIndicator, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTheme } from '../../theme/ThemeContext'
 import CommanHeader from '../../components/global/CommonHeader'
@@ -13,6 +13,7 @@ import { navigate } from '../../utils/NavigationUtil'
 import { useFocusEffect } from '@react-navigation/native'
 import { useDispatch } from 'react-redux'
 import { getUserInfoSlice, userRemoveAccountSlice } from '../../redux/userSlice'
+import { SafeAreaView } from 'react-native-safe-area-context'
 const ProfileScreen = () => {
     const dispatch = useDispatch()
     const [userInfo, setUserInfo] = useState(null)

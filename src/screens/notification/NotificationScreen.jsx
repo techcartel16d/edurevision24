@@ -1,7 +1,6 @@
 import {
   FlatList,
   Image,
-  SafeAreaView,
   StyleSheet,
   Text,
   View,
@@ -19,6 +18,7 @@ import { useDispatch } from 'react-redux'
 import { geNotificationSlice } from '../../redux/userSlice'
 import { useFocusEffect } from '@react-navigation/native'
 import { removeHtmlTags } from '../../helper/RemoveHtmlTags'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 const NotificationScreen = () => {
   const dispatch = useDispatch()

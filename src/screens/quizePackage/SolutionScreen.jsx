@@ -1,4 +1,4 @@
-import { ActivityIndicator, Image, Modal, RefreshControl, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, Image, Modal, RefreshControl, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useTheme } from '../../theme/ThemeContext'
 import CommanHeader from '../../components/global/CommonHeader'
@@ -15,6 +15,7 @@ import Entypo from "react-native-vector-icons/Entypo"
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { MMKV } from 'react-native-mmkv';
 import { goBack } from '../../utils/NavigationUtil'
+import { SafeAreaView } from 'react-native-safe-area-context'
 const SolutionScreen = () => {
   const storage = new MMKV();
   const dispatch = useDispatch()
@@ -732,8 +733,8 @@ const SolutionScreen = () => {
         onPress={() => setIsGridModalVisible(true)}
         style={{
           position: 'absolute',
-          bottom: Platform.OS === 'ios' ? screenHeight * 15 : screenHeight * 8,
-          right: Platform.OS === 'ios' ? screenWidth * 4 : screenWidth * 4,
+          bottom: Platform.OS === 'ios' ? screenHeight * 15 : screenHeight * 12,
+          right: Platform.OS === 'ios' ? screenWidth * 4 : screenWidth * 5,
           width: screenWidth * 10,
           height: screenWidth * 10,
           backgroundColor: colors.lightBlue,

@@ -1,4 +1,4 @@
-import { Alert, Button, FlatList, Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Alert, Button, FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import CommanHeader from '../../components/global/CommonHeader'
 import { useDispatch } from 'react-redux'
@@ -19,6 +19,7 @@ import { isQuizStartAvailable, isQuizUpcoming } from '../../helper/startTestHelp
 import YoutubePlayer from 'react-native-youtube-iframe';
 import SkeletonPulseBox from '../../components/skeleton/SkeletonPulseBox'
 import { useFocusEffect } from '@react-navigation/native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 const ScolarShipSignleVideoScreen = ({ route }) => {
     const { scholarData } = route.params
 console.log("scholarData", scholarData)

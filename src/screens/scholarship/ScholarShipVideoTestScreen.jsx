@@ -1,4 +1,4 @@
-import { ActivityIndicator, FlatList, Image, Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, FlatList, Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import React, { useCallback, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useFocusEffect } from '@react-navigation/native'
@@ -12,6 +12,7 @@ import { removeHtmlTags } from '../../helper/RemoveHtmlTags'
 import { navigate } from '../../utils/NavigationUtil'
 import { RFValue } from 'react-native-responsive-fontsize'
 import Ionicons from "react-native-vector-icons/Ionicons"
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 const ScholarShipVideoTestScreen = ({ route }) => {
   const { scholarData } = route.params

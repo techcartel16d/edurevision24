@@ -1,5 +1,5 @@
 
-import { ActivityIndicator, FlatList, Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, FlatList, Image, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useCallback, useEffect } from 'react'
 import { useRoute } from '@react-navigation/native'
 import { useState } from 'react'
@@ -15,6 +15,7 @@ import CommanHeader from '../../components/global/CommonHeader'
 import { goBack, navigate, replace } from '../../utils/NavigationUtil'
 import { useDispatch } from 'react-redux'
 import { fetchUserTestSeriesRankSlice, getPreviouseYearPaperRankSlice } from '../../redux/userSlice'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 const PreviouseYearResultScreen = () => {
     const dispatch = useDispatch()

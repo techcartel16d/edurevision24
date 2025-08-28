@@ -196,7 +196,7 @@ const LoginScreen = () => {
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}>
                 {loading ? (
-                  <ActivityIndicator color="red" size={'small'} />
+                  <ActivityIndicator color="#fff" size={'small'} />
                 ) : (
                   <CustomeText style={styles.btnText}>Login</CustomeText>
                 )}

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import {
-  SafeAreaView,
   StyleSheet,
   View,
   FlatList,
@@ -14,6 +13,7 @@ import { storage } from '../../helper/Store'
 import CustomeText from '../../components/global/CustomeText'
 import { screenHeight, screenWidth } from '../../utils/Constant'
 import CommanHeader from '../../components/global/CommonHeader'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 const SelectedExamCategoryScreen = () => {
   const { theme } = useTheme()
@@ -25,6 +25,8 @@ const SelectedExamCategoryScreen = () => {
   useEffect(() => {
     // Get all categories from storage
     const storedAll = storage.getString('home_category')
+    console.log(storedAll)
+    // return
     console.log("storedAll", JSON.parse(storedAll))
     if (storedAll) {
       setAllCategories(JSON.parse(storedAll))
@@ -68,10 +70,10 @@ const SelectedExamCategoryScreen = () => {
 
         <View style={{
           // backgroundColor:'red',
-          flex:1,
-          flexDirection:'row',
-          alignItems:'center',
-          justifyContent:'center'
+          flex: 1,
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center'
         }}>
 
           <View style={styles.categoryTitleBox}>

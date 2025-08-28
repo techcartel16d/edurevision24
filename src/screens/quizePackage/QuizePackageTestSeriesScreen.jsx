@@ -600,17 +600,6 @@ const QuizePackageTestSeriesScreen = ({ route }) => {
         fetchBookMarkTestSeries(); // just fetch bookmarks once on load
     }, []);
 
-
-
-
-
-
-
-
-
-
-
-
     const renderQuize = ({ item }) => {
         const user_info = store.getString("user");
         const user = user_info ? JSON.parse(user_info) : {};
@@ -1755,7 +1744,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         flexWrap: 'wrap',
         position: 'absolute',
-        bottom: Platform.OS === 'android' ? 0 : screenHeight * 2,
+        bottom: Platform.OS === 'android' ? screenHeight * 1.5 : screenHeight * 2,
         paddingVertical: screenHeight
 
     },

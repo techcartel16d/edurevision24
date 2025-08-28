@@ -1,4 +1,4 @@
-import { FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useTheme } from '../../theme/ThemeContext'
 import CommanHeader from '../../components/global/CommonHeader'
@@ -9,6 +9,7 @@ import { screenHeight, screenWidth } from '../../utils/Constant'
 import Ionicons from "react-native-vector-icons/Ionicons"
 import { RFValue } from 'react-native-responsive-fontsize'
 import { navigate } from '../../utils/NavigationUtil'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 const TestScreen = () => {
   const dispatch = useDispatch()

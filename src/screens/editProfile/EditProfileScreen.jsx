@@ -1,4 +1,4 @@
-import { ActivityIndicator, Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
+import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import CommanHeader from '../../components/global/CommonHeader'
 import { useTheme } from '../../theme/ThemeContext'
@@ -15,6 +15,7 @@ import Toast from 'react-native-toast-message'
 import { goBack, navigate } from '../../utils/NavigationUtil'
 import CustomStatusBar from '../../components/global/CustomStatusBar'
 import ImageView from "react-native-image-viewing";
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 
 const EditProfileScreen = () => {

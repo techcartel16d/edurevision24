@@ -1,4 +1,4 @@
-import { ActivityIndicator, Platform, SafeAreaView, ScrollView, StyleSheet, Switch, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
+import { ActivityIndicator, Platform, ScrollView, StyleSheet, Switch, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
 import React, { useRef, useState } from 'react'
 import { useTheme } from '../../theme/ThemeContext';
 import CommanHeader from '../../components/global/CommonHeader';
@@ -17,6 +17,7 @@ import { useDispatch } from 'react-redux';
 import SafeAreaWrapper from '../../constant/SafeAreaWrapper';
 import { verifyToken } from '../../utils/checkIsAuth';
 import CommonModal from '../../components/global/CommonModal';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 const SettingScreen = () => {
@@ -131,7 +132,7 @@ const SettingScreen = () => {
 
       <SafeAreaView style={{ flex: 1, backgroundColor: colors.headerBg }}>
         <CommanHeader heading={"Setting"} />
-        <View style={{ position: 'absolute', top: Platform.OS === "android" ? screenHeight * 2 : screenHeight * 8, right: screenWidth * 3, zIndex: 999 }}>
+        <View style={{ position: 'absolute', top: Platform.OS === "android" ? screenHeight * 7 : screenHeight * 8, right: screenWidth * 4, zIndex: 999 }}>
           <TouchableOpacity ref={menuButtonRef} onPress={() => setMenuVisible(!menuVisible)}>
             <MaterialIcons name={menuVisible ? "close" : "menu"} size={24} color={colors.textClr} />
           </TouchableOpacity>
@@ -217,7 +218,7 @@ const SettingScreen = () => {
             style={{
               width: screenWidth * 35,
               position: 'absolute',
-              top: Platform.OS === "android" ? screenHeight * 6.5 : screenHeight * 14,
+              top: Platform.OS === "android" ? screenHeight * 10 : screenHeight * 14,
               right: screenWidth * 3,
               backgroundColor: colors.cardBg,
               borderRadius: 8,
@@ -356,6 +357,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'red',
-    borderRadius: screenWidth * 4
+    borderRadius: screenWidth * 4,
   }
 })
