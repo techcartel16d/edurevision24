@@ -691,14 +691,14 @@ const QuizePackageTestSeriesScreen = ({ route }) => {
                         gap: screenWidth * 3,
                         paddingTop: screenHeight
                     }}>
-                        <TouchableOpacity
+                        {/* <TouchableOpacity
                             style={{
                                 alignItems: 'center',
                                 justifyContent: 'center',
                             }}
                         >
                             <MaterialIcons color={colors.textClr} name="picture-as-pdf" size={RFValue(15)} />
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                         <TouchableOpacity
                             onPress={() =>
                                 shareProductWithImage({

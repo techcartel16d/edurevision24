@@ -88,13 +88,13 @@ const SettingScreen = () => {
       action: "HelpSupportScreen"
 
     },
-    {
-      id: 9,
-      title: "Feedback",
-      icon: <Ionicons name="chatbox-outline" size={screenHeight * 2.5} color={colors.textClr} />,
-      action: ""
+    // {
+    //   id: 9,
+    //   title: "Feedback",
+    //   icon: <Ionicons name="chatbox-outline" size={screenHeight * 2.5} color={colors.textClr} />,
+    //   action: ""
 
-    },
+    // },
     // { id: 9, title: "Logout", icon: "log-out", action: "logoutUser" },
   ];
 

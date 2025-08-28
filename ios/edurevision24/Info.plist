@@ -31,6 +31,20 @@
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>This app requires camera access to take photos.</string>
+	<key>NSDocumentsFolderUsageDescription</key>
+	<string>We need access to save documents</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We need access to your location</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>We need access to your microphone</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>We need access to save images</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We need access to your photo library</string>
+	<key>NSUserNotificationUsageDescription</key>
+	<string>We need your permission to send notifications</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>UIAppFonts</key>

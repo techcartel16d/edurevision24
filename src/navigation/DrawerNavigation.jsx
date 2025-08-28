@@ -352,7 +352,7 @@ const CustomDrawerContent = ({ navigation }) => {
                         </View>
                         <AntDesign size={Platform.OS === 'ios' ? RFValue(12) : RFValue(10)} name="right" color={colors.white} />
                     </TouchableOpacity> */}
-                    <TouchableOpacity onPress={() => {
+                    {/* <TouchableOpacity onPress={() => {
                         if (isAuth) {
                             navigate("SubscriptionActiveScreen")
                         } else {
@@ -371,7 +371,7 @@ const CustomDrawerContent = ({ navigation }) => {
                             <CustomeText color={colors.white}>Active Subscription</CustomeText>
                         </View>
                         <AntDesign size={Platform.OS === 'ios' ? RFValue(14) : RFValue(12)} name="right" color={colors.white} />
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                     {/* <TouchableOpacity onPress={() => {
                         if (isAuth) {
                             navigate("SubscriptionsScreen")

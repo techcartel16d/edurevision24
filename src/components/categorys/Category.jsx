@@ -56,7 +56,7 @@ const isAuth = verifyToken()
                                 borderRadius: screenWidth * 1.5,
                                 height: 22
                             }}>
-                                <CustomeText fontSize={10} style={{ fontWeight: 'bold' }} color={'#fff'}>Total Test :</CustomeText>
+                                <CustomeText fontSize={10} style={{ fontWeight: 'bold' }} color={'#fff'}>Total Test : {item.totalSeries}</CustomeText>
                                 <CustomeText fontSize={10} style={{ fontWeight: 'bold' }} color={'#fff'}>{item.total}</CustomeText>
                             </View>
                             <View style={{

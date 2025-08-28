@@ -57,7 +57,7 @@ function HomeStack() {
                 tabBarActiveTintColor: "lightblue",
                 tabBarInactiveTintColor: '#fff',
                 tabBarStyle: {
-                    backgroundColor: '#171E26',
+                    backgroundColor: '#363636',
                     borderTopWidth: 1,
                     borderTopColor: 'rgba(0, 0, 0, 0.1)', // Add a subtle border on top
                     height: Platform.OS === 'ios' ? 70 : screenHeight * 7.5, // Adjust height for iOS and Android
@@ -111,11 +111,11 @@ function HomeStack() {
                         name="GameQuizScreen"
                         component={GameQuizScreen}
                         options={({ route }) => ({
-                            tabBarLabel: 'Contest',
+                            tabBarLabel: 'Live Quiz',
                             tabBarIcon: ({ color, size, focused }) => (
                                 <Animated.Image
                                     // source={require('../../assets/image/coin.png')}
-                                    source={require('../../assets/icons/contest.png')}
+                                    source={require('../../assets/icons/tab_icon.png')}
                                     style={{
                                         width: screenWidth * 9,
                                         height: screenWidth * 9,
