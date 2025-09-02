@@ -32,20 +32,20 @@ const StudyCollectionScreen = () => {
             const res = await dispatch(getUserCollectionDetailSlice()).unwrap();
             console.log("study collection get", res.data)
             if (res.status_code == 200) {
-                Toast.show({
-                    text1: res.message,
-                    text2: 'study collection found',
-                    type: 'success'
-                });
+                // Toast.show({
+                //     text1: res.message,
+                //     text2: 'study collection found',
+                //     type: 'success'
+                // });
                 setStudyCollection(res.data)
                 setLoading(false)
 
             } else {
-                Toast.show({
-                    text1: res.message,
-                    text2: 'study collection not found',
-                    type: 'error'
-                })
+                // Toast.show({
+                //     text1: res.message,
+                //     text2: 'study collection not found',
+                //     type: 'error'
+                // })
             }
 
         } catch (error) {
@@ -63,16 +63,16 @@ const StudyCollectionScreen = () => {
             const res = await dispatch(reportedQuestionGetSlice()).unwrap();
             console.log("report question ===>", res)
             if (res.status_code == 200) {
-                Toast.show({
-                    text1: res.message,
-                    text2: 'fetch successfully'
-                })
+                // Toast.show({
+                //     text1: res.message,
+                //     text2: 'fetch successfully'
+                // })
                 setReportQuestion(res.data)
             } else {
-                Toast.show({
-                    text1: res.message,
-                    text2: 'fetch successfully'
-                })
+                // Toast.show({
+                //     text1: res.message,
+                //     text2: 'fetch successfully'
+                // })
 
             }
 

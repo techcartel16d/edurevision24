@@ -13,7 +13,7 @@ const MegaQuizeProvider = {
             const token = storage.getString('token');
             if (!token) throw new Error('No token found');
 
-            const response = await axios.get(`${API_BASE_URL}/mega-quiz-get`, {
+            const response = await axios.get(`${API_BASE_URL}/mega-quiz-get-live`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data',

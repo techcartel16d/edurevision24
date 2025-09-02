@@ -144,7 +144,7 @@ const ProfileScreen = () => {
                                     gap: screenWidth * 5,
                                 }}>
                                     <CustomeText fontSize={14} style={{ fontWeight: 'semibold' }} color={'gray'}>{userInfo?.city}</CustomeText>
-                                    <CustomeText fontSize={14} style={{ fontWeight: 'semibold' }} color={'gray'}>{userInfo?.state}</CustomeText>
+                                   
                                 </View>
                             </View>
                             <View style={{
@@ -161,7 +161,7 @@ const ProfileScreen = () => {
                                     gap: screenWidth * 5,
                                 }}>
                                     <CustomeText fontSize={14} style={{ fontWeight: 'semibold' }} color={'gray'}>{userInfo?.dob}</CustomeText>
-                                    <CustomeText fontSize={14} style={{ fontWeight: 'semibold' }} color={'gray'}>{userInfo?.gender}</CustomeText>
+                                   
                                 </View>
                             </View>
                             <View style={{

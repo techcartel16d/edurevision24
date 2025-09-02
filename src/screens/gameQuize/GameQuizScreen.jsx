@@ -418,9 +418,9 @@ const GameQuizScreen = () => {
                         renderItem={({ item }) => {
                           // console.log("item=====>", item)
                           return (
-                            <TouchableOpacity onPress={() => setFillter(item)} style={[{ borderColor: colors.borderColor, backgroundColor: fillter === item ? colors.lightBlue : colors.cardBg, minWidth:screenWidth * 30, height:screenHeight * 3, alignItems:'center',justifyContent:'center', borderRadius:screenWidth * 3 }]}>
-                              <CustomeText fontSize={10} color={"#fff"} style={[styles.text,{textTransform:'capitalize'}]}>
-                              { item.replace(/_/g, ' ')}
+                            <TouchableOpacity onPress={() => setFillter(item)} style={[{ borderColor: colors.borderColor, backgroundColor: fillter === item ? colors.lightBlue : colors.cardBg, minWidth: screenWidth * 30, height: screenHeight * 3, alignItems: 'center', justifyContent: 'center', borderRadius: screenWidth * 3 }]}>
+                              <CustomeText fontSize={10} color={"#fff"} style={[styles.text, { textTransform: 'capitalize' }]}>
+                                {item.replace(/_/g, ' ')}
                               </CustomeText>
                             </TouchableOpacity>
                           )
@@ -457,8 +457,8 @@ const GameQuizScreen = () => {
                         data={megaQuizCategoryKeys}
                         keyExtractor={(item) => item}
                         renderItem={({ item }) => (
-                          <TouchableOpacity onPress={() => setMegaQuizCategory(item)} style={[styles.card, { backgroundColor: megaQuizCategory === item ? colors.lightBlue : colors.cardBg }]}>
-                            <CustomeText fontSize={10} color={"#fff"} style={styles.text}>
+                          <TouchableOpacity onPress={() => setMegaQuizCategory(item)} style={[styles.card, { backgroundColor: megaQuizCategory === item ? colors.lightBlue : "#eee" }]}>
+                            <CustomeText fontSize={10} color={megaQuizCategory ? "#fff" : "#111"} style={styles.text}>
                               {item}
                             </CustomeText>
                           </TouchableOpacity>
