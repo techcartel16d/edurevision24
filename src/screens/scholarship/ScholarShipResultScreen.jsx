@@ -59,7 +59,7 @@ const ScholarShipResultScreen = () => {
             setLoading(true);
             const res = await dispatch(getRankScholarShipSlice(data?.id)).unwrap();
 
-            console.log("response==========>  ", res);
+            // console.log("response==========>  ", res);
 
             if (res.status_code == 200) {
                 console.log("result data fetch now", res.data)

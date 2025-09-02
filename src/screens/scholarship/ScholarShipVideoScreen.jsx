@@ -169,7 +169,7 @@ const ScholarShipVideoScreen = () => {
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: colors.bg }}>
-            <CommanHeader heading={"Sholarship Videos"} />
+            <CommanHeader heading={"Videos"} />
             <View style={{
                 borderBottomWidth: 0.6,
                 paddingBottom: screenHeight * 1,

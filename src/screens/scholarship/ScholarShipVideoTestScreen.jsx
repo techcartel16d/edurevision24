@@ -16,7 +16,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 
 const ScholarShipVideoTestScreen = ({ route }) => {
   const { scholarData } = route.params
-  console.log("scholarship test video screen=====>", scholarData)
+  // console.log("scholarship test video screen=====>", scholarData)
   const { theme } = useTheme()
   const { colors } = theme
   const dispatch = useDispatch()
