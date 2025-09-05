@@ -13,7 +13,7 @@ const termsOfService = [
   {
     heading: "Features",
     description: `<ul>
-      <li>Free Quizzes</li>
+
       <li>Current Affairs</li>
       <li>Topic-Wise Practice Tests</li>
       <li>Previous Papers</li>
@@ -23,26 +23,7 @@ const termsOfService = [
       <li>Doubt Solving</li>
     </ul>`
   },
-  {
-    heading: "Quiz Game & Rewards",
-    description: `<p>Users can enter quiz games with an entry amount. Top performers may win rewards. Cheating will result in disqualification or suspension.</p>`
-  },
-  {
-    heading: "Wallet System",
-    description: `<p>The wallet is used for participation, rewards, and tracking earnings. Balances are non-transferable and non-refundable.</p>`
-  },
-  {
-    heading: "Bank Details & Payouts",
-    description: `<p>Bank details are required for reward withdrawals. Payouts are subject to verification and policy compliance.</p>`
-  },
-  {
-    heading: "Subscriptions",
-    description: `<p>Premium tests require a paid subscription. Fees are non-refundable unless otherwise stated.</p>`
-  },
-  {
-    heading: "Referral Program",
-    description: `<p>Users may refer others and earn rewards based on successful referrals and their activity.</p>`
-  },
+  
   {
     heading: "Support",
     description: `<p>Support is available via the app or by emailing <a href="mailto:support@revision24.com">support@revision24.com</a>.</p>`
@@ -56,7 +37,6 @@ const termsOfService = [
     description: `<ul>
       <li>Profile Edit</li>
       <li>Notifications</li>
-      <li>Light/Dark Mode</li>
       <li>Rate App</li>
       <li>Share App</li>
       <li>Access Privacy Policy & Terms</li>

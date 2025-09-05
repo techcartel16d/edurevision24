@@ -1,4 +1,4 @@
-import { FlatList, Image, SafeAreaView, StyleSheet, Text, View, TouchableOpacity, ActivityIndicator } from 'react-native'
+import { FlatList, Image, StyleSheet, Text, View, TouchableOpacity, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useTheme } from '../../theme/ThemeContext'
 import { useDispatch } from 'react-redux';
@@ -10,6 +10,7 @@ import { removeHtmlTags } from '../../helper/RemoveHtmlTags';
 import RenderHtml from 'react-native-render-html';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { navigate } from '../../utils/NavigationUtil';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 const FreeExamInofScreen = () => {

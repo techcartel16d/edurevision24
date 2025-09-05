@@ -1,4 +1,4 @@
-import { ActivityIndicator, FlatList, Image, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, VirtualizedList } from 'react-native'
+import { ActivityIndicator, FlatList, Image, Linking, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, VirtualizedList } from 'react-native'
 import React, { useCallback, useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
@@ -1567,23 +1567,24 @@ const QuizePackageTestSeriesScreen = ({ route }) => {
                 type={modal.type}
                 title={
                     modal.type === 'confirm'
-                        ? 'Subscriptions'
+                        ? 'Plans'
                         : modal.type === 'success'
                             ? 'Success!'
                             : 'Warning!'
                 }
                 message={
                     modal.type === 'confirm'
-                        ? 'Subscription purchases are only available through our website. Please use your existing account to sign in.'
+                        ? 'Purchases are not available in the app. Please visit our website to choose a plan and then sign in with your account.'
                         : modal.type === 'success'
                             ? 'Your changes have been saved.'
                             : 'Please double-check before proceeding.'
                 }
-                confirmText={modal.type === 'confirm' ? 'OK' : 'OK'}
+                confirmText={modal.type === 'confirm' ? 'Visit Website' : 'OK'}
                 cancelText="Cancel"
                 dismissible={modal.type !== 'confirm'} // confirm usually not dismissible
                 onConfirm={() => {
-                    console.log('Confirmed action');
+                    console.log('Redirecting to website...');
+                    Linking.openURL('https://revision24.com/subscription'); // 👈 apna website URL yaha daalo
                     setModal({ ...modal, visible: false });
                 }}
                 onCancel={() => {

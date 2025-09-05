@@ -13,9 +13,6 @@ const privacyPolicy = [
         <li>Phone Number (for registration)</li>
         <li>Name and PIN</li>
         <li>Email (optional)</li>
-        <li>Usage data (tests, scores, preferences)</li>
-        <li>Bank details (for reward payouts)</li>
-        <li>Referral info</li>
         <li>Device & browser info</li>
       </ul>`
   },
@@ -25,7 +22,6 @@ const privacyPolicy = [
       <ul>
         <li>Manage your account and access to content</li>
         <li>Track progress and performance</li>
-        <li>Process payments and rewards</li>
         <li>Improve our services</li>
         <li>Send updates and notifications</li>
       </ul>`
@@ -49,10 +45,6 @@ const privacyPolicy = [
   {
     heading: "Children’s Privacy",
     description: `<p>Our service is not intended for children under 13. We do not knowingly collect data from minors.</p>`
-  },
-  {
-    heading: "Third-Party Links",
-    description: `<p>Our platform may contain links to third-party websites. We are not responsible for their privacy practices.</p>`
   },
   {
     heading: "Updates to Policy",

@@ -23,7 +23,7 @@ const PreviouseYearResultScreen = () => {
     const { theme } = useTheme()
     const { colors } = theme
     const { data, } = route.params
-    console.log("data =====>", data)
+    // console.log("data =====>", data)
     // return
     // const categoryId = '', testId = '', data = {}
 

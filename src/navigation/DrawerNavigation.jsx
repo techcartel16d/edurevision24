@@ -565,7 +565,7 @@ const CustomDrawerContent = ({ navigation }) => {
             <CommonModal
                 visible={modalVisible}
                 // message="Your token has expired. Please login again."
-                message={message}
+                message={"Please Login After accecss"}
                 onConfirm={() => {
                     navigate('AuthStack')
                     setModalVisible(false)

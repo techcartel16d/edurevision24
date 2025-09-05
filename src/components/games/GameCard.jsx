@@ -251,7 +251,7 @@ const GameCard = ({ data, index, callBack, userData }) => {
                         {
                             isUpcoming ? (
                                 // 🔸 Upcoming Case: Show Register or Joined Button
-                                data.join_data &&  data.join_data.status !== "" ? (
+                                data.join_data && data.join_data.status !== "" ? (
                                     <LinearGradient
                                         colors={['#006400', '#ADFF2F']}
                                         start={{ x: 0, y: 0 }}
@@ -330,8 +330,6 @@ const GameCard = ({ data, index, callBack, userData }) => {
                                 )
                             )
                         }
-
-
                     </View>
 
 

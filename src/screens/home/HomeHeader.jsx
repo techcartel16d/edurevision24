@@ -39,7 +39,7 @@ const HomeHeader = ({
                         alignItems: 'center',
                     }}
                 >
-                    <FontAwesome5 name='bars' color={colors.white} size={RFValue(18)} />
+                    <AntDesign name='menu-unfold' color={colors.white} size={RFValue(18)} />
                 </TouchableOpacity>
 
                 <TouchableOpacity style={[styles.categoryBtn, { backgroundColor: colors.lightGray, borderColor: colors.borderClr, borderWidth: 1 }]} onPress={onPress}>
@@ -52,7 +52,7 @@ const HomeHeader = ({
                 {
                     isAuth && (
                         <TouchableOpacity onPress={() => navigate('NotificationScreen')}>
-                            <Feather name='bell' color={colors.white} size={RFValue(18)} />
+                            <FontAwesome5 name='bell' color={colors.white} size={RFValue(18)} />
                         </TouchableOpacity>
                     )
                 }

@@ -1,4 +1,4 @@
-import { FlatList, SafeAreaView, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { FlatList, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useTheme } from '../../theme/ThemeContext'
@@ -19,6 +19,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import { RFValue } from 'react-native-responsive-fontsize'
 import { isQuizStartAvailable, isQuizUpcoming } from '../../helper/startTestHelper'
 import { navigate } from '../../utils/NavigationUtil'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 const FreePrevieousPaperScreen = () => {
   const dispatch = useDispatch()
