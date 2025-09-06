@@ -26,18 +26,12 @@ const privacyPolicy = [
         <li>Send updates and notifications</li>
       </ul>`
   },
-  {
-    heading: "Sharing Your Information",
-    description: `<p>We do not sell your data. Your data may be shared with payment processors or legal authorities when required by law.</p>`
-  },
+  
   {
     heading: "Data Security",
     description: `<p>We use standard encryption and security controls to protect your data. However, no online system can guarantee absolute security.</p>`
   },
-  {
-    heading: "Cookies & Tracking",
-    description: `<p>We may use cookies to personalize your experience and analyze usage to improve our services.</p>`
-  },
+ 
   {
     heading: "Your Rights",
     description: `<p>You have the right to view or edit your profile, request data deletion, or opt out of marketing messages. Contact us at <a href="mailto:privacy@revision24.com">privacy@revision24.com</a>.</p>`
