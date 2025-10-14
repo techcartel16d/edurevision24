@@ -1,6 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
 import {
-    SafeAreaView,
     View,
     Text,
     StyleSheet,
@@ -17,6 +16,7 @@ import { navigate } from '../../../utils/NavigationUtil';
 import { RFValue } from 'react-native-responsive-fontsize';
 import AuthHeader from '../authHeader/AuthHeader';
 import CustomeText from '../../../components/global/CustomeText';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const VerifyOtpStyledScreen = ({ route }) => {
     const { theme } = useTheme();

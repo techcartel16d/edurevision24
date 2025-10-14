@@ -1,4 +1,4 @@
-import { ActivityIndicator, Image, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import CustomeText from '../../../components/global/CustomeText'
 import { COLORS, screenHeight, screenWidth } from '../../../utils/Constant';
@@ -12,6 +12,7 @@ import { forgotPasswordSlice } from '../../../redux/userSlice';
 import Toast from 'react-native-toast-message';
 import { navigate } from '../../../utils/NavigationUtil';
 import LinearGradient from 'react-native-linear-gradient';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const ForgotPasswordScreen = () => {
   const { theme } = useTheme()

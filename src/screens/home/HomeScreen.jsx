@@ -31,7 +31,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 
-
 const renderItem = ({ item }) => (
   <TouchableOpacity style={[styles.slide, { backgroundColor: item.color }]}>
     <Image style={{
@@ -164,7 +163,7 @@ const HomeScreen = () => {
 
         getUserDetails()
       } else {
-        console.log("Guest User Enter")
+        // console.log("Guest User Enter")
       }
     }, [])
   )

@@ -66,6 +66,11 @@ import ScholarShipTestStartScreen from '../screens/scholarship/ScholarShipTestSt
 import ScholarShipResultScreen from '../screens/scholarship/ScholarShipResultScreen';
 import PaymentScreen from '../screens/payment/PaymentScreen';
 import SubscriptionActiveScreen from '../screens/subcription/SubscriptionActiveScreen';
+import PracticeBatchScreen from '../screens/practicBatch/PracticeBatch';
+import PurchasedBatch from '../screens/practicBatch/PurchasedBatch';
+import BatchVideos from '../screens/practicBatch/BatchVideos';
+import AttemptedTestPage from '../screens/attempted/AttemptedTestPage';
+import  AnaylisScreen from '../screens/attempted/AnaylisScreen'
 
 
 
@@ -177,7 +182,16 @@ const MainNavigator = () => {
             <Stack.Screen name="PaymentScreen" component={PaymentScreen} />
             <Stack.Screen name="SubscriptionActiveScreen" component={SubscriptionActiveScreen} />
 
+            {/* Practic Batch */}
+            <Stack.Screen name="PracticeBatchScreen" component={PracticeBatchScreen} />
+            <Stack.Screen name="PurchasedBatch" component={PurchasedBatch} />
+            <Stack.Screen name="BatchVideos" component={BatchVideos} />
 
+
+            {/* Attempt test  */}
+
+           <Stack.Screen name="AttemptedTestPage" component={AttemptedTestPage} />
+           <Stack.Screen name="AnaylisScreen" component={AnaylisScreen} />
 
 
 

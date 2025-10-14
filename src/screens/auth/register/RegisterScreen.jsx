@@ -1,4 +1,4 @@
-import { ActivityIndicator, Alert, Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, Alert, Image,ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import { COLORS, screenHeight, screenWidth } from '../../../utils/Constant'
 import CustomStatusBar from '../../../components/global/CustomStatusBar'
@@ -15,6 +15,7 @@ import AuthHeader from '../authHeader/AuthHeader'
 import { useTheme } from '../../../theme/ThemeContext'
 import LinearGradient from 'react-native-linear-gradient'
 import CustomCheckbox from '../../../components/custom/CustomCheckbox'
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const RegisterScreen = () => {
   const [show, setShow] = useState(false)

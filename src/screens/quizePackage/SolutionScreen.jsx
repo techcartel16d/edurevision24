@@ -267,7 +267,7 @@ const SolutionScreen = () => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.bg }}>
 
-      {/* <CommanHeader heading='Solution' /> */}
+      <CommanHeader heading='Solution' />
       <View style={{
         flexDirection: 'row',
         alignItems: 'center',

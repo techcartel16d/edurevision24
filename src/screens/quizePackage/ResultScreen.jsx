@@ -41,6 +41,42 @@ const ResultScreen = () => {
     const myTestId = data?.test_id || data.id
     console.log("myTestId", myTestId)
 
+
+    function toFraction(value) {
+        if (!value) return '0';
+
+        const tolerance = 1.0E-6;
+        let h1 = 1, h2 = 0;
+        let k1 = 0, k2 = 1;
+        let b = value;
+
+        do {
+            const a = Math.floor(b);
+            const aux = h1;
+            h1 = a * h1 + h2;
+            h2 = aux;
+            const aux2 = k1;
+            k1 = a * k1 + k2;
+            k2 = aux2;
+            b = 1 / (b - a);
+        } while (Math.abs(value - h1 / k1) > value * tolerance);
+
+        if (h1 % k1 === 0) return `${h1 / k1}`; // pure number
+        if (h1 / k1 > 1) {
+            const whole = Math.floor(h1 / k1);
+            const num = h1 - whole * k1;
+            return `${whole} ${num}/${k1}`;
+        }
+        return `${h1}/${k1}`;
+    }
+
+    // Example usage
+    const value = (testDetails?.negative_mark * myDetails?.in_correct) || 0;
+    const fractionValue = toFraction(value);
+
+    console.log(fractionValue);
+
+
     const formatTime = (totalSeconds) => {
         const hrs = Math.floor(totalSeconds / 3600);
         const mins = Math.floor((totalSeconds % 3600) / 60);
@@ -76,7 +112,19 @@ const ResultScreen = () => {
             setLoading(false);
         }
     })
+    function parseValue(val) {
+        if (!val) return 0;
+        if (typeof val === 'number') return val;
+        if (typeof val === 'string' && val.includes('/')) {
+            const [num, den] = val.split('/').map(Number);
+            return den ? num / den : 0;
+        }
+        return Number(val) || 0;
+    }
 
+    const negativeMark = parseValue(testDetails?.negative_mark);
+    const incorrect = parseValue(myDetails?.in_correct);
+    const result = negativeMark * incorrect;
 
 
     useEffect(() => {
@@ -129,7 +177,7 @@ const ResultScreen = () => {
                         {
                             isSelected === 'result' ? (
                                 <ScrollView contentContainerStyle={{
-                                    paddingBottom:screenHeight * 8,
+                                    paddingBottom: screenHeight * 8,
                                 }}>
                                     <View style={[styles.resultInfo, { backgroundColor: colors.headerBg }]}>
                                         <View style={{
@@ -137,13 +185,13 @@ const ResultScreen = () => {
                                             // alignItems: 'center',
                                             gap: 10,
                                         }}>
-                                            <CustomeText fontSize={12} style={{fontWeight:'bold'}} color={colors.textClr}>Result</CustomeText>
+                                            <CustomeText fontSize={12} style={{ fontWeight: 'bold' }} color={colors.textClr}>Result</CustomeText>
                                             <CustomeText fontSize={10} style={{
                                                 // width:"89%"
                                             }} color={colors.textClr}>{
-                                                testDetails?.title || '--'
+                                                    testDetails?.title || '--'
 
-                                            }</CustomeText>
+                                                }</CustomeText>
 
                                         </View>
                                         <View>
@@ -265,10 +313,15 @@ const ResultScreen = () => {
                                                         <CustomeText variant='h7' color={colors.textClr} style={{ textAlign: 'center', fontWeight: 'bold' }}>Negative Marks</CustomeText>
                                                         <CustomeText variant='h5' fontFamily='Poppins-Bold' color={colors.red} style={{ textAlign: 'center', fontWeight: 'bold' }}>
 
-                                                            {
-                                                                - (myDetails?.negative_mark * myDetails?.in_correct).toFixed(2) || '0'
+                                                            {/* {
+                                                                - toFraction((testDetails?.negative_mark * myDetails?.in_correct) || 0)
+                                                                
 
-                                                            }
+                                                            } */}
+
+
+                                                            {result % 1 !== 0 ? result.toFixed(2) : result}
+
                                                             {/* {resultData?.my_detail?.negative_mark !== undefined
                                                     ? parseFloat(resultData.my_detail.negative_mark).toFixed(2)
                                                     : '- -'} */}
@@ -460,7 +513,7 @@ const ResultScreen = () => {
 
 
                                         </View>
-                                      
+
                                     </View>
 
                                     <TouchableOpacity style={[styles.solutionBtn, { backgroundColor: colors.lightBlue }]} onPress={() => navigate("SolutionScreen", { testSeriesId: myDetails?.test_id, testDetails })}>

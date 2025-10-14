@@ -642,6 +642,7 @@ export const getUserCollectionDetailSlice = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const res = await UserApiProvider.getUserCollectionDetails();
+      console.log('User Collection Slice res', res)
       return res;
     } catch (error) {
       return rejectWithValue(error);

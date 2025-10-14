@@ -1,4 +1,4 @@
-import { SafeAreaView, StyleSheet, Text, View, FlatList, Image, TouchableOpacity, Modal, ScrollView, ActivityIndicator } from 'react-native'
+import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity, Modal, ScrollView, ActivityIndicator } from 'react-native'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTheme } from '../../theme/ThemeContext'
 import CommanHeader from '../../components/global/CommonHeader'
@@ -21,7 +21,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import Toast from 'react-native-toast-message'
 import { shareAll } from '../../helper/shareHelper'
 import { shareProductWithImage } from '../../utils/shareService'
-import { toggleBookmark } from '../../helper/Add_RemoveBookMark'
+import { toggleBookmark } from '../../helper/Add_RemoveBookMark';
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 const FreeQuizeScreen = () => {
     const dispatch = useDispatch()

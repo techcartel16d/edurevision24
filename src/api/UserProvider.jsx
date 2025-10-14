@@ -691,9 +691,11 @@ const UserApiProvider = {
     getUserCollectionDetails: async () => {
         try {
             const token = storage.getString('token');
+            console.log('token', token)
             const res = await axios.get(`${API_BASE_URL}/user-collection-detail-get`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
+            console.log('', )
             return res.data;
         } catch (error) {
             console.log("ERROR IN USER COLLECTION DETAILS API ", error)

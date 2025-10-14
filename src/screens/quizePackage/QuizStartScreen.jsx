@@ -558,151 +558,148 @@ const QuizStartScreen = ({ route }) => {
     // QUIZE EXIT AND SAVE PROGRASS
 
     const handleSubmit = async () => {
+  try {
+    const userData = storage.getString('user');
+    const user = userData ? JSON.parse(userData) : null;
 
-        const userData = storage.getString('user');
-        const user = userData ? JSON.parse(userData) : null;
+    const userId = user?.id;
+    const testId = data?.test_id;
 
-        const userId = user?.id;
-        const testId = data?.test_id;
+    if (!testId || !questionsState?.length) {
+      console.warn('Invalid testId or no questions');
+      return;
+    }
 
-        let totalAttendedQuestions = 0;
-        let totalNotAnsweredQuestions = 0;
-        let correct = 0;
-        let incorrect = 0;
-        let allAttendedQuestions = [];
+    // Ensure these are numbers
+    const totalMarksValue = Number(total_marks) || 0;
+    const negativeMarkValue = Number(data?.negative_mark) || 0;
 
-        const questionDataWithCorrectAnswers = questionsState.reduce((acc, question) => {
-            acc[question.id] = question.hindi_ans;
-            return acc;
-        }, {});
+    const marksPerQuestion = totalMarksValue / questionsState.length;
 
-        const marksPerQuestion = total_marks / questionsState.length;
-        const negativeMark = data?.negative_mark;
+    let totalAttendedQuestions = 0;
+    let totalNotAnsweredQuestions = 0;
+    let correct = 0;
+    let incorrect = 0;
+    let allAttendedQuestions = [];
 
-        questionsState.forEach((question, index) => {
-            const selectedAnswer = selectedOptions[index];
-            const correctAnswer = questionDataWithCorrectAnswers[question.id];
+    const questionDataWithCorrectAnswers = questionsState.reduce((acc, question) => {
+      acc[question.id] = question.hindi_ans;
+      return acc;
+    }, {});
 
-            if (selectedAnswer) {
-                totalAttendedQuestions++;
-                if (selectedAnswer === correctAnswer) {
-                    correct++;
-                } else {
-                    incorrect++;
-                }
-                allAttendedQuestions.push({
-                    question_id: question.id,
-                    user_selected_ans: selectedAnswer,
-                    right_ans: correctAnswer.toLowerCase(),
-                });
-            } else {
-                totalNotAnsweredQuestions++;
-            }
-        });
+    questionsState.forEach((question, index) => {
+      const selectedAnswer = selectedOptions[index];
+      const correctAnswer = questionDataWithCorrectAnswers[question.id];
 
-        const totalMarks = questionsState.length * marksPerQuestion;
-        const marksScored = (correct * marksPerQuestion) - (incorrect * negativeMark);
+      if (selectedAnswer != null && selectedAnswer !== '') {
+        totalAttendedQuestions++;
 
-        const currentId = questionsState[currentQuestion]?.id;
-        await saveTimeSpent(currentId); // ✅ Track time
-
-        const submissionData = {
-            test_id: testId,
-            total_attend_question: totalAttendedQuestions,
-            total_not_answer_question: totalNotAnsweredQuestions,
-            correct,
-            in_correct: incorrect,
-            marks: marksScored,
-            time: timeLeft,
-            negative_mark: negativeMark,
-            all_attend_question: allAttendedQuestions,
-            spent_time: timeSpent,
-            skip_question: skippedQuestions,
-            attend_question: optionSelected,
-            mark_for_review: markedForReview
-
-        };
-
-        // console.log("📤 submissionData", submissionData);
-        // console.log("📤 optionSelected", optionSelected);
-        // console.log("📤 markedForReview", markedForReview);
-
-
-
-        try {
-            setLoading(true)
-            const res = await dispatch(attendQuestionSubmitSlice(submissionData)).unwrap();
-
-            console.log("res after sumbit", res)
-
-            if (res.status_code === 200) {
-                setLoading(false)
-                Toast.show({
-                    type: "success",
-                    text1: "Test Submitted Successfully",
-                    text2: res.message
-                });
-
-
-                console.log("✅ Summary data saved in MMKV");
-
-                // ⛔ Old keys cleanup in AsyncStorage
-                const timersKey = `${STORAGE_KEY}_${userId}_${testId}`;
-
-                await AsyncStorage.multiRemove([
-                    `quiz_${testId}_options`,
-                    `markedForReview_${userId}_${testId}`,
-                    `skippedQuestions_${userId}_${testId}`,
-                    `selectedOption_${userId}_${testId}`,
-                    `test_progress_${userId}_${testId}`,
-                    timersKey
-                ]);
-
-                const TestStatusStr = storage.getString("test_status");
-                let testStatusPars = TestStatusStr ? JSON.parse(TestStatusStr) : [];
-
-                // Filter out the object which matches both test_id and userId
-                const updatedStatus = testStatusPars.filter(obj => !(obj.test_id === testId && obj.userId === userId));
-
-                // Save back to storage
-                storage.set('test_status', JSON.stringify(updatedStatus));
-
-                const timeKey = `questionTimeSpent_${userId}_${testId}`;
-
-                storage.set(timeKey, JSON.stringify([]));
-
-
-                setIsSummeryModalShow(false);
-
-                replace("ResultScreen", {
-                    categoryId,
-                    testId: packgetId,
-                    data,
-                    markedForReview,
-                    skippedQuestions
-                });
-            } else if (res.status_code == 500) {
-                Toast.show({
-                    type: "error",
-                    text1: "Test not Submit",
-                    text2: res.message
-                });
-
-                setIsSummeryModalShow(false)
-            } else {
-                Toast.show({
-                    type: "error",
-                    text1: "Test Submit",
-                    text2: res.message
-                });
-            }
-
-        } catch (error) {
-            console.log("[❌ ERROR IN SUBMITTING TEST]", error);
-        } finally {
-            setLoading(false)
+        if (selectedAnswer === correctAnswer) {
+          correct++;
+        } else {
+          incorrect++;
         }
+
+        allAttendedQuestions.push({
+          question_id: question.id,
+          user_selected_ans: selectedAnswer,
+          right_ans: correctAnswer?.toLowerCase(),
+        });
+      } else {
+        totalNotAnsweredQuestions++;
+      }
+    });
+
+    // Calculate marks scored safely
+    const marksScored = correct * marksPerQuestion - incorrect * negativeMarkValue;
+    const safeMarksScored = isNaN(marksScored) ? 0 : marksScored;
+
+    // Track time spent for current question
+    const currentId = questionsState[currentQuestion]?.id;
+    if (currentId) {
+      await saveTimeSpent(currentId);
+    }
+
+    const submissionData = {
+      test_id: testId,
+      total_attend_question: totalAttendedQuestions,
+      total_not_answer_question: totalNotAnsweredQuestions,
+      correct,
+      in_correct: incorrect,
+      marks: safeMarksScored,
+      time: timeLeft,
+      negative_mark: negativeMarkValue,
+      all_attend_question: allAttendedQuestions,
+      spent_time: timeSpent,
+      skip_question: skippedQuestions,
+      attend_question: optionSelected,
+      mark_for_review: markedForReview,
     };
+
+    console.log("📤 submissionData", submissionData);
+
+    setLoading(true);
+    const res = await dispatch(attendQuestionSubmitSlice(submissionData)).unwrap();
+
+    if (res.status_code === 200) {
+      Toast.show({
+        type: "success",
+        text1: "Test Submitted Successfully",
+        text2: res.message,
+      });
+
+      const timersKey = `${STORAGE_KEY}_${userId}_${testId}`;
+
+      await AsyncStorage.multiRemove([
+        `quiz_${testId}_options`,
+        `markedForReview_${userId}_${testId}`,
+        `skippedQuestions_${userId}_${testId}`,
+        `selectedOption_${userId}_${testId}`,
+        `test_progress_${userId}_${testId}`,
+        timersKey,
+      ]);
+
+      // Remove completed test entries from local test_status storage
+      const TestStatusStr = storage.getString("test_status");
+      let testStatusPars = TestStatusStr ? JSON.parse(TestStatusStr) : [];
+      const updatedStatus = testStatusPars.filter(obj => !(obj.test_id === testId && obj.userId === userId));
+      storage.set('test_status', JSON.stringify(updatedStatus));
+
+      // Clear time spent for questions
+      const timeKey = `questionTimeSpent_${userId}_${testId}`;
+      storage.set(timeKey, JSON.stringify([]));
+
+      setIsSummeryModalShow(false);
+
+      // Navigate to result screen
+      replace("ResultScreen", {
+        categoryId,
+        testId: packgetId,
+        data,
+        markedForReview,
+        skippedQuestions,
+      });
+    } else if (res.status_code === 500) {
+      Toast.show({
+        type: "error",
+        text1: "Test not Submitted",
+        text2: res.message,
+      });
+      setIsSummeryModalShow(false);
+    } else {
+      Toast.show({
+        type: "error",
+        text1: "Test Submit Failed",
+        text2: res.message,
+      });
+    }
+  } catch (error) {
+    console.error('[❌ ERROR IN SUBMITTING TEST]', error);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
 
 

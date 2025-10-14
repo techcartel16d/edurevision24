@@ -25,6 +25,7 @@ import CommonModal from '../components/global/CommonModal';
 import { verifyToken } from '../utils/checkIsAuth';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+
 const Drawer = createDrawerNavigator();
 
 const storage = new MMKV();
@@ -164,6 +165,7 @@ const CustomDrawerContent = ({ navigation }) => {
                     borderWidth: 0.6,
                     borderColor: COLORS.lightColor,
                     overflow: 'hidden',
+                    marginTop:15,
                     ...Platform.select({
                         ios: {
                             shadowColor: '#000',
@@ -181,7 +183,8 @@ const CustomDrawerContent = ({ navigation }) => {
                     flex: 1,
                     height: Platform.OS === 'ios' ? screenWidth * 18 : screenWidth * 20,
                     paddingHorizontal: screenWidth * 2,
-                    justifyContent: 'center'
+                    justifyContent: 'center',
+                     marginTop:15,
                 }}>
                     <CustomeText color={colors.white} fontSize={Platform.OS === 'ios' ? 14 : 14} style={{ fontWeight: 'bold' }}>{userData?.name || 'Guest User'}</CustomeText>
                     <CustomeText color={colors.white} fontSize={Platform.OS === 'ios' ? 10 : 10} style={{}}>{userData?.slug || ''}</CustomeText>

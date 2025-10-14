@@ -1,5 +1,4 @@
 import {
-    SafeAreaView,
     StyleSheet,
     Text,
     TextInput,
@@ -18,6 +17,8 @@ import AuthHeader from '../authHeader/AuthHeader';
 import { useTheme } from '../../../theme/ThemeContext';
 import CustomeText from '../../../components/global/CustomeText';
 import Toast from 'react-native-toast-message';
+import { SafeAreaView } from 'react-native-safe-area-context';
+ 
 
 const ForgotPasswordSetPassword = ({ route }) => {
     const { colors } = useTheme().theme
