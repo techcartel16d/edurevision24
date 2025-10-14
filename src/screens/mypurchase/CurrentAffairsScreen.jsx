@@ -45,60 +45,13 @@ const CurrentAffairsScreen = () => {
     const [currentAffairsData, setCurrentAffairsData] = useState([]);
     const [bookmarkedIds, setBookmarkedIds] = useState([]);
     const [languageSelected, setLanguageSelected] = useState('Hindi');
-    const [selectedYear, setSelectedYear] = useState(null);
+    const [selectedYearMonth, setSelectedYearMonth] = useState(null);
     const [selectedDate, setSelectedDate] = useState(null);
-    const [years, setYears] = useState([]);
+    const [yearMonths, setYearMonths] = useState([]);
     const [dates, setDates] = useState([]);
     const { width: contentWidth } = useWindowDimensions();
     const [modalVisible, setModalVisible] = useState(false);
     const navigation = useNavigation();
-
-    // Extract years and dates from data (DD-MM-YYYY format)
-    const processData = (data) => {
-        const yearMap = new Map();
-        
-        Object.keys(data).forEach(dateStr => {
-            // Parse DD-MM-YYYY format
-            const [day, month, year] = dateStr.split('-').map(Number);
-            const date = new Date(year, month - 1, day); // month is 0-indexed in Date
-            
-            const formattedDate = `${day} ${getMonthName(month)}`;
-            
-            if (!yearMap.has(year)) {
-                yearMap.set(year, []);
-            }
-            yearMap.get(year).push({
-                originalDate: dateStr,
-                displayDate: formattedDate,
-                timestamp: date.getTime(),
-                day: day,
-                month: month,
-                year: year
-            });
-        });
-
-        // Sort dates within each year (newest first)
-        yearMap.forEach(dates => {
-            dates.sort((a, b) => b.timestamp - a.timestamp);
-        });
-
-        // Get available years and sort descending (newest first)
-        const sortedYears = Array.from(yearMap.keys()).sort((a, b) => b - a);
-        setYears(sortedYears);
-        
-        // Set initial year and date if not set
-        if (sortedYears.length > 0 && !selectedYear) {
-            const firstYear = sortedYears[0];
-            setSelectedYear(firstYear);
-            const firstYearDates = yearMap.get(firstYear);
-            setDates(firstYearDates);
-            if (firstYearDates.length > 0 && !selectedDate) {
-                setSelectedDate(firstYearDates[0].originalDate);
-            }
-        }
-        
-        return yearMap;
-    };
 
     // Helper function to get month name
     const getMonthName = (monthNumber) => {
@@ -109,6 +62,72 @@ const CurrentAffairsScreen = () => {
         return months[monthNumber - 1];
     };
 
+    // Helper function to get full month name
+    const getFullMonthName = (monthNumber) => {
+        const months = [
+            'January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December'
+        ];
+        return months[monthNumber - 1];
+    };
+
+    // Process data to extract year-month combinations and dates
+    const processData = (data) => {
+        const yearMonthMap = new Map();
+        
+        Object.keys(data).forEach(dateStr => {
+            // Parse DD-MM-YYYY format
+            const [day, month, year] = dateStr.split('-').map(Number);
+            const date = new Date(year, month - 1, day);
+            
+            const yearMonthKey = `${year}-${month.toString().padStart(2, '0')}`;
+            const formattedDate = `${day} ${getMonthName(month)}`;
+            
+            if (!yearMonthMap.has(yearMonthKey)) {
+                yearMonthMap.set(yearMonthKey, {
+                    year: year,
+                    month: month,
+                    displayName: `${getFullMonthName(month)} ${year}`,
+                    dates: []
+                });
+            }
+            
+            yearMonthMap.get(yearMonthKey).dates.push({
+                originalDate: dateStr,
+                displayDate: formattedDate,
+                timestamp: date.getTime(),
+                day: day,
+                month: month,
+                year: year
+            });
+        });
+
+        // Sort dates within each year-month (newest first)
+        yearMonthMap.forEach(yearMonth => {
+            yearMonth.dates.sort((a, b) => b.timestamp - a.timestamp);
+        });
+
+        // Get available year-months and sort descending (newest first)
+        const sortedYearMonths = Array.from(yearMonthMap.values()).sort((a, b) => {
+            if (b.year !== a.year) return b.year - a.year;
+            return b.month - a.month;
+        });
+        
+        setYearMonths(sortedYearMonths);
+        
+        // Set initial year-month and date if not set
+        if (sortedYearMonths.length > 0 && !selectedYearMonth) {
+            const firstYearMonth = sortedYearMonths[0];
+            setSelectedYearMonth(firstYearMonth);
+            setDates(firstYearMonth.dates);
+            if (firstYearMonth.dates.length > 0 && !selectedDate) {
+                setSelectedDate(firstYearMonth.dates[0].originalDate);
+            }
+        }
+        
+        return yearMonthMap;
+    };
+
     // Fetch affairs
     const fetchCurrentAffairs = async () => {
         try {
@@ -116,7 +135,7 @@ const CurrentAffairsScreen = () => {
             console.log('API Response:', res);
             
             if (res.data) {
-                const yearMap = processData(res.data);
+                const yearMonthMap = processData(res.data);
                 
                 // Transform data for easy access
                 const transformed = Object.keys(res.data)
@@ -130,7 +149,7 @@ const CurrentAffairsScreen = () => {
                     .map(date => ({ date, items: res.data[date] }));
 
                 setCurrentAffairsData(transformed);
-                console.log('Available years:', Array.from(yearMap.keys()));
+                console.log('Available year-months:', yearMonths);
                 console.log('Transformed data:', transformed.length, 'dates');
             }
         } catch (error) {
@@ -138,36 +157,15 @@ const CurrentAffairsScreen = () => {
         }
     };
 
-    // Handle year selection
-    const handleYearSelect = (year) => {
-        console.log('Year selected:', year);
-        setSelectedYear(year);
+    // Handle year-month selection
+    const handleYearMonthSelect = (yearMonth) => {
+        console.log('Year-Month selected:', yearMonth.displayName);
+        setSelectedYearMonth(yearMonth);
+        setDates(yearMonth.dates);
         
-        // Filter dates for selected year
-        const yearDates = currentAffairsData
-            .filter(item => {
-                const [day, month, itemYear] = item.date.split('-').map(Number);
-                return itemYear === year;
-            })
-            .map(item => {
-                const [day, month, year] = item.date.split('-').map(Number);
-                return {
-                    originalDate: item.date,
-                    displayDate: `${day} ${getMonthName(month)}`,
-                    timestamp: new Date(year, month - 1, day).getTime(),
-                    day: day,
-                    month: month,
-                    year: year
-                };
-            })
-            .sort((a, b) => b.timestamp - a.timestamp);
-        
-        console.log(`Dates for ${year}:`, yearDates.length);
-        setDates(yearDates);
-        
-        // Auto-select first date of the selected year
-        if (yearDates.length > 0) {
-            setSelectedDate(yearDates[0].originalDate);
+        // Auto-select first date of the selected year-month
+        if (yearMonth.dates.length > 0) {
+            setSelectedDate(yearMonth.dates[0].originalDate);
         } else {
             setSelectedDate(null);
         }
@@ -356,29 +354,35 @@ const CurrentAffairsScreen = () => {
                 </View>
 
                 <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
-                    {/* Year Filter Section */}
+                    {/* Year-Month Filter Section */}
                     <View style={styles.filterSection}>
-                        <Text style={styles.filterSectionTitle}>Select Year</Text>
+                        <Text style={styles.filterSectionTitle}>Select Month & Year</Text>
                         <ScrollView 
                             horizontal 
                             showsHorizontalScrollIndicator={false} 
-                            style={styles.yearFilterContainer}
-                            contentContainerStyle={styles.yearFilterContent}
+                            style={styles.yearMonthFilterContainer}
+                            contentContainerStyle={styles.yearMonthFilterContent}
                         >
-                            {years.map((year) => (
+                            {yearMonths.map((yearMonth) => (
                                 <TouchableOpacity
-                                    key={year}
-                                    onPress={() => handleYearSelect(year)}
+                                    key={`${yearMonth.year}-${yearMonth.month}`}
+                                    onPress={() => handleYearMonthSelect(yearMonth)}
                                     style={[
-                                        styles.yearButton,
-                                        selectedYear === year && styles.selectedYearButton
+                                        styles.yearMonthButton,
+                                        selectedYearMonth && 
+                                        selectedYearMonth.year === yearMonth.year && 
+                                        selectedYearMonth.month === yearMonth.month && 
+                                        styles.selectedYearMonthButton
                                     ]}
                                 >
                                     <Text style={[
-                                        styles.yearButtonText,
-                                        selectedYear === year && styles.selectedYearButtonText
+                                        styles.yearMonthButtonText,
+                                        selectedYearMonth && 
+                                        selectedYearMonth.year === yearMonth.year && 
+                                        selectedYearMonth.month === yearMonth.month && 
+                                        styles.selectedYearMonthButtonText
                                     ]}>
-                                        {year}
+                                        {yearMonth.displayName}
                                     </Text>
                                 </TouchableOpacity>
                             ))}
@@ -388,7 +392,7 @@ const CurrentAffairsScreen = () => {
                     {/* Date Filter Section */}
                     <View style={styles.filterSection}>
                         <Text style={styles.filterSectionTitle}>
-                            {selectedYear ? `Dates for ${selectedYear}` : 'Select Year First'}
+                            {selectedYearMonth ? `Dates for ${selectedYearMonth.displayName}` : 'Select Month & Year First'}
                         </Text>
                         {dates.length > 0 ? (
                             <ScrollView 
@@ -416,7 +420,7 @@ const CurrentAffairsScreen = () => {
                                 ))}
                             </ScrollView>
                         ) : (
-                            <Text style={styles.noDatesText}>No dates available for {selectedYear}</Text>
+                            <Text style={styles.noDatesText}>No dates available for {selectedYearMonth?.displayName}</Text>
                         )}
                     </View>
 
@@ -576,11 +580,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 12,
         paddingVertical: 6,
         borderRadius: 20,
-        // shadowColor: "#000",
-        // shadowOffset: { width: 0, height: 2 },
-        // shadowOpacity: 0.1,
-        // shadowRadius: 4,
-        // elevation: 3,
         zIndex: 10,
     },
     languageText: {
@@ -588,7 +587,6 @@ const styles = StyleSheet.create({
         marginRight: 8,
     },
     filterSection: {
-        // marginTop: 20,
         paddingHorizontal: 16,
     },
     filterSectionTitle: {
@@ -597,12 +595,12 @@ const styles = StyleSheet.create({
         color: '#333',
         marginBottom: 12,
         marginLeft: 4,
-        marginTop:5
+        marginTop: 5
     },
-    yearFilterContainer: {
+    yearMonthFilterContainer: {
         marginBottom: 16,
     },
-    yearFilterContent: {
+    yearMonthFilterContent: {
         paddingHorizontal: 4,
     },
     dateFilterContainer: {
@@ -611,27 +609,28 @@ const styles = StyleSheet.create({
     dateFilterContent: {
         paddingHorizontal: 4,
     },
-    yearButton: {
-        paddingVertical: 10,
-        paddingHorizontal: 24,
+    yearMonthButton: {
+        paddingVertical: 12,
+        paddingHorizontal: 20,
         marginHorizontal: 6,
         backgroundColor: '#f0f4ff',
         borderRadius: 25,
         borderWidth: 1,
         borderColor: '#e1e8ff',
-        minWidth: 80,
+        minWidth: 120,
         alignItems: 'center',
     },
-    selectedYearButton: {
+    selectedYearMonthButton: {
         backgroundColor: '#4F8EF7',
         borderColor: '#4F8EF7',
     },
-    yearButtonText: {
-        fontSize: 16,
+    yearMonthButtonText: {
+        fontSize: 14,
         fontWeight: '600',
         color: '#666',
+        textAlign: 'center',
     },
-    selectedYearButtonText: {
+    selectedYearMonthButtonText: {
         color: '#fff',
     },
     dateButton: {

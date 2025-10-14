@@ -211,7 +211,7 @@ const ScholarShipInstructionScreen = ({ route }) => {
 
                     <CustomCheckbox
                         label="Declaration:
-                I have read all the instructions carefully and have understood them. I agree not to cheat or use unfair means in this examination, I understand that ang under of any owosome advantage will lead to my immediate disqualification. The decision of Testbook.com will be final in these matters and cannot be apposin"
+                I have read all the instructions carefully and have understood them. I agree not to cheat or use unfair means in this examination, I understand that ang under of any owosome advantage will lead to my immediate disqualification. The decision of REVISION24.COM will be final in these matters and cannot be apposin"
                         checked={isChecked}
                         onChange={setIsChecked}
                     />

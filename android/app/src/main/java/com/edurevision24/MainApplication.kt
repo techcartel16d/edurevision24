@@ -11,6 +11,7 @@ import com.facebook.react.defaults.DefaultReactHost.getDefaultReactHost
 import com.facebook.react.defaults.DefaultReactNativeHost
 import com.facebook.react.soloader.OpenSourceMergedSoMapping
 import com.facebook.soloader.SoLoader
+import java.io.File
 
 class MainApplication : Application(), ReactApplication {
 
@@ -28,6 +29,17 @@ class MainApplication : Application(), ReactApplication {
 
         override val isNewArchEnabled: Boolean = BuildConfig.IS_NEW_ARCHITECTURE_ENABLED
         override val isHermesEnabled: Boolean = BuildConfig.IS_HERMES_ENABLED
+
+        // Override to load the OTA bundle if present
+        override fun getJSBundleFile(): String? {
+          val path = applicationContext.filesDir.absolutePath + "/update.bundle"
+          val file = File(path)
+          return if (file.exists()) {
+            path
+          } else {
+            super.getJSBundleFile()
+          }
+        }
       }
 
   override val reactHost: ReactHost
@@ -37,7 +49,7 @@ class MainApplication : Application(), ReactApplication {
     super.onCreate()
     SoLoader.init(this, OpenSourceMergedSoMapping)
     if (BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {
-      // If you opted-in for the New Architecture, we load the native entry point for this app.
+      // If you opted-in for the New Architecture, load native entry point for the app.
       load()
     }
   }
