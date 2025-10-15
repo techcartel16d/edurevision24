@@ -5,6 +5,7 @@ import AllRoutes from './src/navigation/AllRoutes';
 import { requestNotificationPermission } from './src/utils/requestPermissions';
 import { registerNotificationListeners } from './src/utils/notificationService';
 import { loadBundle } from './src/helper/loadBundle';
+import SplaceScreen from './src/screens/splace/SplaceScreen';
 
 // URL where your app version and bundle info are hosted
 const SERVER_URL =
@@ -56,13 +57,13 @@ const App = () => {
   }, []);
 
   // 🔹 Loading or error UI
-  // if (loading) {
-  //   return (
-  //     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-  //       <Text>Checking for updates...</Text>
-  //     </View>
-  //   );
-  // }
+  if (loading) {
+    return (
+      <>
+        <SplaceScreen />
+      </>
+    );
+  }
 
   // if (error) {
   //   return (
