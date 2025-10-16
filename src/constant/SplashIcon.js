@@ -1,9 +1,11 @@
-import Icon1 from '../../assets/icons/FreeQuiz.png';
-import Icon2 from '../../assets/icons/DoubtSolving.png';
-import Icon3 from '../../assets/icons/Examinfo.png';
-import Icon4 from '../../assets/icons/MindMaps.png';
-import Icon5 from '../../assets/icons/video.png';
-import Icon6 from '../../assets/icons/Time.png';
-import Logo from '../../assets/image/logo.png';
+const Icon1 = { uri: 'https://revision24.com/bundles/drawable-mdpi/assets_icons_freequiz.png' };
+const Icon2 = { uri: 'https://revision24.com/bundles/drawable-mdpi/assets_icons_doubtsolving.png' };
+const Icon3 = { uri: 'https://revision24.com/bundles/drawable-mdpi/assets_icons_examinfo.png' };
+const Icon4 = { uri: 'https://revision24.com/bundles/drawable-mdpi/assets_icons_mindmaps.png' };
+const Icon5 = { uri: 'https://revision24.com/bundles/drawable-mdpi/assets_icons_video.png' };
+const Icon6 = { uri: 'https://revision24.com/bundles/drawable-mdpi/assets_icons_time.png' };
 
-export {Icon1, Icon2, Icon3, Icon4, Icon5, Icon6,Logo};
+// Assuming logo is in drawable-mdpi with prefix 'assets_image_'
+const Logo = { uri: 'https://revision24.com/bundles/drawable-mdpi/assets_image_logo.png' };
+
+export { Icon1, Icon2, Icon3, Icon4, Icon5, Icon6, Logo };

@@ -127,7 +127,7 @@ const LoginScreen = () => {
           keyboardShouldPersistTaps="handled">
           <View style={styles.loginLogoBox}>
             <Image
-              source={require('../../../../assets/image/loginImg1.png')}
+              source={{uri : "https://revision24.com/bundles/drawable-mdpi/assets_image_loginimg1.png"}}
               style={styles.loginLogo}
             />
           </View>

@@ -5,21 +5,33 @@ import { useTheme } from '../../theme/ThemeContext';
 import CustomeText from '../global/CustomeText';
 import { navigate } from '../../utils/NavigationUtil';
 
-import FreeQuiz from '../../../assets/icons/FreeQuiz.png';
-import StudyNotes from '../../../assets/icons/StudyNotes.png';
-import CurrentAffairs from '../../../assets/icons/CurrentAffairs.png';
-import TopicWisePractice from '../../../assets/icons/TopicWisePractice.png';
-import PreviousYear from '../../../assets/icons/PreviousYear.png';
-import ProgressTracker from '../../../assets/icons/ProgressTracker.png';
-import MindMaps from '../../../assets/icons/MindMaps.png'
-import Examinfo from '../../../assets/icons/Examinfo.png';
-import TestSeries from '../../../assets/icons/testseries.png';
-import Video from '../../../assets/icons/video.png';
-import DoubtSolving from '../../../assets/icons/DoubtSolving.png';
-import PracticeSets from '../../../assets/icons/PracticeSets.png';
-import Toast from 'react-native-toast-message';
+// import FreeQuiz from '../../../assets/icons/FreeQuiz.png';
+// import StudyNotes from '../../../assets/icons/StudyNotes.png';
+// import CurrentAffairs from '../../../assets/icons/CurrentAffairs.png';
+// import TopicWisePractice from '../../../assets/icons/TopicWisePractice.png';
+// import PreviousYear from '../../../assets/icons/PreviousYear.png';
+// import ProgressTracker from '../../../assets/icons/ProgressTracker.png';
+// import MindMaps from '../../../assets/icons/MindMaps.png'
+// import Examinfo from '../../../assets/icons/Examinfo.png';
+// import TestSeries from '../../../assets/icons/testseries.png';
+// import Video from '../../../assets/icons/video.png';
+// import DoubtSolving from '../../../assets/icons/DoubtSolving.png';
+// import PracticeSets from '../../../assets/icons/PracticeSets.png';
+// import Toast from 'react-native-toast-message';
 import { verifyToken } from '../../utils/checkIsAuth';
 
+const FreeQuiz = { uri: 'https://revision24.com/bundles/drawable-mdpi/assets_icons_freequiz.png' };
+const StudyNotes = { uri: 'https://revision24.com/bundles/drawable-mdpi/assets_icons_studynotes.png' };
+const CurrentAffairs = { uri: 'https://revision24.com/bundles/drawable-mdpi/assets_icons_currentaffairs.png' };
+const TopicWisePractice = { uri: 'https://revision24.com/bundles/drawable-mdpi/assets_icons_topicwisepractice.png' };
+const PreviousYear = { uri: 'https://revision24.com/bundles/drawable-mdpi/assets_icons_previousyear.png' };
+const ProgressTracker = { uri: 'https://revision24.com/bundles/drawable-mdpi/assets_icons_progresstracker.png' };
+const MindMaps = { uri: 'https://revision24.com/bundles/drawable-mdpi/assets_icons_mindmaps.png' };
+const Examinfo = { uri: 'https://revision24.com/bundles/drawable-mdpi/assets_icons_examinfo.png' };
+const TestSeries = { uri: 'https://revision24.com/bundles/drawable-mdpi/assets_icons_testseries.png' };
+const Video = { uri: 'https://revision24.com/bundles/drawable-mdpi/assets_icons_video.png' };
+const DoubtSolving = { uri: 'https://revision24.com/bundles/drawable-mdpi/assets_icons_doubtsolving.png' };
+const PracticeSets = { uri: 'https://revision24.com/bundles/drawable-mdpi/assets_icons_practicesets.png' };
 
 
 

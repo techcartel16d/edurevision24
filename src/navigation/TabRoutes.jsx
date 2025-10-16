@@ -115,7 +115,7 @@ function HomeStack() {
                             tabBarIcon: ({ color, size, focused }) => (
                                 <Animated.Image
                                     // source={require('../../assets/image/coin.png')}
-                                    source={require('../../assets/icons/tab_icon.png')}
+                                    source={{uri: 'https://revision24.com/bundles/drawable-mdpi/assets_icons_tab_icon.png'}}
                                     style={{
                                         width: screenWidth * 9,
                                         height: screenWidth * 9,

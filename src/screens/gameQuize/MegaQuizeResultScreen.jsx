@@ -631,7 +631,7 @@ const MegaQuizeResultScreen = () => {
                         gap: screenHeight
                     }}>
                         <LottieView
-                            source={require("../../lottifile/wait.json")}
+                            source={{uri : "https://revision24.com/lottifile/wait.json"}}
                             style={{
                                 width: screenWidth * 70,
                                 height: screenWidth * 70

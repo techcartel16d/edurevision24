@@ -1,7 +1,8 @@
 import Share from 'react-native-share';
 import { Platform } from 'react-native';
-import logo from "../../assets/image/logo.png"
 
+
+const logo = {uri : "https://revision24.com/bundles/drawable-mdpi/assets_image_logo.png"}
 // 🧩 Combine message, link, and image/base64
 const getShareOptions = (message, link = '', image = '') => {
   const text = [message, link].filter(Boolean).join('\n');

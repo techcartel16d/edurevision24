@@ -702,7 +702,8 @@ const GameQuizScreen = () => {
                               justifyContent: 'flex-start',
                               gap: screenWidth * 1.2
                             }}>
-                              <Image source={require("../../../assets/image/first_price.png")} style={{
+                              {/* require("../../../assets/image/first_price.png") */}
+                              <Image source={{uri :  "https://revision24.com/bundles/drawable-mdpi/assets_image_first_price.png"}} style={{
                                 width: 18,
                                 height: 18,
                                 resizeMode: 'cover'

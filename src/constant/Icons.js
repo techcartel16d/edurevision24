@@ -1,22 +1,22 @@
-const studyVideoIcon = require('../../assets/icons/play.png');
-const studyLessionIcon = require('../../assets/icons/lesson.png');
-const studyClassNotesIcon = require('../../assets/icons/class_notes.png');
-const studyStudyNotesIcon = require('../../assets/icons/studynotes2.png');
-const studyArticalIcon = require('../../assets/icons/article.png');
-const studyQuestionIcon = require('../../assets/icons/question.png');
-const studyTestIcon = require('../../assets/icons/test.png');
-const studyDownloadIcon = require('../../assets/icons/download.png');
-const studyReportIcon = require('../../assets/icons/error.png');
-const studyNewsIcon = require('../../assets/icons/news.png');
-const bookIcon = require('../../assets/icons/previous_yearBook.png');
+const studyVideoIcon = { uri: 'https://revision24.com/bundles/drawable-mdpi/assets_icons_play.png' };
+const studyLessionIcon = { uri: 'https://revision24.com/bundles/drawable-mdpi/assets_icons_lesson.png' };
+const studyClassNotesIcon = { uri: 'https://revision24.com/bundles/drawable-mdpi/assets_icons_class_notes.png' };
+const studyStudyNotesIcon = { uri: 'https://revision24.com/bundles/drawable-mdpi/assets_icons_studynotes2.png' };
+const studyArticalIcon = { uri: 'https://revision24.com/bundles/drawable-mdpi/assets_icons_article.png' };
+const studyQuestionIcon = { uri: 'https://revision24.com/bundles/drawable-mdpi/assets_icons_question.png' };
+const studyTestIcon = { uri: 'https://revision24.com/bundles/drawable-mdpi/assets_icons_test.png' };
+const studyDownloadIcon = { uri: 'https://revision24.com/bundles/drawable-mdpi/assets_icons_download.png' };
+const studyReportIcon = { uri: 'https://revision24.com/bundles/drawable-mdpi/assets_icons_error.png' };
+const studyNewsIcon = { uri: 'https://revision24.com/bundles/drawable-mdpi/assets_icons_news.png' };
+const bookIcon = { uri: 'https://revision24.com/bundles/drawable-mdpi/assets_icons_previous_yearbook.png' };
 
-// SUBSCRIPTION ICON
-const icon1 = require('../../assets/subscription_icon/1.png');
-const icon2 = require('../../assets/subscription_icon/2.png');
-const icon3 = require('../../assets/subscription_icon/3.png');
-const icon4 = require('../../assets/subscription_icon/4.png');
-const icon5 = require('../../assets/subscription_icon/5.png');
-const icon6 = require('../../assets/subscription_icon/6.png');
+// Subscription icons
+const icon1 = { uri: 'https://revision24.com/bundles/drawable-mdpi/assets_subscription_icon_1.png' };
+const icon2 = { uri: 'https://revision24.com/bundles/drawable-mdpi/assets_subscription_icon_2.png' };
+const icon3 = { uri: 'https://revision24.com/bundles/drawable-mdpi/assets_subscription_icon_3.png' };
+const icon4 = { uri: 'https://revision24.com/bundles/drawable-mdpi/assets_subscription_icon_4.png' };
+const icon5 = { uri: 'https://revision24.com/bundles/drawable-mdpi/assets_subscription_icon_5.png' };
+const icon6 = { uri: 'https://revision24.com/bundles/drawable-mdpi/assets_subscription_icon_6.png' };
 
 const subscriptionIcon = {
   icon1,
@@ -40,5 +40,4 @@ export {
   studyNewsIcon,
   bookIcon,
   subscriptionIcon,
-  // Add more icons as needed
 };

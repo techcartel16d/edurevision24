@@ -95,7 +95,7 @@ const RegisterScreen = () => {
           <CustomeText fontSize={22}>Register</CustomeText>
         </View> */}
         <View style={styles.registerLogoBox}>
-          <Image style={styles.registerLogo} source={require('../../../../assets/image/registerBg.png')} />
+          <Image style={styles.registerLogo} source={{uri : "https://revision24.com/bundles/drawable-mdpi/assets_image_registerbg.png"}} />
         </View>
 
         <View style={styles.registerInputContainer}>

@@ -348,7 +348,7 @@ console.log("scholarData", scholarData)
                             alignItems: 'center',
                             justifyContent: 'center'
                         }}>
-                            <Image source={require("../../../assets/image/not_found.png")} style={{
+                            <Image source={{uri :  "https://revision24.com/bundles/drawable-mdpi/assets_image_not_found.png"}} style={{
                                 width: screenWidth * 30,
                                 height: screenWidth * 30
                             }} />
