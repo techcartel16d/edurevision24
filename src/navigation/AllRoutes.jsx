@@ -71,6 +71,7 @@ import PurchasedBatch from '../screens/practicBatch/PurchasedBatch';
 import BatchVideos from '../screens/practicBatch/BatchVideos';
 import AttemptedTestPage from '../screens/attempted/AttemptedTestPage';
 import  AnaylisScreen from '../screens/attempted/AnaylisScreen'
+import SubscriptionPaymentSummary from '../screens/subcription/SubscriptionPaymentSummary';
 
 
 
@@ -192,6 +193,10 @@ const MainNavigator = () => {
 
            <Stack.Screen name="AttemptedTestPage" component={AttemptedTestPage} />
            <Stack.Screen name="AnaylisScreen" component={AnaylisScreen} />
+
+
+
+           <Stack.Screen name="SubscriptionPaymentSummary" component={SubscriptionPaymentSummary} />
 
 
 

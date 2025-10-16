@@ -1,4 +1,4 @@
-import { ActivityIndicator, Alert, Button, Image, ImageBackground, Linking, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, Alert, Button, Image, ImageBackground, Linking, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useTheme } from '../../theme/ThemeContext'
 import { fullWidth, screenHeight, screenWidth } from '../../utils/Constant';
@@ -19,6 +19,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { subscriptionIcon } from '../../constant/Icons';
 import FAQAccordion from '../../components/faq/FAQAccordion';
 import { getPaymentSlice, getPaymentSubscriptionSlice } from '../../redux/paymentGetwaySlice';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 const faqData = [
@@ -108,8 +109,8 @@ const SubscriptionsScreen = () => {
         try {
             setLoading(true)
             const res = await dispatch(getSubscriptionSlice()).unwrap()
-            // console.log("response", res)
-            // console.log("subscription id.plus====>", res.data)
+            console.log("response", res)
+            console.log("subscription id.plus====>", res.data)
             setPlanId(res.data.plus.id)
             setSubscriptionData(res.data)
             setLoading(false)
@@ -297,55 +298,81 @@ const SubscriptionsScreen = () => {
     //     }
     // };
 
-    const handlePayment = async () => {
-        // let price = Number(isPriceSelected)
-        // console.log(price)
-        // return
+    // const handlePayment = async () => {
+    //     // let price = Number(isPriceSelected)
+    //     // console.log(price)
+    //     // return
 
-        const planData = {
-            amount: isPriceSelected,
-            subscription_id: planId,
-            platform: 'app'
-        };
-        // console.log("planData", planData)
-        // return
-        try {
-            const res = await dispatch(getPaymentSubscriptionSlice(planData)).unwrap();
-            console.log("🟢 Cashfree Response:", res);
+    //     const planData = {
+    //         amount: isPriceSelected,
+    //         subscription_id: planId,
+    //         platform: 'app'
+    //     };
+    //     // console.log("planData", planData)
+    //     // return
+    //     try {
+    //         const res = await dispatch(getPaymentSubscriptionSlice(planData)).unwrap();
+    //         console.log("🟢 Cashfree Response:", res);
 
-            // if (res?.status && res?.payment_url) {
-            //     // Open the Cashfree payment session in the browser
-            //     Linking.openURL(res.payment_url);
-            // } else {
-            //     Alert.alert("Payment Error", "Unable to initiate payment. Please try again.");
-            //     console.log("⚠️ Cashfree error: Missing payment_url or status false", res);
-            // }
-            // return
+    //         // if (res?.status && res?.payment_url) {
+    //         //     // Open the Cashfree payment session in the browser
+    //         //     Linking.openURL(res.payment_url);
+    //         // } else {
+    //         //     Alert.alert("Payment Error", "Unable to initiate payment. Please try again.");
+    //         //     console.log("⚠️ Cashfree error: Missing payment_url or status false", res);
+    //         // }
+    //         // return
 
-            if (res?.status && res?.payment_url) {
-                navigate("PaymentScreen", {
-                    payment_url: res.payment_url,
-                    onSuccess: () => {
-                        // console.log("data",data)
-                        // Alert.alert("Success", "Payment successful!");
-                        // success handling
-                    },
-                    onError: () => {
-                        Alert.alert("Error", "Payment failed!");
-                        // error handling
-                    }
-                });
-            }
-
-
-        } catch (error) {
-            console.log("❌ ERROR in handlePayment:", error);
-            Alert.alert("Payment Failed", "Something went wrong. Please try again later.");
-        }
-    };
+    //         if (res?.status && res?.payment_url) {
+    //             navigate("PaymentScreen", {
+    //                 payment_url: res.payment_url,
+    //                 onSuccess: () => {
+    //                     // console.log("data",data)
+    //                     // Alert.alert("Success", "Payment successful!");
+    //                     // success handling
+    //                 },
+    //                 onError: () => {
+    //                     Alert.alert("Error", "Payment failed!");
+    //                     // error handling
+    //                 }
+    //             });
+    //         }
 
 
+    //     } catch (error) {
+    //         console.log("❌ ERROR in handlePayment:", error);
+    //         Alert.alert("Payment Failed", "Something went wrong. Please try again later.");
+    //     }
+    // };
 
+
+const handlePayment = async (plandata) => {
+    // Prepare the data to send to payment summary screen
+    console.log('click btn', plandata)
+   
+    // const paymentData = {
+    //     plan: {
+    //         subscription_name: priceButtonInfo?.subscription_name,
+    //         duration: priceButtonInfo?.duration_months || priceButtonInfo?.duration,
+    //         price: priceButtonInfo?.price,
+    //         offer_price: priceButtonInfo?.offer_price,
+    //     },
+    //     planId: priceButtonInfo?.id, // Make sure this is the correct plan ID
+    //     pricing: {
+    //         basePrice: priceButtonInfo?.price,
+    //         offerPrice: priceButtonInfo?.offer_price,
+    //         gstAmount: (priceButtonInfo?.offer_price * 0.18), // Calculate GST
+    //         totalWithGST: priceButtonInfo?.offer_price * 1.18, // Price with GST
+    //     },
+    //     benefits: benefits, // Your benefits array
+    //     userInfo: userInfo, // Add user info if available
+    // };
+
+    // console.log("Sending to payment summary:", paymentData);
+    
+    // Navigate to payment summary screen with all required data
+    navigate('SubscriptionPaymentSummary', {plandata});
+};
 
 
     return (
@@ -772,7 +799,7 @@ const SubscriptionsScreen = () => {
                     plainSelect === "plus" && (
                         <TouchableOpacity onPress={() => {
                             // Alert.alert("Wallet Notice", "This feature is currently under development. Please check back soon.");
-                            handlePayment()
+                            handlePayment(priceButtonInfo)
 
                         }} style={[styles.plainSubmitButton, { backgroundColor: '#FFC000' }]}>
 

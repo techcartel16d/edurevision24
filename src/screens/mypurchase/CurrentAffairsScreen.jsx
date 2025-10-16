@@ -35,6 +35,7 @@ import Toast from 'react-native-toast-message';
 import { verifyToken } from '../../utils/checkIsAuth';
 import CommonModal from '../../components/global/CommonModal';
 import { navigate } from '../../utils/NavigationUtil';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const { width: windowWidth } = Dimensions.get('window');
 
@@ -331,11 +332,8 @@ const CurrentAffairsScreen = () => {
     const isAuth = verifyToken();
 
     return (
-        <SafeAreaWrapper>
-            <LinearGradient
-                colors={['#81b0ff', '#f4f3f4', '#A1C4FD']}
-                style={{ flex: 1 }}
-            >
+        <SafeAreaView style={{flex:1}}>
+            <>
                 <CommanHeader heading={'Current Affairs'} />
                 
                 {/* Language Toggle */}
@@ -475,7 +473,7 @@ const CurrentAffairsScreen = () => {
                                         {/* Content */}
                                         <View style={styles.currentAffairBody}>
                                             <CustomeText 
-                                                fontSize={18} 
+                                                fontSize={16} 
                                                 color={colors.textClr} 
                                                 style={styles.titleText}
                                                 numberOfLines={2}
@@ -484,7 +482,7 @@ const CurrentAffairsScreen = () => {
                                             </CustomeText>
 
                                             <View style={styles.descriptionContainer}>
-                                                <CustomeText fontSize={14} color="#666" lineHeight={20}>
+                                                <CustomeText fontSize={12} color="#666" lineHeight={20}>
                                                     {isHindi ? (
                                                         <RenderHtml 
                                                             contentWidth={contentWidth - 48} 
@@ -548,7 +546,7 @@ const CurrentAffairsScreen = () => {
                         )}
                     </View>
                 </ScrollView>
-            </LinearGradient>
+            </>
 
             {/* Auth Modal */}
             <CommonModal
@@ -560,7 +558,7 @@ const CurrentAffairsScreen = () => {
                 }}
                 onCancel={() => setModalVisible(false)}
             />
-        </SafeAreaWrapper>
+        </SafeAreaView>
     );
 };
 
@@ -572,7 +570,7 @@ const styles = StyleSheet.create({
     },
     languageSwitchContainer: {
         position: 'absolute',
-        top: Platform.OS === 'android' ? 10 : 80,
+        top: Platform.OS === 'android' ? 60 : 80,
         right: 15,
         flexDirection: 'row',
         alignItems: 'center',

@@ -49,7 +49,7 @@ const StudyMaterial = ({ categoryData }) => {
 
     const StudyMaterialData = [
         { id: 1, title: "Free Quiz", image: FreeQuiz, link: "FreeQuizeScreen", },
-        { id: 12, title: "Practice Sets", image: PracticeSets, link: 'PracticeBatchScreen' },
+        { id: 12, title: "Practice Batch", image: PracticeSets, link: 'PracticeBatchScreen' },
         { id: 2, title: "Current Affairs", image: CurrentAffairs, link: "FreeCurrentAffareScreen" },
         // { id: 3, title: "Topic Wise Practice", image: TopicWisePractice, link: "FreeTopicswisePaper" },
         { id: 4, title: "Previous Papers", image: PreviousYear, link: "FreePrevieousPaperScreen" },

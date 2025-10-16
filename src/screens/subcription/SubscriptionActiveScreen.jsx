@@ -13,6 +13,7 @@ const SubscriptionActiveScreen = () => {
     const dispatch = useDispatch();
     const [plans, setPlans] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
+    const [loading, setLoading] = useState(true);
     const { theme } = useTheme();
     const { colors } = theme;
 
@@ -38,52 +39,45 @@ const SubscriptionActiveScreen = () => {
         });
     };
 
-
     const getUserDetails = async () => {
         try {
+            setLoading(true);
             const res = await dispatch(getUserInfoSlice()).unwrap();
-            if (res.status_code === 200) {
+            console.log('res', res);
+            
+            if (res.status_code == 200) {
                 const subscriptionData = {
                     subscription_details: res.subscription_details,
                     subscription_status: res.subscription_status,
                 };
 
+                // Save subscription data to storage
                 const strVal = JSON.stringify(subscriptionData);
                 storage.set('planDetails', strVal);
 
-                if (Array.isArray(res.subscription_details)) {
-                    const today = new Date();
-
-                    const enhancedPlans = res.subscription_details.map((item) => {
-                        const purchaseDate = new Date(item.purchase_date);
-                        const expiryDate = new Date(item.expiry_date);
-
-                        const msPerDay = 1000 * 60 * 60 * 24;
-                        const daysLeft = Math.max(Math.floor((expiryDate - today) / msPerDay), 0);
-
-                        const durationMonths =
-                            (expiryDate.getFullYear() - purchaseDate.getFullYear()) * 12 +
-                            (expiryDate.getMonth() - purchaseDate.getMonth());
-
-                        return {
-                            ...item,
-                            days_left: daysLeft,
-                            duration_months: durationMonths,
-                        };
-                    });
-
+                // Check if user has active subscriptions
+                if (res.subscription_status && 
+                    Array.isArray(res.subscription_details) && 
+                    res.subscription_details.length > 0) {
+                    
+                    // Calculate days left and duration for each subscription item
+                    const enhancedPlans = calculateSubscriptionDetails(res.subscription_details);
+                    console.log('enhancedPlans', enhancedPlans);
                     setPlans(enhancedPlans);
+                } else {
+                    // No active subscriptions or subscription status false
+                    setPlans([]); 
                 }
+            } else {
+                setPlans([]);
             }
         } catch (error) {
             console.log("Error in getUserDetails:", error);
+            setPlans([]);
+        } finally {
+            setLoading(false);
         }
     };
-
-
-
-
-
 
     useEffect(() => {
         getUserDetails();
@@ -107,12 +101,10 @@ const SubscriptionActiveScreen = () => {
                 </View>
             </View>
 
-            <View style={{
-                gap: screenHeight
-            }}>
+            <View style={{ marginTop: 10 }}>
                 {/* Duration and Pricing */}
-                <CustomeText fontSize={11} color={'#fff'} style={{ marginTop: 6 }}>
-                    ✅ Duration: {item.duration_months} months
+                <CustomeText fontSize={11} color={'#fff'}>
+                    ✅ Duration: {item.duration_months} {item.duration_months === 1 ? 'month' : 'months'}
                 </CustomeText>
                 <CustomeText fontSize={11} color="#fff">
                     💰 Original Price: ₹{item.price}
@@ -130,13 +122,26 @@ const SubscriptionActiveScreen = () => {
                 </CustomeText>
             </View>
 
-
             {/* Time Left */}
             <View style={styles.timeLeftBox}>
                 <CustomeText fontSize={11} color="#333">
-                    ⏳ Time Left: {item.days_left} Days Left
+                    ⏳ Time Left: {item.days_left} {item.days_left === 1 ? 'Day' : 'Days'} Left
                 </CustomeText>
             </View>
+        </View>
+    );
+
+    const renderEmptyComponent = () => (
+        <View style={styles.emptyContainer}>
+            <CustomeText style={styles.emptyTitle} color="#fff">
+                No Active Subscriptions
+            </CustomeText>
+            <CustomeText style={styles.emptyMessage} color="#ccc">
+                You don't have any active subscription plans at the moment.
+            </CustomeText>
+            <CustomeText style={styles.emptySubMessage} color="#999">
+                Explore our subscription plans to get started!
+            </CustomeText>
         </View>
     );
 
@@ -144,7 +149,11 @@ const SubscriptionActiveScreen = () => {
         <SafeAreaView style={{ flex: 1, backgroundColor: colors.bg }}>
             <CommanHeader heading="Active Subscription Plans" />
             <View style={{ flex: 1, padding: screenWidth * 3 }}>
-                {plans.length > 0 ? (
+                {loading ? (
+                    <View style={styles.loadingContainer}>
+                        <CustomeText color="#fff">Loading subscriptions...</CustomeText>
+                    </View>
+                ) : plans.length > 0 ? (
                     <FlatList
                         data={plans}
                         keyExtractor={(item, index) => index.toString()}
@@ -158,9 +167,10 @@ const SubscriptionActiveScreen = () => {
                                 tintColor={colors.primary}
                             />
                         }
+                        ListEmptyComponent={renderEmptyComponent}
                     />
                 ) : (
-                    <CustomeText color="#fff">No active plans found.</CustomeText>
+                    renderEmptyComponent()
                 )}
             </View>
         </SafeAreaView>
@@ -176,7 +186,6 @@ const styles = StyleSheet.create({
         marginBottom: screenHeight * 1.5,
         borderWidth: 1,
         borderColor: '#0F172A',
-
     },
     title: {
         fontSize: 16,
@@ -195,5 +204,33 @@ const styles = StyleSheet.create({
         borderRadius: 6,
         alignItems: 'center',
     },
+    emptyContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingHorizontal: screenWidth * 5,
+        marginTop: screenHeight * 10,
+    },
+    emptyTitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginBottom: 10,
+        textAlign: 'center',
+    },
+    emptyMessage: {
+        fontSize: 14,
+        textAlign: 'center',
+        marginBottom: 5,
+        lineHeight: 20,
+    },
+    emptySubMessage: {
+        fontSize: 12,
+        textAlign: 'center',
+        lineHeight: 18,
+    },
+    loadingContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
 });
-

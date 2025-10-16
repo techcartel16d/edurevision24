@@ -229,7 +229,7 @@ const CustomDrawerContent = ({ navigation }) => {
                         <CustomeText color={colors.white}>
                             {themeMode === 'light' ? 'Light Theme' : 'Dark Theme'}
                         </CustomeText>
-                    </View> */}
+                    </View> 
 
                     {/* Toggle Switch */}
                     {/* <View
@@ -355,7 +355,7 @@ const CustomDrawerContent = ({ navigation }) => {
                         </View>
                         <AntDesign size={Platform.OS === 'ios' ? RFValue(12) : RFValue(10)} name="right" color={colors.white} />
                     </TouchableOpacity> */}
-                    {/* <TouchableOpacity onPress={() => {
+                     <TouchableOpacity onPress={() => {
                         if (isAuth) {
                             navigate("SubscriptionActiveScreen")
                         } else {
@@ -374,8 +374,8 @@ const CustomDrawerContent = ({ navigation }) => {
                             <CustomeText color={colors.white}>Active Subscription</CustomeText>
                         </View>
                         <AntDesign size={Platform.OS === 'ios' ? RFValue(14) : RFValue(12)} name="right" color={colors.white} />
-                    </TouchableOpacity> */}
-                    {/* <TouchableOpacity onPress={() => {
+                    </TouchableOpacity> 
+                     <TouchableOpacity onPress={() => {
                         if (isAuth) {
                             navigate("SubscriptionsScreen")
                         } else {
@@ -394,9 +394,9 @@ const CustomDrawerContent = ({ navigation }) => {
                             <CustomeText color={colors.white}>Subscription</CustomeText>
                         </View>
                         <AntDesign size={Platform.OS === 'ios' ? RFValue(14) : RFValue(12)} name="right" color={colors.white} />
-                    </TouchableOpacity> */}
+                    </TouchableOpacity> 
 
-                    {/* <TouchableOpacity style={styles.navlist}>
+                     <TouchableOpacity style={styles.navlist}>
                         <View style={{
                             flexDirection: 'row',
                             alignItems: 'center',
@@ -404,10 +404,10 @@ const CustomDrawerContent = ({ navigation }) => {
                             gap: screenWidth * 2
                         }}>
                             <MaterialCommunityIcons size={Platform.OS === 'ios' ? RFValue(17) : RFValue(15)} name="ticket-confirmation-outline" color={colors.white} />
-                            <CustomeText color={colors.white}>Study</CustomeText>
+                            <CustomeText color={colors.white}>Study Notes</CustomeText>
                         </View>
                         <AntDesign size={Platform.OS === 'ios' ? RFValue(14) : RFValue(12)} name="right" color={colors.white} />
-                    </TouchableOpacity> */}
+                    </TouchableOpacity> 
                     {/* <TouchableOpacity onPress={() => {
                         if (isAuth) {
                             navigate("ReferEarnScreen")
@@ -480,7 +480,7 @@ const CustomDrawerContent = ({ navigation }) => {
                         </View>
                         <AntDesign size={Platform.OS === 'ios' ? RFValue(12) : RFValue(10)} name="right" color={colors.white} />
                     </TouchableOpacity>
-                    {/* <TouchableOpacity style={styles.navlist}>
+                    <TouchableOpacity style={styles.navlist}>
                         <View style={{
                             flexDirection: 'row',
                             alignItems: 'center',
@@ -491,7 +491,7 @@ const CustomDrawerContent = ({ navigation }) => {
                             <CustomeText color={colors.white}>Test Series </CustomeText>
                         </View>
                         <AntDesign size={Platform.OS === 'ios' ? RFValue(12) : RFValue(10)} name="right" color={colors.white} />
-                    </TouchableOpacity> */}
+                    </TouchableOpacity>
                     <TouchableOpacity onPress={() => navigate("SettingScreen")} style={styles.navlist}>
                         <View style={{
                             flexDirection: 'row',
