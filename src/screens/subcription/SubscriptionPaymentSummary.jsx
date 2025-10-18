@@ -19,6 +19,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useTheme } from '../../theme/ThemeContext';
 import CustomeText from '../../components/global/CustomeText';
+import { Text } from 'react-native-paper';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
@@ -29,9 +30,11 @@ const SubscriptionPaymentSummary = () => {
   const { theme } = useTheme();
   const { colors } = theme;
 
-  // const { plan, planId, pricing, benefits, userInfo } = route.params || {};
-  const { plandata } = route.params || {};
-  const pricing = plandata.price
+  const { plan, planId, pricing, benefits, userInfo } = route.params || {};
+
+  console.log('plan', plan)
+  console.log('planId', planId)
+  console.log('pricing', pricing)
 
   const [couponCode, setCouponCode] = useState('');
   const [appliedCoupon, setAppliedCoupon] = useState(null);
@@ -68,48 +71,48 @@ const SubscriptionPaymentSummary = () => {
       }),
     ]).start();
 
-    fetchCoupons();
+    // fetchCoupons();
   }, []);
 
-  const fetchCoupons = async () => {
-    try {
-      setCouponsLoading(true);
-      const response = await dispatch(allCouponData()).unwrap();
+  // const fetchCoupons = async () => {
+  //   try {
+  //     setCouponsLoading(true);
+  //     const response = await dispatch(allCouponData()).unwrap();
+  //     console.log('response', response)
+  //     if (response.status === 200 && response.data) {
+  //       const formattedCoupons = response.data.map(coupon => {
+  //         const isPercentage = coupon.discount_percent !== null && coupon.discount_percent !== undefined;
+  //         const isFlat = coupon.flat_amount !== null && coupon.flat_amount !== undefined;
 
-      if (response.status === 200 && response.data) {
-        const formattedCoupons = response.data.map(coupon => {
-          const isPercentage = coupon.discount_percent !== null && coupon.discount_percent !== undefined;
-          const isFlat = coupon.flat_amount !== null && coupon.flat_amount !== undefined;
+  //         return {
+  //           id: coupon.id,
+  //           code: coupon.code,
+  //           discount: isPercentage
+  //             ? parseFloat(coupon.discount_percent)
+  //             : parseFloat(coupon.flat_amount),
+  //           type: coupon.coupon_type,
+  //           description: isPercentage
+  //             ? `Get ${coupon.discount_percent}% off${coupon.max_discount_amount ? ` (Max ₹${coupon.max_discount_amount})` : ''}`
+  //             : isFlat
+  //               ? `Flat ₹${coupon.flat_amount} off`
+  //               : 'Discount available',
+  //           min_amount: parseFloat(coupon.min_transaction_amount) || 0,
+  //           max_discount: coupon.max_discount_amount ? parseFloat(coupon.max_discount_amount) : null,
+  //           expiry_date: coupon.end_date,
+  //           is_active: coupon.status === 'active',
+  //         };
+  //       });
 
-          return {
-            id: coupon.id,
-            code: coupon.code,
-            discount: isPercentage
-              ? parseFloat(coupon.discount_percent)
-              : parseFloat(coupon.flat_amount),
-            type: coupon.coupon_type,
-            description: isPercentage
-              ? `Get ${coupon.discount_percent}% off${coupon.max_discount_amount ? ` (Max ₹${coupon.max_discount_amount})` : ''}`
-              : isFlat
-                ? `Flat ₹${coupon.flat_amount} off`
-                : 'Discount available',
-            min_amount: parseFloat(coupon.min_transaction_amount) || 0,
-            max_discount: coupon.max_discount_amount ? parseFloat(coupon.max_discount_amount) : null,
-            expiry_date: coupon.end_date,
-            is_active: coupon.status === 'active',
-          };
-        });
-
-        const activeCoupons = formattedCoupons.filter(c => c.is_active);
-        setAvailableCoupons(activeCoupons);
-      }
-    } catch (error) {
-      console.error('Error fetching coupons:', error);
-      setAvailableCoupons([]);
-    } finally {
-      setCouponsLoading(false);
-    }
-  };
+  //       const activeCoupons = formattedCoupons.filter(c => c.is_active);
+  //       setAvailableCoupons(activeCoupons);
+  //     }
+  //   } catch (error) {
+  //     console.error('Error fetching coupons:', error);
+  //     setAvailableCoupons([]);
+  //   } finally {
+  //     setCouponsLoading(false);
+  //   }
+  // };
 
   const onRefresh = async () => {
     setRefreshing(true);
@@ -117,20 +120,10 @@ const SubscriptionPaymentSummary = () => {
     setRefreshing(false);
   };
 
-  const calculateFinalPrice = () => {
-    if (!appliedCoupon) return pricing.totalWithGST;
+ 
 
-    const basePrice = pricing.basePrice;
-    const discountAmount = appliedCoupon.discount;
-    const priceAfterDiscount = basePrice - discountAmount;
-    const gstAmount = priceAfterDiscount * 0.18;
-    const finalAmount = priceAfterDiscount + gstAmount;
 
-    return finalAmount;
-  };
 
-  const finalPrice = calculateFinalPrice();
-  const savedAmount = appliedCoupon ? pricing.totalWithGST - finalPrice : 0;
 
   const handleApplyCoupon = async () => {
     if (!couponCode.trim()) {
@@ -181,6 +174,19 @@ const SubscriptionPaymentSummary = () => {
     }
   };
 
+   const calculateFinalPrice = () => {
+    if (!appliedCoupon) return pricing.totalWithGST;
+
+    const basePrice = pricing.basePrice;
+    const discountAmount = appliedCoupon.discount;
+    const priceAfterDiscount = basePrice - discountAmount;
+    const gstAmount = priceAfterDiscount * 0.18;
+    const finalAmount = priceAfterDiscount + gstAmount;
+
+    return finalAmount;
+  };
+  const finalPrice = calculateFinalPrice();
+  const savedAmount = appliedCoupon ? pricing.totalWithGST - finalPrice : 0;
   const handleRemoveCoupon = () => {
     Animated.spring(couponSlideAnim, {
       toValue: 0,
@@ -194,13 +200,13 @@ const SubscriptionPaymentSummary = () => {
   };
 
   const handleProceedToPayment = async () => {
-    // if (!plan || !planId) return;
+    if (!plan || !planId) return;
 
     setIsProcessing(true);
 
     const paymentData = {
       amount: finalPrice,
-      // subscription_id: planId,
+      subscription_id: planId,
       coupon_code: appliedCoupon?.code || null,
       coupon_id: appliedCoupon?.id || null,
     };
@@ -248,6 +254,8 @@ const SubscriptionPaymentSummary = () => {
         }
       ]}
     >
+
+      
       <CustomeText style={styles.sectionTitle} color={colors.text}>
         Selected Plan
       </CustomeText>
@@ -508,7 +516,7 @@ const SubscriptionPaymentSummary = () => {
             Final Amount:
           </CustomeText>
           <CustomeText style={styles.finalAmount} color={colors.success}>
-            ₹{finalPrice.toFixed(2)}
+            ₹{finalPrice?.toFixed(2)}
           </CustomeText>
         </View>
         {appliedCoupon && (
