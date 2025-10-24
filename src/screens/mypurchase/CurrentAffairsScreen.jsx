@@ -136,10 +136,10 @@ const CurrentAffairsScreen = () => {
             console.log('API Response:', res);
             
             if (res.data) {
-                const yearMonthMap = processData(res.data);
+                const yearMonthMap = processData(res.data.original.data);
                 
                 // Transform data for easy access
-                const transformed = Object.keys(res.data)
+                const transformed = Object.keys(res.data.original.data)
                     .sort((a, b) => {
                         const [dayA, monthA, yearA] = a.split('-').map(Number);
                         const [dayB, monthB, yearB] = b.split('-').map(Number);

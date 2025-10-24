@@ -105,7 +105,7 @@ const FreeExamInofScreen = () => {
             paddingVertical: screenHeight * 1.2,
             borderRadius: screenWidth
           }}>
-            <CustomeText fontSize={14} color={"#fff"}>View Exam</CustomeText>
+            <CustomeText fontSize={14} color={"#fff"}>View Post</CustomeText>
           </TouchableOpacity>
         </View>
       </View>
@@ -119,7 +119,7 @@ const FreeExamInofScreen = () => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.bg }}>
-      <CommanHeader heading={"Exam info"} />
+      <CommanHeader heading={"Blog"} />
       <View style={styles.examInfonContainer}>
         {
           loading ? (

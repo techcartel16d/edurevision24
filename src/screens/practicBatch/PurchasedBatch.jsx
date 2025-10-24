@@ -200,7 +200,7 @@ const { width } = useWindowDimensions();
                                 `You don't have any ${filter} batches.`}
                         </Text>
                         {filter === 'all' && (
-                            <TouchableOpacity onPress={() => navigation.navigate('AllBatches')} style={styles.button}>
+                            <TouchableOpacity onPress={() => navigation.goBack()} style={styles.button}>
                                 <Text style={styles.buttonText}>Browse Available Batches</Text>
                             </TouchableOpacity>
                         )}

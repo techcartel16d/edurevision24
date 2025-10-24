@@ -54,11 +54,13 @@ const StudyMaterial = ({ categoryData }) => {
         // { id: 3, title: "Topic Wise Practice", image: TopicWisePractice, link: "FreeTopicswisePaper" },
         { id: 4, title: "Previous Papers", image: PreviousYear, link: "FreePrevieousPaperScreen" },
         { id: 5, title: "Attempted Test", image: ProgressTracker, link: "AttemptedTestPage" },
-        { id: 6, title: "Exam info", image: Examinfo, link: "FreeExamInofScreen" },
+        { id: 6, title: "Blog", image: Examinfo, link: "FreeExamInofScreen" },
         // { id: 7, title: "Mind Maps", image: MindMaps, link: "MindMapsScreen" },
         { id: 9, title: "Study Notes", image: StudyNotes, link: "FreeStudyNotes" },
         { id: 10, title: "Doubt Solving", image: DoubtSolving, link: "" },
-        { id: 11, title: "Scholar Ship", image: TestSeries, link: 'ScholarShipVideoScreen' },
+        // { id: 11, title: "Scholar Ship", image: TestSeries, link: 'ScholarShipVideoScreen' },
+        { id: 11, title: "Monthly magazine", image: TestSeries, link: 'AllMagazinesScreen' },
+        { id: 13, title: "Live Video", image: TestSeries, link: 'LiveClassesPage' },
         
     ];
     const StudyMaterialData2 = [

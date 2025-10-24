@@ -1,6 +1,5 @@
 import React, { useState, useRef } from 'react';
 import {
-  SafeAreaView,
   StyleSheet,
   TouchableOpacity,
   Text,
@@ -11,6 +10,7 @@ import {
 } from 'react-native';
 import { WebView } from 'react-native-webview';
 import CommanHeader from '../../components/global/CommonHeader';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const PdfPreviewScreeen = ({ route }) => {
   const { url } = route.params;
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
   },
   loading: {
     position: 'absolute',
-    top: 80,
+    top: 50,
     bottom: 80,
     left: 0,
     right: 0,

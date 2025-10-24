@@ -20,6 +20,8 @@ import CurrentAffairsScreen from '../screens/mypurchase/CurrentAffairsScreen'
 import TestScreen from '../screens/test/TestScreen'
 import ScholarShipVideoScreen from '../screens/scholarship/ScholarShipVideoScreen'
 import { verifyToken } from '../utils/checkIsAuth'
+import LiveClassesPage from '../screens/liveVideo/LiveClassesPage'
+import PracticeBatchScreen from '../screens/practicBatch/PracticeBatch'
 const Tab = createBottomTabNavigator()
 const Stack = createNativeStackNavigator();
 
@@ -137,10 +139,10 @@ function HomeStack() {
                 isAuth && (
 
                     <Tab.Screen
-                        name="ScholarShipVideoScreen"
-                        component={ScholarShipVideoScreen}
+                        name="LiveClassesPage"
+                        component={LiveClassesPage}
                         options={{
-                            tabBarLabel: 'Quantum',
+                            tabBarLabel: 'Live Video',
                             tabBarIcon: ({ color, size, focused }) => (
                                 <MaterialIcons
                                     name={focused ? 'calculate' : 'calculate'}
@@ -157,10 +159,10 @@ function HomeStack() {
             {
                 isAuth && (
                     <Tab.Screen
-                        name="TestScreen"
-                        component={TestScreen}
+                        name="PracticeBatchScreen"
+                        component={PracticeBatchScreen}
                         options={({ route }) => ({
-                            tabBarLabel: "Test",
+                            tabBarLabel: "Practice Batch",
                             tabBarIcon: ({ color, size, focused }) => (
 
                                 <Ionicons

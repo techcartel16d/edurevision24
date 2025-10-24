@@ -17,5 +17,7 @@ export const removeHtmlTags = str => {
     .replace(/&#39;/g, "'")
     .replace(/&ldquo;/g, '"')
     .replace(/&rdquo;/g, '"')
+    .replace(/<[^>]*>/g, '')
     .replace(/&hellip;/g, '...');
+
 };

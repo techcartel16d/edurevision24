@@ -787,6 +787,33 @@ const UserApiProvider = {
             console.log("ERROR IN REMOVE ACCOUNT POST ", error)
         }
     },
+    monthlyMagazineGet: async () => {
+        try {
+            const token = storage.getString('token');
+            // console.log("token ", token)
+            // return
+            const res = await axios.get(`${API_BASE_URL}/monthly-magazine`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            return res.data;
+        } catch (error) {
+            console.log("ERROR IN REMOVE ACCOUNT POST ", error)
+        }
+    },
+    getLiveVideo: async () => {
+        try {
+            const token = storage.getString('token');
+            // console.log("token ", token)
+            // return
+            const res = await axios.get(`${API_BASE_URL}/live-classes`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            return res.data;
+        } catch (error) {
+            console.log("ERROR IN REMOVE ACCOUNT POST ", error)
+        }
+    },
+ 
 
 
 

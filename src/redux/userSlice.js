@@ -737,6 +737,28 @@ export const userTransactionsSlice = createAsyncThunk(
     }
   },
 );
+export const AllMagazinesSlice = createAsyncThunk(
+  'user/AllMagazinesSlice',
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await UserApiProvider.monthlyMagazineGet();
+      return res;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
+export const getLiveVideoSlice = createAsyncThunk(
+  'user/getLiveVideoSlice',
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await UserApiProvider.getLiveVideo();
+      return res;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
 
 // Slice
 const userSlice = createSlice({

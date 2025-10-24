@@ -1,4 +1,4 @@
-import { FlatList, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useTheme } from '../../theme/ThemeContext'
 import { useDispatch } from 'react-redux'
@@ -7,6 +7,7 @@ import CommanHeader from '../../components/global/CommonHeader'
 import { screenHeight, screenWidth } from '../../utils/Constant'
 import CustomeText from '../../components/global/CustomeText'
 import { navigate } from '../../utils/NavigationUtil'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 const MindMapsScreen = () => {
     const dispatch = useDispatch()

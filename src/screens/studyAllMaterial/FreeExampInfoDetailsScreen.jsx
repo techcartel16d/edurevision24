@@ -5,7 +5,6 @@ import {
   Image,
   ScrollView,
   useWindowDimensions,
-  SafeAreaView,
   RefreshControl,
   ActivityIndicator,
 } from 'react-native';
@@ -17,6 +16,7 @@ import CommanHeader from '../../components/global/CommonHeader';
 import CustomeText from '../../components/global/CustomeText';
 import { removeHtmlTags } from '../../helper/RemoveHtmlTags';
 import { screenHeight } from '../../utils/Constant';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const FreeExampInfoDetailsScreen = ({ route }) => {
   const { theme } = useTheme();
@@ -39,6 +39,7 @@ const FreeExampInfoDetailsScreen = ({ route }) => {
       }
 
       const res = await dispatch(getExamInfoDetailsSlice({ id: item.id })).unwrap();
+      console.log('res', res)
       setExamData(res.data.blog);
     } catch (error) {
       console.log('ERROR IN FETCH EXAMINFO DETAILS==>', error);
@@ -62,6 +63,7 @@ const FreeExampInfoDetailsScreen = ({ route }) => {
     li: { color: colors.textClr },
     i: { color: '#fff' },
   };
+  
 
   if (loading) {
     return (
@@ -109,6 +111,7 @@ const FreeExampInfoDetailsScreen = ({ route }) => {
 
             {/* Description */}
             <CustomeText color={colors.textClr} style={styles.heading}>
+           
               {removeHtmlTags(examData.description)}
             </CustomeText>
 

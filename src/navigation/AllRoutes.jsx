@@ -72,6 +72,8 @@ import BatchVideos from '../screens/practicBatch/BatchVideos';
 import AttemptedTestPage from '../screens/attempted/AttemptedTestPage';
 import  AnaylisScreen from '../screens/attempted/AnaylisScreen'
 import SubscriptionPaymentSummary from '../screens/subcription/SubscriptionPaymentSummary';
+import AllMagazinesScreen from '../screens/mothlymagazine/AllMagazinesScreen';
+import LiveClassesPage from '../screens/liveVideo/LiveClassesPage';
 
 
 
@@ -184,7 +186,7 @@ const MainNavigator = () => {
             <Stack.Screen name="SubscriptionActiveScreen" component={SubscriptionActiveScreen} />
 
             {/* Practic Batch */}
-            <Stack.Screen name="PracticeBatchScreen" component={PracticeBatchScreen} />
+            {/* <Stack.Screen name="PracticeBatchScreen" component={PracticeBatchScreen} /> */}
             <Stack.Screen name="PurchasedBatch" component={PurchasedBatch} />
             <Stack.Screen name="BatchVideos" component={BatchVideos} />
 
@@ -197,6 +199,8 @@ const MainNavigator = () => {
 
 
            <Stack.Screen name="SubscriptionPaymentSummary" component={SubscriptionPaymentSummary} />
+           <Stack.Screen name="AllMagazinesScreen" component={AllMagazinesScreen} />
+           {/* <Stack.Screen name="LiveClassesPage" component={LiveClassesPage} /> */}
 
 
 
