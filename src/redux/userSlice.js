@@ -29,15 +29,15 @@ export const getHomeDataSlice = createAsyncThunk(
 
 // Async Thunks getCurrentAffairesSlice
 export const getCurrentAffairesSlice = createAsyncThunk(
-  'user/getCurrentAffairesSlice',
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await UserApiProvider.getCurrentAffairsData();
-      return response;
-    } catch (error) {
-      return rejectWithValue(error);
-    }
-  },
+    'user/getCurrentAffairesSlice',
+    async (page = 1, { rejectWithValue }) => {
+        try {
+            const response = await UserApiProvider.getCurrentAffairsData(page);
+            return response;
+        } catch (error) {
+            return rejectWithValue(error);
+        }
+    },
 );
 // Async Thunks getCurrentAffairesSlice
 export const getPreviouseYearSlice = createAsyncThunk(

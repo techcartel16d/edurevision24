@@ -24,22 +24,27 @@ const UserApiProvider = {
         }
     },
 
-    getCurrentAffairsData: async () => {
-        try {
-            const token = storage.getString('token');
-            // if (!token) throw new Error('No token found');
-
-            const response = await axios.get(`${API_BASE_URL}/news`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
-            return response.data;
-        } catch (error) {
-            throw error.response?.data || error.message;
-        }
-    },
+getCurrentAffairsData: async (page = 1) => {
+    try {
+        const token = storage.getString('token');
+        
+        const response = await axios.get(`${API_BASE_URL}/news`, {
+            params: {
+                page: page  // ✅ Pagination support
+            },
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+        });
+        
+        console.log(`✅ API Response (Page ${page}):`, response.data);
+        return response.data;
+    } catch (error) {
+        console.error('❌ API Error:', error.response?.data || error.message);
+        throw error.response?.data || error.message;
+    }
+},
     getPreviouseYearPaper: async () => {
         try {
             const token = storage.getString('token');

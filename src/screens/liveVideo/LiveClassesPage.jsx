@@ -19,7 +19,9 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import CommanHeader from '../../components/global/CommonHeader';
 
+
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
+
 
 const LiveClassesPage = () => {
   const dispatch = useDispatch();
@@ -29,6 +31,7 @@ const LiveClassesPage = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [videoModalVisible, setVideoModalVisible] = useState(false);
+
 
   const getLiveClassVideo = async () => {
     setLoading(true);
@@ -46,14 +49,17 @@ const LiveClassesPage = () => {
     }
   };
 
+
   useEffect(() => {
     getLiveClassVideo();
   }, [dispatch]);
+
 
   const onRefresh = () => {
     setRefreshing(true);
     getLiveClassVideo();
   };
+
 
   const openVideoInYouTube = (videoId) => {
     const youtubeUrl = `https://www.youtube.com/watch?v=${videoId}`;
@@ -62,92 +68,103 @@ const LiveClassesPage = () => {
     );
   };
 
+
   const openVideoModal = (video) => {
     setSelectedVideo(video);
     setVideoModalVisible(true);
   };
+
 
   const closeVideoModal = () => {
     setSelectedVideo(null);
     setVideoModalVisible(false);
   };
 
+  // Format date from video publishedAt
+  const formatDate = (dateString) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.toLocaleString('en-US', { month: 'short' });
+    return { day, month };
+  };
+
+
   const VideoCard = ({ video, index, isLive = false }) => {
     const videoId = isLive ? video.id : video.snippet?.resourceId?.videoId;
     const title = video.snippet?.title;
     const channelTitle = video.snippet?.channelTitle;
     const thumbnail = video.snippet?.thumbnails?.high?.url;
+    const publishedAt = video.snippet?.publishedAt;
+    const dateInfo = formatDate(publishedAt);
+
 
     return (
-      <TouchableOpacity
-        style={[
-          styles.videoCard,
-          {
-            opacity: loading ? 0.7 : 1,
-          },
-        ]}
-        onPress={() => openVideoModal(video)}
-        activeOpacity={0.8}
-        disabled={loading}
-      >
-        {/* Thumbnail */}
-        <View style={styles.thumbnailContainer}>
-          {thumbnail ? (
-            <Image
-              source={{ uri: thumbnail }}
-              style={styles.thumbnail}
-              resizeMode="cover"
-            />
-          ) : (
-            <View style={styles.thumbnailPlaceholder}>
-              <Icon name="videocam" size={40} color="#666" />
-            </View>
-          )}
-          
-          {/* Play Button Overlay */}
-          <View style={styles.playButtonOverlay}>
-            <Icon name="play-circle-filled" size={48} color="#fff" />
+      <View style={styles.videoCardWrapper}>
+        {/* Left Side - Date */}
+        <View style={styles.dateSection}>
+          <View style={styles.dateBox}>
+            <Text style={styles.dateDay}>{dateInfo.day}</Text>
+            <Text style={styles.dateMonth}>{dateInfo.month}</Text>
           </View>
-
-          {/* Live Badge */}
-          {isLive && (
-            <View style={styles.liveBadge}>
-              <View style={styles.livePulse} />
-              <Text style={styles.liveBadgeText}>LIVE</Text>
-            </View>
-          )}
         </View>
 
-        {/* Video Info */}
-        <View style={styles.videoInfo}>
+        {/* Center - Thumbnail */}
+        <TouchableOpacity
+          style={styles.thumbnailSection}
+          onPress={() => openVideoModal(video)}
+          activeOpacity={0.8}
+          disabled={loading}
+        >
+          <View style={styles.thumbnailContainer}>
+            {thumbnail ? (
+              <Image
+                source={{ uri: thumbnail }}
+                style={styles.thumbnail}
+                resizeMode="cover"
+              />
+            ) : (
+              <View style={styles.thumbnailPlaceholder}>
+                <Icon name="videocam" size={32} color="#666" />
+              </View>
+            )}
+            
+            {/* Play Button Overlay */}
+            <View style={styles.playButtonOverlay}>
+              <Icon name="play-circle-filled" size={40} color="#fff" />
+            </View>
+
+            {/* Live Badge */}
+            {isLive && (
+              <View style={styles.liveBadge}>
+                <View style={styles.livePulse} />
+                <Text style={styles.liveBadgeText}>LIVE</Text>
+              </View>
+            )}
+          </View>
+        </TouchableOpacity>
+
+        {/* Right Side - Title and Start Button */}
+        <View style={styles.infoSection}>
           <Text style={styles.videoTitle} numberOfLines={2}>
             {title}
           </Text>
-          <Text style={styles.channelTitle} numberOfLines={1}>
+          {/* <Text style={styles.channelTitle} numberOfLines={1}>
             {channelTitle}
-          </Text>
-        </View>
-
-        {/* Action Buttons */}
-        <View style={styles.actionButtons}>
-          <TouchableOpacity
-            style={styles.watchButton}
-            onPress={() => openVideoModal(video)}
-          >
-            <Icon name="play-arrow" size={16} color="#fff" />
-            <Text style={styles.watchButtonText}>Watch</Text>
-          </TouchableOpacity>
+          </Text> */}
           
           <TouchableOpacity
-            style={styles.youtubeButton}
-            onPress={() => openVideoInYouTube(videoId)}
+            style={styles.startButton}
+            onPress={() => openVideoModal(video)}
           >
-            <Icon name="open-in-new" size={16} color="#666" />
+            <Icon name="play-arrow" size={18} color="#fff" />
+            <Text style={styles.startButtonText}>Start</Text>
           </TouchableOpacity>
         </View>
-      </TouchableOpacity>
+      </View>
     );
   };
+
 
   if (loading && !refreshing) {
     return (
@@ -157,6 +174,7 @@ const LiveClassesPage = () => {
       </View>
     );
   }
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -182,12 +200,11 @@ const LiveClassesPage = () => {
           </View>
         )}
 
+
         {/* Recent Videos Section */}
         <View style={styles.recentSection}>
-         
-          
           {recentVideos.length > 0 ? (
-            <View style={styles.videosGrid}>
+            <View style={styles.videosList}>
               {recentVideos.map((item, index) => (
                 <VideoCard
                   key={index}
@@ -211,6 +228,7 @@ const LiveClassesPage = () => {
         </View>
       </ScrollView>
 
+
       {/* Video Player Modal */}
       <Modal
         visible={videoModalVisible}
@@ -232,6 +250,7 @@ const LiveClassesPage = () => {
             </Text>
             <View style={styles.placeholder} />
           </View>
+
 
           {/* Video Player */}
           {selectedVideo && (
@@ -256,6 +275,7 @@ const LiveClassesPage = () => {
               />
             </View>
           )}
+
 
           {/* Video Info in Modal */}
           {selectedVideo && (
@@ -287,6 +307,7 @@ const LiveClassesPage = () => {
     </SafeAreaView>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
@@ -337,38 +358,63 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#dc2626',
   },
-  sectionTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#1f2937',
-    marginBottom: 16,
+  videosList: {
+    gap: 16,
   },
-  videosGrid: {
+  videoCardWrapper: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-  },
-  videoCard: {
-    width: (SCREEN_WIDTH - 48) / 2,
     backgroundColor: '#fff',
     borderRadius: 12,
-    marginBottom: 16,
+    padding: 12,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2,
     },
     shadowOpacity: 0.1,
-    shadowRadius: 3,
+    shadowRadius: 4,
     elevation: 3,
     borderWidth: 1,
     borderColor: '#f1f5f9',
+    gap: 12,
+  },
+  dateSection: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    minWidth: 50,
+  },
+  dateBox: {
+    backgroundColor: '#fef2f2',
+    borderRadius: 8,
+    padding: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: '#fecaca',
+    minWidth: 50,
+  },
+  dateDay: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#dc2626',
+    lineHeight: 24,
+  },
+  dateMonth: {
+    fontSize: 11,
+    fontWeight: '600',
+    color: '#991b1b',
+    textTransform: 'uppercase',
+    marginTop: 2,
+  },
+  thumbnailSection: {
+    width: 100,
+    height: 80,
+    borderRadius: 8,
+    overflow: 'hidden',
   },
   thumbnailContainer: {
     width: '100%',
-    height: 120,
-    borderRadius: 8,
-    overflow: 'hidden',
+    height: '100%',
     position: 'relative',
   },
   thumbnail: {
@@ -394,68 +440,59 @@ const styles = StyleSheet.create({
   },
   liveBadge: {
     position: 'absolute',
-    top: 8,
-    left: 8,
+    top: 6,
+    left: 6,
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#dc2626',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 12,
+    paddingHorizontal: 6,
+    paddingVertical: 3,
+    borderRadius: 10,
   },
   livePulse: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
+    width: 5,
+    height: 5,
+    borderRadius: 2.5,
     backgroundColor: '#fff',
-    marginRight: 4,
+    marginRight: 3,
   },
   liveBadgeText: {
     color: '#fff',
-    fontSize: 10,
+    fontSize: 9,
     fontWeight: 'bold',
   },
-  videoInfo: {
-    padding: 12,
+  infoSection: {
+    flex: 1,
+    justifyContent: 'space-between',
+    paddingVertical: 2,
   },
   videoTitle: {
     fontSize: 14,
     fontWeight: '600',
     color: '#1f2937',
-    marginBottom: 4,
     lineHeight: 18,
+    marginBottom: 4,
   },
   channelTitle: {
-    fontSize: 12,
+    fontSize: 11,
     color: '#6b7280',
+    marginBottom: 8,
   },
-  actionButtons: {
-    flexDirection: 'row',
-    paddingHorizontal: 12,
-    paddingBottom: 12,
-    gap: 8,
-  },
-  watchButton: {
-    flex: 1,
+  startButton: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#dc2626',
-    paddingVertical: 8,
+    paddingVertical: 5,
+    paddingHorizontal: 12,
     borderRadius: 6,
+    alignSelf: 'flex-start',
     gap: 4,
   },
-  watchButtonText: {
+  startButtonText: {
     color: '#fff',
-    fontSize: 12,
-    fontWeight: '500',
-  },
-  youtubeButton: {
-    padding: 8,
-    backgroundColor: '#f3f4f6',
-    borderRadius: 6,
-    borderWidth: 1,
-    borderColor: '#d1d5db',
+    fontSize: 13,
+    fontWeight: '600',
   },
   emptyState: {
     alignItems: 'center',
@@ -548,7 +585,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#dc2626',
-    paddingVertical: 12,
+    paddingVertical: 10,
     borderRadius: 8,
     gap: 8,
   },
@@ -558,5 +595,6 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
 });
+
 
 export default LiveClassesPage;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -11,22 +11,23 @@ import {
   RefreshControl,
   FlatList,
   Dimensions,
-  StatusBar
+  StatusBar,
 } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
+import {useDispatch, useSelector} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
 import {
   getpracticeBatchData,
   clearError,
-  purchasePracticeBatchSlice
+  purchasePracticeBatchSlice,
 } from '../../redux/practiceBatchDataSlice';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { verifyToken } from '../../utils/checkIsAuth';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {verifyToken} from '../../utils/checkIsAuth';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import CommanHeader from '../../components/global/CommonHeader';
+import LinearGradient from 'react-native-linear-gradient'; // Install: npm install react-native-linear-gradient
 
-const { width: screenWidth } = Dimensions.get('window');
+const {width: screenWidth} = Dimensions.get('window');
 
 const PracticeBatchScreen = () => {
   const dispatch = useDispatch();
@@ -39,20 +40,17 @@ const PracticeBatchScreen = () => {
     message = null,
     purchasing = false,
     purchaseError = null,
-    purchaseSuccess = false
-  } = useSelector((state) => state.practiceBatch || {});
+    purchaseSuccess = false,
+  } = useSelector(state => state.practiceBatch || {});
 
   const [localError, setLocalError] = useState(null);
   const [isAuth, setIsAuth] = useState(false);
   const [processingPurchase, setProcessingPurchase] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
-  const [showDebug, setShowDebug] = useState(true); // Keep debug visible
   const [apiResponse, setApiResponse] = useState(null);
 
-  // Get the actual batches data from API response
   const displayBatches = apiResponse?.data || batches || [];
 
-  // Fetch practice batches
   useEffect(() => {
     fetchBatches();
   }, [dispatch]);
@@ -68,16 +66,16 @@ const PracticeBatchScreen = () => {
       console.log('Dispatching getpracticeBatchData...');
       const result = await dispatch(getpracticeBatchData()).unwrap();
       console.log('API Response:', result);
-      setApiResponse(result); // Store the API response
+      setApiResponse(result);
     } catch (err) {
       console.error('Error fetching practice batches:', err);
       setLocalError(err.message || 'Failed to fetch practice batches');
-      setApiResponse({ error: err.message });
+      setApiResponse({error: err.message});
     }
   };
 
   const checkAuth = () => {
-    const result = verifyToken()
+    const result = verifyToken();
     setIsAuth(result);
   };
 
@@ -87,11 +85,11 @@ const PracticeBatchScreen = () => {
     setRefreshing(false);
   };
 
-  const purchasePracticeBatch = async (item) => {
+  const purchasePracticeBatch = async item => {
     if (item.is_purchased === 'yes') {
       navigation.navigate('PurchasedBatch', {
         item,
-        playlistId: item.playlist_id
+        playlistId: item.playlist_id,
       });
     } else {
       if (!isAuth) {
@@ -99,9 +97,9 @@ const PracticeBatchScreen = () => {
           'Authentication Required',
           'Please login to purchase batches',
           [
-            { text: 'Cancel', style: 'cancel' },
-            { text: 'Login', onPress: () => navigation.navigate('Login') }
-          ]
+            {text: 'Cancel', style: 'cancel'},
+            {text: 'Login', onPress: () => navigation.navigate('Login')},
+          ],
         );
         return;
       }
@@ -113,11 +111,12 @@ const PracticeBatchScreen = () => {
 
       try {
         setProcessingPurchase(item.id);
-        const res = await dispatch(purchasePracticeBatchSlice(planData)).unwrap();
-        console.log("Payment response:", res);
-        // Handle payment integration here
+        const res = await dispatch(
+          purchasePracticeBatchSlice(planData),
+        ).unwrap();
+        console.log('Payment response:', res);
       } catch (error) {
-        console.error("Checkout error", error);
+        console.error('Checkout error', error);
         Alert.alert('Error', 'Failed to process payment. Please try again.');
       } finally {
         setProcessingPurchase(null);
@@ -125,92 +124,15 @@ const PracticeBatchScreen = () => {
     }
   };
 
-  const formatAmount = (amount) => {
+  const formatAmount = amount => {
     return `₹${Number(amount).toLocaleString('en-IN')}`;
   };
 
-  const formatDuration = (duration) => {
+  const formatDuration = duration => {
     const dur = parseInt(duration);
     return `${dur} ${dur === 1 ? 'Month' : 'Months'}`;
   };
 
-  // Debug component to show API data
-  //   const DebugPanel = () => (
-  //     <View style={styles.debugPanel}>
-  //       <TouchableOpacity 
-  //         style={styles.debugHeader}
-  //         onPress={() => setShowDebug(!showDebug)}
-  //       >
-  //         <Text style={styles.debugHeaderText}>
-  //           🔍 API Response Data {showDebug ? '▲' : '▼'}
-  //         </Text>
-  //       </TouchableOpacity>
-
-  //       {showDebug && apiResponse && (
-  //         <View style={styles.debugContent}>
-  //           <Text style={styles.debugTitle}>API Status:</Text>
-  //           <View style={styles.statusRow}>
-  //             <Text style={styles.debugLabel}>Status Code:</Text>
-  //             <Text style={[styles.debugValue, 
-  //               apiResponse.status_code === 200 ? styles.successText : styles.errorText
-  //             ]}>
-  //               {apiResponse.status_code}
-  //             </Text>
-  //           </View>
-
-  //           <View style={styles.statusRow}>
-  //             <Text style={styles.debugLabel}>Message:</Text>
-  //             <Text style={styles.debugValue}>{apiResponse.message}</Text>
-  //           </View>
-
-  //           <Text style={styles.debugTitle}>Batch Data Found:</Text>
-  //           <View style={styles.statusRow}>
-  //             <Text style={styles.debugLabel}>Total Batches:</Text>
-  //             <Text style={[styles.debugValue, styles.successText]}>
-  //               {displayBatches.length}
-  //             </Text>
-  //           </View>
-
-  //           {displayBatches.map((batch, index) => (
-  //             <View key={batch.id} style={styles.batchDebug}>
-  //               <Text style={styles.batchTitle}>
-  //                 {index + 1}. {batch.title}
-  //               </Text>
-  //               <View style={styles.batchDetails}>
-  //                 <Text style={styles.batchDetail}>ID: {batch.id}</Text>
-  //                 <Text style={styles.batchDetail}>Price: {formatAmount(batch.amount)}</Text>
-  //                 <Text style={styles.batchDetail}>Duration: {formatDuration(batch.duration)}</Text>
-  //                 <Text style={styles.batchDetail}>Status: {batch.status}</Text>
-  //                 <Text style={[
-  //                   styles.batchDetail, 
-  //                   batch.is_purchased === 'yes' ? styles.purchasedText : styles.availableText
-  //                 ]}>
-  //                   Purchased: {batch.is_purchased}
-  //                 </Text>
-  //               </View>
-  //               {batch.description && (
-  //                 <Text style={styles.batchDescription} numberOfLines={2}>
-  //                   {batch.description}
-  //                 </Text>
-  //               )}
-  //             </View>
-  //           ))}
-
-  //           <TouchableOpacity 
-  //             style={styles.copyButton}
-  //             onPress={() => {
-  //               console.log('Full API Response:', JSON.stringify(apiResponse, null, 2));
-  //               Alert.alert('Success', 'Full API data logged to console!');
-  //             }}
-  //           >
-  //             <Text style={styles.copyButtonText}>Log Full API Data to Console</Text>
-  //           </TouchableOpacity>
-  //         </View>
-  //       )}
-  //     </View>
-  //   );
-
-  // Loading state
   if (loading && displayBatches.length === 0) {
     return (
       <View style={styles.centerContainer}>
@@ -220,7 +142,6 @@ const PracticeBatchScreen = () => {
     );
   }
 
-  // Error state
   if ((error || localError) && displayBatches.length === 0) {
     return (
       <View style={styles.centerContainer}>
@@ -241,66 +162,81 @@ const PracticeBatchScreen = () => {
     );
   }
 
-  const renderBatchCard = ({ item }) => (
+  const renderBatchCard = ({item}) => (
     <View style={styles.batchCard}>
-      {/* Image Section */}
+      {/* Image Section with Gradient Overlay */}
       <View style={styles.imageContainer}>
-        <Image
-          source={{ uri: item.image }}
-          style={styles.batchImage}
-        //   defaultSource={require('../../assets/placeholder-image.png')}
-        />
+        <Image source={{uri: item.image}} style={styles.batchImage} />
 
-        {/* Status badges */}
-        <View style={styles.statusBadges}>
-          {item.is_purchased === 'yes' && (
-            <View style={[styles.badge, styles.purchasedBadge]}>
-              <Text style={styles.badgeText}>✓ Purchased</Text>
-            </View>
-          )}
-          {item.status === 'active' && (
-            <View style={[styles.badge, styles.activeBadge]}>
-              <Text style={styles.badgeText}>Active</Text>
-            </View>
-          )}
-        </View>
+        {/* Gradient Overlay */}
+        <View style={styles.gradientOverlay}>
+          {/* Status badges */}
+          <View style={styles.topBadges}>
+            {item.is_purchased === 'yes' && (
+              <View style={[styles.badge, styles.purchasedBadge]}>
+                <Ionicons name="checkmark-circle" size={14} color="#fff" />
+                <Text style={styles.badgeText}>Purchased</Text>
+              </View>
+            )}
+            {item.status === 'active' && (
+              <View style={[styles.badge, styles.activeBadge]}>
+                <View style={styles.pulseDot} />
+                <Text style={styles.badgeText}>Active</Text>
+              </View>
+            )}
+          </View>
 
-        <View style={styles.durationBadge}>
-          <Text style={styles.durationText}>{formatDuration(item.duration)}</Text>
+          {/* Duration Badge */}
+          <View style={styles.durationBadge}>
+            <Ionicons name="time-outline" size={16} color="#fff" />
+            <Text style={styles.durationText}>
+              {formatDuration(item.duration)}
+            </Text>
+          </View>
         </View>
       </View>
 
       {/* Content Section */}
       <View style={styles.contentContainer}>
-        <View style={styles.titleRow}>
-          <Text style={styles.batchTitle} numberOfLines={2}>
-            {item.title}
-          </Text>
-          <View style={styles.priceContainer}>
-            <Text style={styles.price}>{formatAmount(item.amount)}</Text>
+        {/* Title and Price Row */}
+        <View style={styles.headerRow}>
+          <View style={styles.titleContainer}>
+            <Text style={styles.batchTitle} numberOfLines={2}>
+              {item.title}
+            </Text>
+            {item.description && (
+              <Text style={styles.description} numberOfLines={2}>
+                {item.description}
+              </Text>
+            )}
+          </View>
+
+          <View style={styles.priceTag}>
+            <Text style={styles.currencySymbol}>₹</Text>
+            <Text style={styles.priceAmount}>
+              {Number(item.amount).toLocaleString('en-IN')}
+            </Text>
             {item.is_purchased === 'no' && (
-              <Text style={styles.priceSubtitle}>one-time</Text>
+              <Text style={styles.priceLabel}>One-time</Text>
             )}
           </View>
         </View>
 
-        {item.description && (
-          <Text style={styles.description} numberOfLines={3}>
-            {item.description}
-          </Text>
-        )}
-
-        {/* Features/Stats */}
-        <View style={styles.featuresRow}>
-          <View style={styles.featureItem}>
-            <Ionicons name="time-outline" size={16} color="#6B7280" />
-            <Text style={styles.featureText}>{formatDuration(item.duration)}</Text>
-          </View>
-          <View style={styles.featureItem}>
-            <Ionicons name="checkmark-circle-outline" size={16} color="#6B7280" />
-            <Text style={styles.featureText}>
-              {item.status === 'active' ? 'Active' : 'Inactive'}
+        {/* Info Pills */}
+        <View style={styles.infoPills}>
+          <View style={styles.pill}>
+            <Ionicons name="calendar-outline" size={14} color="#6B7280" />
+            <Text style={styles.pillText}>
+              {formatDuration(item.duration)} Access
             </Text>
+          </View>
+          <View style={styles.pill}>
+            <Ionicons
+              name="shield-checkmark-outline"
+              size={14}
+              color="#10B981"
+            />
+            <Text style={[styles.pillText, {color: '#10B981'}]}>Verified</Text>
           </View>
         </View>
 
@@ -310,11 +246,19 @@ const PracticeBatchScreen = () => {
             styles.actionButton,
             item.status !== 'active' && styles.disabledButton,
             processingPurchase === item.id && styles.processingButton,
-            item.is_purchased === 'yes' && styles.purchasedButton
+            item.is_purchased === 'yes' && styles.purchasedButton,
           ]}
-          onPress={() => purchasePracticeBatch(item)}
-          disabled={item.status !== 'active' || processingPurchase === item.id}
-        >
+          onPress={() => {
+            if (item.is_purchased === 'yes') {
+              navigation.navigate('BatchVideos', {
+                slug: item.slug,
+                state: item,
+              });
+            } else {
+              purchasePracticeBatch(item);
+            }
+          }}
+          disabled={item.status !== 'active' || processingPurchase === item.id}>
           {item.status !== 'active' ? (
             <View style={styles.buttonContent}>
               <Icon name="block" size={20} color="#FFFFFF" />
@@ -323,22 +267,19 @@ const PracticeBatchScreen = () => {
           ) : processingPurchase === item.id ? (
             <View style={styles.buttonContent}>
               <ActivityIndicator size="small" color="#FFFFFF" />
-              <Text style={styles.buttonText}>Processing Payment...</Text>
+              <Text style={styles.buttonText}>Processing...</Text>
             </View>
           ) : item.is_purchased === 'yes' ? (
-            <TouchableOpacity onPress={() => navigation.navigate("BatchVideos",{slug : item.slug, state :  item})}>
-              <View style={styles.buttonContent}>
-                <Ionicons name="play-circle-outline" size={20} color="#FFFFFF" />
-                <Text style={styles.buttonText}>Access Videos</Text>
-                <Icon name="arrow-forward" size={16} color="#FFFFFF" />
-              </View>
-            </TouchableOpacity>
-
+            <View style={styles.buttonContent}>
+              <Ionicons name="play-circle" size={22} color="#FFFFFF" />
+              <Text style={styles.buttonText}>Start Learning</Text>
+              <Icon name="arrow-forward" size={18} color="#FFFFFF" />
+            </View>
           ) : (
             <View style={styles.buttonContent}>
-              <Icon name="shopping-cart" size={20} color="#FFFFFF" />
-              <Text style={styles.buttonText}>Purchase Now</Text>
-              <Icon name="lock" size={16} color="#FFFFFF" />
+              <Icon name="shopping-bag" size={20} color="#FFFFFF" />
+              <Text style={styles.buttonText}>Enroll Now</Text>
+              <Icon name="arrow-forward" size={18} color="#FFFFFF" />
             </View>
           )}
         </TouchableOpacity>
@@ -350,17 +291,48 @@ const PracticeBatchScreen = () => {
     if (!displayBatches || displayBatches.length === 0) return null;
 
     const stats = [
-      { label: 'Total Batches', value: displayBatches.length, color: '#3B82F6' },
-      { label: 'Purchased', value: displayBatches.filter(b => b.is_purchased === 'yes').length, color: '#10B981' },
-      { label: 'Active Batches', value: displayBatches.filter(b => b.status === 'active').length, color: '#F59E0B' },
-      { label: 'Available', value: displayBatches.filter(b => b.is_purchased === 'no' && b.status === 'active').length, color: '#8B5CF6' }
+      {
+        label: 'Total',
+        value: displayBatches.length,
+        color: '#3B82F6',
+        icon: 'layers-outline',
+      },
+      {
+        label: 'Purchased',
+        value: displayBatches.filter(b => b.is_purchased === 'yes').length,
+        color: '#10B981',
+        icon: 'checkmark-done-circle-outline',
+      },
+      {
+        label: 'Active',
+        value: displayBatches.filter(b => b.status === 'active').length,
+        color: '#F59E0B',
+        icon: 'flash-outline',
+      },
+      {
+        label: 'Available',
+        value: displayBatches.filter(
+          b => b.is_purchased === 'no' && b.status === 'active',
+        ).length,
+        color: '#8B5CF6',
+        icon: 'gift-outline',
+      },
     ];
 
     return (
       <View style={styles.statsContainer}>
         {stats.map((stat, index) => (
-          <View key={index} style={styles.statItem}>
-            <Text style={[styles.statValue, { color: stat.color }]}>{stat.value}</Text>
+          <View key={index} style={styles.statCard}>
+            <View
+              style={[
+                styles.statIconContainer,
+                {backgroundColor: `${stat.color}15`},
+              ]}>
+              <Ionicons name={stat.icon} size={24} color={stat.color} />
+            </View>
+            <Text style={[styles.statValue, {color: stat.color}]}>
+              {stat.value}
+            </Text>
             <Text style={styles.statLabel}>{stat.label}</Text>
           </View>
         ))}
@@ -369,48 +341,27 @@ const PracticeBatchScreen = () => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <CommanHeader heading={"Practic Batch"} />
-      <View style={styles.container}>
-        <StatusBar backgroundColor="#F9FAFB" barStyle="dark-content" />
+    <SafeAreaView style={styles.safeArea}>
+      <StatusBar backgroundColor="#F9FAFB" barStyle="dark-content" />
+      <CommanHeader heading="Practice Batches" />
 
+      <View style={styles.container}>
         <ScrollView
           style={styles.scrollView}
           refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              colors={['#3B82F6']}
+            />
           }
-          showsVerticalScrollIndicator={false}
-        >
-          {/* Debug Panel - Now shows actual API data */}
-          {/* <DebugPanel /> */}
-
+          showsVerticalScrollIndicator={false}>
           {/* Header Section */}
           <View style={styles.header}>
-            <View style={styles.headerContent}>
-              <Text style={styles.headerTitle}>Practice Batches</Text>
-              <Text style={styles.headerSubtitle}>
-                Choose from our comprehensive practice batches designed to help you excel in your exams
-              </Text>
-            </View>
-
-            {/* <View style={styles.headerButtons}>
-              <TouchableOpacity
-                style={[styles.headerButton, styles.myCoursesButton]}
-                onPress={() => navigation.navigate('PurchasedBatch')}
-              >
-                <Ionicons name="library-outline" size={20} color="#FFFFFF" />
-                <Text style={styles.headerButtonText}>My Courses</Text>
-              </TouchableOpacity>
-              
-              <TouchableOpacity
-                style={[styles.headerButton, styles.refreshButton]}
-                onPress={fetchBatches}
-                disabled={loading}
-              >
-                <Ionicons name="refresh" size={20} color="#FFFFFF" />
-                <Text style={styles.headerButtonText}>Refresh</Text>
-              </TouchableOpacity>
-            </View> */}
+            <Text style={styles.headerTitle}>Explore Practice Batches</Text>
+            <Text style={styles.headerSubtitle}>
+              Master your skills with our comprehensive practice programs
+            </Text>
           </View>
 
           {/* Quick Stats */}
@@ -419,10 +370,21 @@ const PracticeBatchScreen = () => {
           {/* Authentication Warning */}
           {!isAuth && (
             <View style={styles.authWarning}>
-              <Ionicons name="warning-outline" size={20} color="#D97706" />
-              <Text style={styles.authWarningText}>
-                Please <Text style={styles.authLink} onPress={() => navigation.navigate('Login')}>login</Text> to purchase batches.
-              </Text>
+              <View style={styles.warningIconContainer}>
+                <Ionicons name="lock-closed" size={20} color="#D97706" />
+              </View>
+              <View style={styles.warningTextContainer}>
+                <Text style={styles.warningTitle}>Login Required</Text>
+                <Text style={styles.warningText}>
+                  Please{' '}
+                  <Text
+                    style={styles.authLink}
+                    onPress={() => navigation.navigate('Login')}>
+                    login
+                  </Text>{' '}
+                  to purchase and access batches
+                </Text>
+              </View>
             </View>
           )}
 
@@ -443,120 +405,57 @@ const PracticeBatchScreen = () => {
             </View>
           )}
 
-          {/* Batches List - Now using displayBatches */}
+          {/* Batches List */}
           {displayBatches && displayBatches.length > 0 ? (
             <FlatList
               data={displayBatches}
               renderItem={renderBatchCard}
-              keyExtractor={(item) => item.id.toString()}
+              keyExtractor={item => item.id.toString()}
               scrollEnabled={false}
               contentContainerStyle={styles.batchesList}
             />
           ) : (
             <View style={styles.emptyState}>
-              <Ionicons name="book-outline" size={60} color="#9CA3AF" />
-              <Text style={styles.emptyStateTitle}>No Practice Batches Available</Text>
-              <Text style={styles.emptyStateText}>
-                New batches will be available soon. Check back later!
-              </Text>
-              <View style={styles.emptyStateButtons}>
-                <TouchableOpacity
-                  style={[styles.emptyStateButton, styles.primaryButton]}
-                  onPress={fetchBatches}
-                  disabled={loading}
-                >
-                  <Text style={styles.primaryButtonText}>
-                    {loading ? 'Loading...' : 'Refresh'}
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={[styles.emptyStateButton, styles.secondaryButton]}
-                  onPress={() => navigation.navigate('PurchasedBatch')}
-                >
-                  <Text style={styles.secondaryButtonText}>View My Courses</Text>
-                </TouchableOpacity>
+              <View style={styles.emptyIconContainer}>
+                <Ionicons name="book-outline" size={60} color="#9CA3AF" />
               </View>
+              <Text style={styles.emptyStateTitle}>No Batches Available</Text>
+              <Text style={styles.emptyStateText}>
+                New practice batches will be available soon. Check back later!
+              </Text>
+              <TouchableOpacity
+                style={styles.emptyRefreshButton}
+                onPress={fetchBatches}
+                disabled={loading}>
+                <Ionicons name="refresh" size={20} color="#fff" />
+                <Text style={styles.emptyRefreshText}>
+                  {loading ? 'Loading...' : 'Refresh'}
+                </Text>
+              </TouchableOpacity>
             </View>
           )}
 
-          {/* Quick Navigation Card */}
-          <View style={styles.ctaCard}>
-            <View style={styles.ctaContent}>
-              <Text style={styles.ctaTitle}>Ready to continue learning?</Text>
+          <LinearGradient
+            colors={['#3B82F6', '#2563EB', '#1D4ED8']}
+            start={{x: 0, y: 0}}
+            end={{x: 1, y: 1}}
+            style={styles.bottomCta}>
+            <View style={styles.ctaIconContainer}>
+              <Ionicons name="library" size={32} color="#FFFFFF" />
+            </View>
+            <View style={styles.ctaTextContainer}>
+              <Text style={styles.ctaTitle}>Ready to continue?</Text>
               <Text style={styles.ctaSubtitle}>
-                Access your purchased courses and track your progress
+                Access your purchased courses anytime
               </Text>
             </View>
             <TouchableOpacity
               style={styles.ctaButton}
-              onPress={() => navigation.navigate('PurchasedBatch')}
-            >
-              <Ionicons name="library-outline" size={20} color="#3B82F6" />
-              <Text style={styles.ctaButtonText}>Go to My Courses</Text>
-              <Icon name="arrow-forward" size={16} color="#3B82F6" />
+              onPress={() => navigation.navigate('PurchasedBatch')}>
+              <Text style={styles.ctaButtonText}>My Courses</Text>
+              <Icon name="arrow-forward" size={18} color="#3B82F6" />
             </TouchableOpacity>
-          </View>
-
-          {/* Features Section */}
-          <View style={styles.featuresSection}>
-            <Text style={styles.featuresTitle}>
-              Why Choose Our Practice Batches?
-            </Text>
-            <View style={styles.featuresGrid}>
-              {[
-                {
-                  icon: 'flash',
-                  title: 'Expert Guidance',
-                  description: 'Learn from experienced instructors with proven track records',
-                  color: '#3B82F6'
-                },
-                {
-                  icon: 'stats-chart',
-                  title: 'Comprehensive Practice',
-                  description: 'Extensive question banks and mock tests for thorough preparation',
-                  color: '#10B981'
-                },
-                {
-                  icon: 'time',
-                  title: 'Flexible Schedule',
-                  description: 'Study at your own pace with 24/7 access to materials',
-                  color: '#8B5CF6'
-                }
-              ].map((feature, index) => (
-                <View key={index} style={styles.featureCard}>
-                  <View style={[styles.featureIcon, { backgroundColor: `${feature.color}20` }]}>
-                    <Ionicons name={feature.icon} size={24} color={feature.color} />
-                  </View>
-                  <Text style={styles.featureCardTitle}>{feature.title}</Text>
-                  <Text style={styles.featureCardDescription}>{feature.description}</Text>
-                </View>
-              ))}
-            </View>
-          </View>
-
-          {/* Additional CTA for non-authenticated users */}
-          {!isAuth && (
-            <View style={styles.authCta}>
-              <Text style={styles.authCtaTitle}>Ready to Start Learning?</Text>
-              <Text style={styles.authCtaSubtitle}>
-                Create an account or login to access our premium practice batches
-              </Text>
-              <View style={styles.authCtaButtons}>
-                <TouchableOpacity
-                  style={[styles.authCtaButton, styles.loginButton]}
-                  onPress={() => navigation.navigate('Login')}
-                >
-                  <Text style={styles.loginButtonText}>Login Now</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={[styles.authCtaButton, styles.signupButton]}
-                  onPress={() => navigation.navigate('Register')}
-                >
-                  <Text style={styles.signupButtonText}>Sign Up Free</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          )}
+          </LinearGradient>
         </ScrollView>
       </View>
     </SafeAreaView>
@@ -564,6 +463,10 @@ const PracticeBatchScreen = () => {
 };
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#F9FAFB',
+  },
   container: {
     flex: 1,
     backgroundColor: '#F9FAFB',
@@ -582,10 +485,11 @@ const styles = StyleSheet.create({
     marginTop: 16,
     fontSize: 16,
     color: '#6B7280',
+    fontWeight: '500',
   },
   errorTitle: {
     fontSize: 20,
-    fontWeight: '600',
+    fontWeight: '700',
     color: '#111827',
     marginTop: 16,
     marginBottom: 8,
@@ -606,360 +510,300 @@ const styles = StyleSheet.create({
     backgroundColor: '#3B82F6',
     paddingHorizontal: 24,
     paddingVertical: 12,
-    borderRadius: 8,
+    borderRadius: 10,
   },
   retryButtonText: {
     color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '600',
   },
-  // Enhanced Debug Panel Styles
-  debugPanel: {
-    backgroundColor: '#F0F9FF',
-    borderColor: '#0EA5E9',
-    borderWidth: 1,
-    margin: 10,
-    borderRadius: 8,
-    overflow: 'hidden',
-  },
-  debugHeader: {
-    backgroundColor: '#E0F2FE',
-    padding: 12,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  debugHeaderText: {
-    color: '#0369A1',
-    fontSize: 14,
-    fontWeight: '600',
-  },
-  debugContent: {
-    padding: 12,
-  },
-  debugTitle: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: '#0369A1',
-    marginTop: 8,
-    marginBottom: 8,
-  },
-  statusRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 4,
-    paddingHorizontal: 8,
-  },
-  debugLabel: {
-    fontSize: 12,
-    color: '#475569',
-    fontWeight: '500',
-  },
-  debugValue: {
-    fontSize: 12,
-    fontWeight: '600',
-  },
-  successText: {
-    color: '#059669',
-  },
-  errorText: {
-    color: '#DC2626',
-  },
-  batchDebug: {
-    marginBottom: 12,
-    padding: 8,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 6,
-    borderLeftWidth: 3,
-    borderLeftColor: '#0EA5E9',
-  },
-  batchTitle: {
-    fontSize: 13,
-    fontWeight: 'bold',
-    color: '#111827',
-    marginBottom: 4,
-  },
-  batchDetails: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginBottom: 4,
-  },
-  batchDetail: {
-    fontSize: 10,
-    color: '#6B7280',
-    marginRight: 8,
-    marginBottom: 2,
-  },
-  purchasedText: {
-    color: '#059669',
-    fontWeight: '600',
-  },
-  availableText: {
-    color: '#D97706',
-    fontWeight: '600',
-  },
-  batchDescription: {
-    fontSize: 10,
-    color: '#6B7280',
-    fontStyle: 'italic',
-  },
-  copyButton: {
-    backgroundColor: '#0EA5E9',
-    padding: 10,
-    borderRadius: 6,
-    marginTop: 12,
-    alignItems: 'center',
-  },
-  copyButtonText: {
-    color: '#FFFFFF',
-    fontSize: 12,
-    fontWeight: '600',
-  },
-
   header: {
     padding: 20,
-    backgroundColor: '#FFFFFF',
-  },
-  headerContent: {
-    // marginBottom: 20,
+    paddingTop: 12,
+    backgroundColor: '#F9FAFB',
   },
   headerTitle: {
-    fontSize: 28,
-    fontWeight: 'bold',
+    fontSize: 26,
+    fontWeight: '700',
     color: '#111827',
     marginBottom: 8,
-    textAlign: 'center',
   },
   headerSubtitle: {
-    fontSize: 16,
+    fontSize: 15,
     color: '#6B7280',
-    textAlign: 'center',
     lineHeight: 22,
-  },
-  headerButtons: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    gap: 12,
-  },
-  headerButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-    borderRadius: 8,
-    gap: 8,
-  },
-  myCoursesButton: {
-    backgroundColor: '#10B981',
-  },
-  refreshButton: {
-    backgroundColor: '#6B7280',
-  },
-  headerButtonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: '600',
   },
   statsContainer: {
     flexDirection: 'row',
+    paddingHorizontal: 16,
+    marginBottom: 16,
+    gap: 10,
     backgroundColor: '#FFFFFF',
-    margin: 20,
-    padding: 20,
-    borderRadius: 12,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    elevation: 2,
+    shadowOffset: {width: 0, height: 1},
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+    elevation: 1,
   },
-  statItem: {
-    flex: 1,
+  statCard: {
+    flexDirection: 'column',
+    padding: 14,
+    borderRadius: 12,
     alignItems: 'center',
   },
+  statIconContainer: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
   statValue: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 4,
+    fontSize: 22,
+    fontWeight: '700',
+    marginBottom: 2,
   },
   statLabel: {
-    fontSize: 12,
+    fontSize: 11,
     color: '#6B7280',
+    fontWeight: '500',
   },
   authWarning: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#FEF3C7',
-    borderColor: '#F59E0B',
-    borderWidth: 1,
-    margin: 20,
-    padding: 16,
-    borderRadius: 8,
-    gap: 8,
+    backgroundColor: '#FFFBEB',
+    borderLeftWidth: 4,
+    borderLeftColor: '#F59E0B',
+    marginHorizontal: 16,
+    marginBottom: 16,
+    padding: 14,
+    borderRadius: 10,
+    gap: 12,
   },
-  authWarningText: {
+  warningIconContainer: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: '#FEF3C7',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  warningTextContainer: {
     flex: 1,
-    color: '#92400E',
+  },
+  warningTitle: {
     fontSize: 14,
+    fontWeight: '600',
+    color: '#92400E',
+    marginBottom: 2,
+  },
+  warningText: {
+    fontSize: 13,
+    color: '#92400E',
   },
   authLink: {
     color: '#3B82F6',
-    fontWeight: '600',
+    fontWeight: '700',
+    textDecorationLine: 'underline',
   },
   successAlert: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#D1FAE5',
-    borderColor: '#10B981',
-    borderWidth: 1,
-    margin: 20,
-    padding: 16,
-    borderRadius: 8,
-    gap: 8,
+    borderLeftWidth: 4,
+    borderLeftColor: '#10B981',
+    marginHorizontal: 16,
+    marginBottom: 16,
+    padding: 14,
+    borderRadius: 10,
+    gap: 10,
   },
   successAlertText: {
     color: '#065F46',
     fontSize: 14,
+    fontWeight: '500',
   },
   errorAlert: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#FEE2E2',
-    borderColor: '#EF4444',
-    borderWidth: 1,
-    margin: 20,
-    padding: 16,
-    borderRadius: 8,
-    gap: 8,
+    borderLeftWidth: 4,
+    borderLeftColor: '#EF4444',
+    marginHorizontal: 16,
+    marginBottom: 16,
+    padding: 14,
+    borderRadius: 10,
+    gap: 10,
   },
   errorAlertText: {
     color: '#DC2626',
     fontSize: 14,
+    fontWeight: '500',
   },
   batchesList: {
-    padding: 20,
-    gap: 20,
+    paddingHorizontal: 16,
+    paddingBottom: 20,
   },
   batchCard: {
     backgroundColor: '#FFFFFF',
     borderRadius: 16,
+    marginBottom: 16,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.08,
     shadowRadius: 8,
-    elevation: 4,
+    elevation: 3,
     overflow: 'hidden',
   },
   imageContainer: {
-    height: 250,
+    height: 200,
     width: '100%',
     position: 'relative',
-    overflow: 'hidden', // important to crop excess image
-    borderRadius: 10, // optional: rounded corners
   },
   batchImage: {
     width: '100%',
     height: '100%',
-    resizeMode: 'cover', // ensures the image covers container
+    resizeMode: 'cover',
   },
-
-  statusBadges: {
+  gradientOverlay: {
     position: 'absolute',
-    top: 12,
-    right: 12,
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0,0,0,0.2)',
+    justifyContent: 'space-between',
+    padding: 12,
+  },
+  topBadges: {
+    flexDirection: 'row',
     gap: 8,
+    alignSelf: 'flex-start',
   },
   badge: {
-    paddingHorizontal: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 10,
     paddingVertical: 6,
     borderRadius: 20,
+    gap: 4,
   },
   purchasedBadge: {
-    backgroundColor: '#10B981',
+    backgroundColor: 'rgba(16, 185, 129, 0.9)',
   },
   activeBadge: {
-    backgroundColor: '#3B82F6',
+    backgroundColor: 'rgba(59, 130, 246, 0.9)',
+  },
+  pulseDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: '#fff',
   },
   badgeText: {
     color: '#FFFFFF',
-    fontSize: 12,
-    fontWeight: '600',
+    fontSize: 11,
+    fontWeight: '700',
   },
   durationBadge: {
-    position: 'absolute',
-    bottom: 12,
-    left: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
     paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 8,
+    paddingVertical: 8,
+    borderRadius: 20,
+    alignSelf: 'flex-start',
+    gap: 6,
   },
   durationText: {
     color: '#FFFFFF',
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: '600',
   },
   contentContainer: {
     padding: 16,
   },
-  titleRow: {
+  headerRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'flex-start',
     marginBottom: 12,
+    gap: 12,
+  },
+  titleContainer: {
+    flex: 1,
   },
   batchTitle: {
-    flex: 1,
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: '700',
     color: '#111827',
-    marginRight: 12,
-  },
-  priceContainer: {
-    alignItems: 'flex-end',
-  },
-  price: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#3B82F6',
-  },
-  priceSubtitle: {
-    fontSize: 12,
-    color: '#6B7280',
+    lineHeight: 24,
+    marginBottom: 6,
   },
   description: {
-    fontSize: 14,
+    fontSize: 13,
     color: '#6B7280',
-    lineHeight: 20,
-    marginBottom: 12,
+    lineHeight: 18,
   },
-  featuresRow: {
+  priceTag: {
+    alignItems: 'flex-end',
+  },
+  currencySymbol: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#3B82F6',
+  },
+  priceAmount: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#3B82F6',
+    lineHeight: 28,
+  },
+  priceLabel: {
+    fontSize: 11,
+    color: '#6B7280',
+    fontWeight: '500',
+    marginTop: 2,
+  },
+  infoPills: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    gap: 8,
     marginBottom: 16,
   },
-  featureItem: {
+  pill: {
     flexDirection: 'row',
     alignItems: 'center',
+    backgroundColor: '#F3F4F6',
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 20,
     gap: 4,
   },
-  featureText: {
+  pillText: {
     fontSize: 12,
     color: '#6B7280',
+    fontWeight: '500',
   },
   actionButton: {
     backgroundColor: '#3B82F6',
-    paddingVertical: 12,
-    borderRadius: 8,
+    paddingVertical: 14,
+    borderRadius: 10,
+    shadowColor: '#3B82F6',
+    shadowOffset: {width: 0, height: 4},
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 4,
   },
   disabledButton: {
     backgroundColor: '#9CA3AF',
+    shadowOpacity: 0.1,
   },
   processingButton: {
-    backgroundColor: '#D97706',
+    backgroundColor: '#F59E0B',
   },
   purchasedButton: {
     backgroundColor: '#10B981',
+    shadowColor: '#10B981',
   },
   buttonContent: {
     flexDirection: 'row',
@@ -970,173 +814,107 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#FFFFFF',
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: '700',
   },
   emptyState: {
     alignItems: 'center',
     padding: 40,
-    margin: 20,
+    marginHorizontal: 16,
+    marginBottom: 20,
     backgroundColor: '#FFFFFF',
     borderRadius: 16,
   },
+  emptyIconContainer: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: '#F3F4F6',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
   emptyStateTitle: {
     fontSize: 20,
-    fontWeight: '600',
+    fontWeight: '700',
     color: '#111827',
-    marginTop: 16,
     marginBottom: 8,
   },
   emptyStateText: {
-    fontSize: 16,
+    fontSize: 15,
     color: '#6B7280',
     textAlign: 'center',
     marginBottom: 24,
+    lineHeight: 22,
   },
-  emptyStateButtons: {
+  emptyRefreshButton: {
     flexDirection: 'row',
-    gap: 12,
-  },
-  emptyStateButton: {
-    paddingHorizontal: 20,
+    alignItems: 'center',
+    backgroundColor: '#3B82F6',
+    paddingHorizontal: 24,
     paddingVertical: 12,
-    borderRadius: 8,
+    borderRadius: 10,
+    gap: 8,
   },
-  primaryButton: {
-    backgroundColor: '#3B82F6',
-  },
-  primaryButtonText: {
+  emptyRefreshText: {
     color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '600',
   },
-  secondaryButton: {
-    backgroundColor: '#10B981',
-  },
-  secondaryButtonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  ctaCard: {
-    backgroundColor: '#3B82F6',
-    margin: 20,
-    padding: 24,
-    borderRadius: 16,
-  },
-  ctaContent: {
+  bottomCta: {
+    marginHorizontal: 16,
     marginBottom: 20,
+    padding: 20,
+    borderRadius: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 16,
+    shadowColor: '#3B82F6',
+    shadowOffset: {width: 0, height: 4},
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 6,
+  },
+  ctaIconContainer: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: 'rgba(255, 255, 255, 0.3)',
+  },
+  ctaTextContainer: {
+    flex: 1,
   },
   ctaTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: 16,
+    fontWeight: '700',
     color: '#FFFFFF',
-    marginBottom: 8,
+    marginBottom: 4,
   },
   ctaSubtitle: {
-    fontSize: 16,
-    color: '#BFDBFE',
+    fontSize: 13,
+    color: 'rgba(255, 255, 255, 0.9)',
   },
   ctaButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
     backgroundColor: '#FFFFFF',
-    paddingVertical: 12,
-    paddingHorizontal: 20,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
     borderRadius: 8,
-    gap: 8,
+    gap: 6,
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 2,
   },
   ctaButtonText: {
     color: '#3B82F6',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  featuresSection: {
-    backgroundColor: '#FFFFFF',
-    margin: 20,
-    padding: 24,
-    borderRadius: 16,
-  },
-  featuresTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#111827',
-    textAlign: 'center',
-    marginBottom: 24,
-  },
-  featuresGrid: {
-    gap: 20,
-  },
-  featureCard: {
-    alignItems: 'center',
-  },
-  featureIcon: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 12,
-  },
-  featureCardTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#111827',
-    marginBottom: 8,
-    textAlign: 'center',
-  },
-  featureCardDescription: {
     fontSize: 14,
-    color: '#6B7280',
-    textAlign: 'center',
-    lineHeight: 20,
-  },
-  authCta: {
-    backgroundColor: '#EF4444',
-    margin: 20,
-    padding: 24,
-    borderRadius: 16,
-    alignItems: 'center',
-  },
-  authCtaTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
-    marginBottom: 8,
-    textAlign: 'center',
-  },
-  authCtaSubtitle: {
-    fontSize: 16,
-    color: '#FECACA',
-    textAlign: 'center',
-    marginBottom: 24,
-  },
-  authCtaButtons: {
-    flexDirection: 'row',
-    gap: 12,
-  },
-  authCtaButton: {
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-    borderRadius: 8,
-  },
-  loginButton: {
-    backgroundColor: '#FFFFFF',
-  },
-  loginButtonText: {
-    color: '#EF4444',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  signupButton: {
-    backgroundColor: '#EF4444',
-    borderWidth: 2,
-    borderColor: '#FFFFFF',
-  },
-  signupButtonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: '600',
+    fontWeight: '700',
   },
 });
 
